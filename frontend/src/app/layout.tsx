@@ -20,7 +20,7 @@ const figtree = Figtree({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "Bloom — try your next hair before you need it",
+    default: "Bloom: Try your next hair before you need it",
     template: "%s · Bloom",
   },
   description:

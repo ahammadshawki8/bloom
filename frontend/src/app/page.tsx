@@ -12,7 +12,7 @@ import { WakingToast } from "@/components/landing/WakingToast";
 import { WarmUp } from "@/components/landing/OpenStudio";
 
 export const metadata: Metadata = {
-  title: { absolute: "Bloom — try your next hair before you need it" },
+  title: { absolute: "Bloom: Try your next hair before you need it" },
 };
 
 export default function Landing() {
