@@ -1,3 +1,4 @@
+import { Reveal, RiseText } from "@/components/motion/Reveal";
 const GROUPS = [
   {
     title: "Stays on your phone",
@@ -23,14 +24,14 @@ export function KeptPrivate() {
       <div className="mx-auto max-w-[1240px] px-5 py-20 md:px-10 lg:py-28">
         <div className="grid gap-6 lg:grid-cols-[1fr_2fr] lg:gap-16">
           <div>
-            <h2 className="type-atelier text-h1 md:text-display">Kept private, kept kind.</h2>
+            <RiseText text="Kept private, kept kind." className="type-atelier text-h1 md:text-display" />
             <p className="mt-5 max-w-[34ch] text-lead text-mulberry-soft">
               Bloom is a cosmetic tool. It helps you see options; it never tells you anything about your body.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
-            {GROUPS.map((g) => (
-              <div key={g.title} className={`rounded-[var(--radius-card)] p-6 ${g.tone}`}>
+            {GROUPS.map((g, gi) => (
+              <Reveal key={g.title} delay={gi * 0.12} className={`rounded-[var(--radius-card)] p-6 ${g.tone}`}>
                 <h3 className="type-studio text-[1.25rem] leading-tight">{g.title}</h3>
                 <ul className="mt-4 space-y-2.5 text-small">
                   {g.items.map((i) => (
@@ -40,7 +41,7 @@ export function KeptPrivate() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

@@ -108,7 +108,7 @@ export function MirrorStage({ original, current, loadingLabel, saved, onToggleSa
         </div>
       )}
       {current && !comparing && (
-        <p className="mt-3 flex items-center justify-center gap-1.5 text-micro text-mulberry-soft">
+        <p className="mt-2 flex items-center justify-center gap-1.5 text-[12px] text-mulberry-soft">
           <HandPointing size={14} /> Press and hold the mirror to see your own hair
         </p>
       )}

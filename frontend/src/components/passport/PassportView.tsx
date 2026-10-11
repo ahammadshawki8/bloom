@@ -14,7 +14,7 @@ export function PassportView() {
   return (
     <>
       <PageHeader title="Hair passport" />
-      <main className="mx-auto max-w-[920px] px-4 pb-12 md:px-10">
+      <main className="mx-auto flex max-w-[920px] flex-col px-4 pb-12 md:min-h-[calc(100dvh-5rem)] md:justify-center md:px-10 md:pb-20">
         <Hydrated>
           <Content />
         </Hydrated>

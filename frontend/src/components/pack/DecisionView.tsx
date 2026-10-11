@@ -60,7 +60,7 @@ function Content() {
   }
 
   const info = describeLook(result, styles);
-  const isWig = result.kind === "wig";
+  const isWig = info.style?.kind === "wig";
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
   // claims-ok: placeholder the prescribing doctor completes; Bloom fills in nothing medical
   const dx = "[diagnosis]";

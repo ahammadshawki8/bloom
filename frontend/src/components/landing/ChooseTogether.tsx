@@ -1,28 +1,29 @@
 import Image from "next/image";
+import { ImageReveal, Reveal, RiseText } from "@/components/motion/Reveal";
 import { Heart } from "@phosphor-icons/react/dist/ssr";
 
 export function ChooseTogether() {
   return (
     <section className="mx-auto grid max-w-[1240px] items-center gap-14 px-5 py-20 md:px-10 lg:grid-cols-[1.1fr_1fr] lg:gap-20 lg:py-28">
       <div className="order-2 lg:order-1">
-        <h2 className="max-w-[14ch] type-atelier text-h1 md:text-display">Nobody should have to choose alone.</h2>
+        <RiseText text="Nobody should have to choose alone." className="max-w-[14ch] type-atelier text-h1 md:text-display" />
         <p className="mt-6 max-w-[44ch] text-lead text-mulberry-soft">
           Send your three favourite looks to your sister, your mum, your best friend. They open a link on any phone and tap a heart. No app, no sign-up. The
           link closes on its own after seven days.
         </p>
       </div>
       <div className="relative order-1 mx-auto w-full max-w-[520px] lg:order-2">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)]">
+        <ImageReveal className="aspect-[4/5] rounded-[var(--radius-card)]">
           <Image
             src="/images/landing/together.webp"
             alt="Two women hold each other in a long embrace in a field"
             fill
-            sizes="(min-width: 1024px) 520px, 100vw"
+            sizes="(min-width: 1024px) 640px, 120vw"
             className="object-cover"
           />
-        </div>
+        </ImageReveal>
         {/* the family view, floating */}
-        <div className="absolute -bottom-8 left-4 w-[62%] max-w-[300px] rounded-[24px] bg-paper p-4 shadow-float sm:left-[-28px]">
+        <Reveal delay={0.6} y={40} className="absolute -bottom-8 left-4 w-[62%] max-w-[300px] rounded-[24px] bg-paper p-4 shadow-float sm:left-[-28px]">
           <p className="text-micro text-mulberry-soft">From Sara</p>
           <p className="mt-0.5 type-studio text-[1.05rem] leading-snug">Which one feels like me?</p>
           <div className="mt-3 grid grid-cols-3 gap-2">
@@ -42,7 +43,7 @@ export function ChooseTogether() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

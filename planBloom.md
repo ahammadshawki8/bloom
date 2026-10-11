@@ -447,6 +447,13 @@ All files are in the handoff folder **`bloom-handoff/`**, which sits next to thi
   - Landing photos: Unsplash licence, credited in `CREDITS.md`.
   - **Next:** user reviews the frontend → then backend B1–B5 → switch `NEXT_PUBLIC_API_MODE=live`.
 
+- **2026-10-11 (review round 1).** User review: hydration warning (browser extension `vsc-initialized`, fixed with `suppressHydrationWarning`), MediaPipe INFO logs (filtered), landing needs charts + scroll animation, passport page centring, detailed compare, compact studio with more YouCam metrics, and "use their API more extensively". Brief re-read: eCommerce VTO wants **beauty + fashion VTO working as one**, plus agentic bonus.
+  - User approved: **complete-the-look pipeline**, **Face Analyzer in passport**, **hair APIs as a measuring instrument**; agentic "Bloom guide" **after the backend**.
+  - Verified API contracts (via `tools/yc.mjs`): `face-attr-analysis` needs `features[]` (≤5 = 10 units); `hair-length-detection` takes one front image (`src_file_url`/`src_file_id`) → `results.hair_length.term`; `2d-vto/*` needs inputs flat AND as `source_info{name,…}` + `object_infos[{name, ref_file_urls}]`; earrings fail when earlobes are covered ("earlobe alignment not confident") → switched the fashion piece to **necklace VTO** (works with every look).
+  - Fixtures: sample-face analysis (Square face, Soft Angled/Straight brows, Almond eyes, flat cheekbones; length "short hair or longer"); `renderLength` for 39 of 44 wig renders (5 failed "insufficient lighting", shown honestly); 27 complete looks = 3 bases × 3 lip/blush palettes × (none/pearl/shell) via makeup VTO (brows + lashes + lip + blush in one call) → necklace VTO.
+  - Units this round ≈ 125 → **≈233 spent, ≈1,095 left**.
+  - Frontend: landing "numbers" section (sourced 65% / 55% stats, timeline, live ΔE chart), scroll motion system (rise text, curtain image reveals with parallax, count-ups, ivory→mulberry section), fit card (score + colour / face shape / length meters with sources), Finish tab (pipeline), brow suggestion from face analysis, detailed compare table, passport face section. Tests: 35 unit, 6 e2e.
+
 - **2026-10-11 (setup).**
   - Created `C:\Users\Shawki\Desktop\Bloom`. Moved `planBloom.md` and `bloom-handoff/` there. Copied `.env`, `AGENTS.md` and `CLAUDE.md`. Copied the reusable Poise code and MediaPipe models into `bloom-handoff/poise-reuse/`, and Poise's plan into `bloom-handoff/poise-plan-reference.md`. **Not yet a git repo.**
   - Decisions: the user is eligible for **Rising Star** (BUET email); **blur brands** in video and screenshots; **real-user voices come from sourced material** (public domain in the video, cited links in the text; see §13.6).

@@ -18,6 +18,16 @@ const SOURCES = [
     text: "American Cancer Society, “Choosing and Wearing a Wig”: shop before treatment so the colour and style can be matched.",
     href: "https://www.cancer.org/cancer/managing-cancer/side-effects/hair-skin-nails/hair-loss/choosing-and-wearing-wig.html",
   },
+  {
+    n: 4,
+    text: "Clinical Journal of Oncology Nursing: chemotherapy-induced alopecia affects about 65% of patients (2022 review).",
+    href: "https://cjon.ons.org/pubs/article/245351/preview",
+  },
+  {
+    n: 5,
+    text: "Survey of 168 breast cancer patients: 55.3% reported high distress from chemotherapy-induced alopecia (summary, Institut national du cancer).",
+    href: "https://www.cancer.fr/professionnels-de-sante/veille/nota-bene-cancer/bulletin-n-223/impact-of-chemotherapy-induced-alopecia-distress-on-body-image-psychosocial-well-being-and-depression-in-breast-cancer-patients",
+  },
 ];
 
 export function ClosingInvite() {

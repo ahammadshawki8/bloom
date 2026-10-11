@@ -1,4 +1,5 @@
-import type { BloomApi, CreateShareInput, HairReading } from "./types";
+import { ApiError, type BloomApi, type CreateShareInput, type HairReading } from "./types";
+import { LOOK_BASES, lookImage } from "@/lib/catalog/looks";
 import type { Share, Style, TryOnResult } from "@/lib/types";
 
 // Mock implementation backed by real fixtures. Every try-on image it returns is a
@@ -75,6 +76,28 @@ export const mockApi: BloomApi = {
   async brows({ preset }) {
     await wait(jitter(1800));
     return result("brow", "brows", preset.id);
+  },
+
+  async composeLook({ base, palette, necklace }) {
+    if (!LOOK_BASES.includes(base.variantId)) {
+      throw new ApiError(
+        "Not pre-rendered in preview mode",
+        "preview_only",
+        "In preview mode, complete looks are ready for the sage turban, the floral scarf and the Tracy pixie. Any look works once Bloom's server is connected.",
+      );
+    }
+    await wait(jitter(2400));
+    const id = `${base.variantId}--${palette}${necklace ? `--${necklace}` : ""}`;
+    return {
+      id: `${id}--${uid()}`,
+      kind: "look",
+      styleId: base.styleId,
+      variantId: id,
+      image: lookImage(base.variantId, palette, necklace),
+      createdAt: new Date().toISOString(),
+      source: "demo",
+      look: { baseResultId: base.id, baseVariantId: base.variantId, palette, necklace },
+    };
   },
 
   async createShare(input: CreateShareInput) {

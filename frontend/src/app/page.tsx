@@ -3,6 +3,7 @@ import { LandingHeader } from "@/components/landing/LandingHeader";
 import { Hero } from "@/components/landing/Hero";
 import { WhyNow } from "@/components/landing/WhyNow";
 import { HowItWorks } from "@/components/landing/HowItWorks";
+import { TheNumbers } from "@/components/landing/TheNumbers";
 import { StillYou } from "@/components/landing/StillYou";
 import { ChooseTogether } from "@/components/landing/ChooseTogether";
 import { KeptPrivate } from "@/components/landing/KeptPrivate";
@@ -22,6 +23,7 @@ export default function Landing() {
       <main>
         <Hero />
         <WhyNow />
+        <TheNumbers />
         <HowItWorks />
         <StillYou />
         <ChooseTogether />

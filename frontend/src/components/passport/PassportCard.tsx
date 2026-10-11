@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { ArchMirror } from "@/components/mirror/ArchMirror";
 import type { Passport } from "@/lib/types";
+import { lengthWords } from "@/lib/match/fit";
 
 const LENGTH = { short: "Short", medium: "Medium, around the shoulders", long: "Long, past the shoulders" } as const;
 const TEXTURE = { straight: "Straight", wavy: "Wavy" } as const;
@@ -68,7 +69,15 @@ export function PassportCard({ passport, reveal, transitionName }: Props) {
           </motion.div>
 
           <dl className="mt-5 divide-y divide-line">
-            {passport.length && <Row i={2} reveal={reveal} label="Length" value={LENGTH[passport.length]} />}
+            {(passport.hairLengthTerm || passport.length) && (
+              <Row
+                i={2}
+                reveal={reveal}
+                label="Length"
+                value={passport.hairLengthTerm ? lengthWords(passport.hairLengthTerm) : LENGTH[passport.length!]}
+                source={passport.hairLengthTerm ? "YouCam hair length" : undefined}
+              />
+            )}
             {(passport.curl || passport.texture) && (
               <Row
                 i={3}
@@ -93,6 +102,24 @@ export function PassportCard({ passport, reveal, transitionName }: Props) {
                   </span>
                 }
               />
+            )}
+            {passport.face && (
+              <>
+                <Row
+                  i={6}
+                  reveal={reveal}
+                  label="Face shape"
+                  value={passport.face.shape === "InvTriangle" ? "Inverted triangle" : passport.face.shape}
+                  source="YouCam face analyzer"
+                />
+                <Row
+                  i={7}
+                  reveal={reveal}
+                  label="Natural brows"
+                  value={`${passport.face.browShape}, ${passport.face.browThickness.toLowerCase()}`}
+                  source="YouCam face analyzer"
+                />
+              </>
             )}
             {passport.browHex && (
               <Row
@@ -122,7 +149,7 @@ export function PassportCard({ passport, reveal, transitionName }: Props) {
   );
 }
 
-function Row({ label, value, i, reveal }: { label: string; value: React.ReactNode; i: number; reveal?: boolean }) {
+function Row({ label, value, i, reveal, source }: { label: string; value: React.ReactNode; i: number; reveal?: boolean; source?: string }) {
   return (
     <motion.div
       className="flex items-center justify-between gap-4 py-3"
@@ -130,7 +157,10 @@ function Row({ label, value, i, reveal }: { label: string; value: React.ReactNod
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: reveal ? 0.35 + i * 0.12 : 0, duration: 0.45 }}
     >
-      <dt className="text-small text-mulberry-soft">{label}</dt>
+      <dt className="text-small text-mulberry-soft">
+        {label}
+        {source && <span className="block text-[10px] tracking-wide text-mulberry-faint">{source}</span>}
+      </dt>
       <dd className="text-right text-small font-medium">{value}</dd>
     </motion.div>
   );

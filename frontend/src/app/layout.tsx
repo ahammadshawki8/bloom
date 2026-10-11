@@ -39,8 +39,9 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${figtree.variable} antialiased`}>
-      <body className="min-h-dvh">
+    <html lang="en" className={`${fraunces.variable} ${figtree.variable} antialiased`} suppressHydrationWarning>
+      {/* suppressHydrationWarning: browser extensions (e.g. video speed controllers) add classes to <body> before React loads */}
+      <body className="min-h-dvh" suppressHydrationWarning>
         {children}
         <RegisterSW />
       </body>

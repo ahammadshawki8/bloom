@@ -15,6 +15,8 @@ export interface Variant {
   renderLab?: Lab;
   /** Local display image (mannequin / product shot). */
   image: string;
+  /** YouCam Hair Length Detection term, read off the try-on render. */
+  renderLength?: string;
   /** Public product image used as the try-on reference. */
   refImageUrl: string;
   price: number;
@@ -46,6 +48,17 @@ export interface HairColour {
   samples?: number;
 }
 
+export type FaceShape = "Triangle" | "Diamond" | "Heart" | "InvTriangle" | "Oblong" | "Oval" | "Round" | "Square";
+
+/** From the YouCam Face Attributes & Ratio Analyzer. */
+export interface FaceProfile {
+  shape: FaceShape;
+  browShape: string;
+  browThickness: string;
+  eyeShape: string;
+  cheekbones: string;
+}
+
 export interface Passport {
   id: string;
   createdAt: string;
@@ -59,9 +72,12 @@ export interface Passport {
   /** 1 (sparse) .. 4 (full) — baseline density level. */
   density?: 1 | 2 | 3 | 4;
   browHex?: string;
+  face?: FaceProfile;
+  /** YouCam Hair Length Detection term for her own hair. */
+  hairLengthTerm?: string;
 }
 
-export type ResultKind = "wig" | "wrap" | "brow";
+export type ResultKind = "wig" | "wrap" | "brow" | "look";
 
 export interface TryOnResult {
   id: string;
@@ -72,6 +88,8 @@ export interface TryOnResult {
   createdAt: string;
   /** "live" = rendered for this person; "demo" = pre-rendered on the sample face. */
   source: "live" | "demo";
+  /** For complete looks: the hair result it was built on and the finishing choices. */
+  look?: { baseResultId: string; baseVariantId: string; palette: string; necklace: string | null };
 }
 
 export type Shelf = "keep" | "maybe";

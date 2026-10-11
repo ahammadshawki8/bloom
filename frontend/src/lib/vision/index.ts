@@ -10,13 +10,32 @@ import type { FaceObservation } from "./framing";
 
 type Source = HTMLVideoElement | HTMLImageElement | HTMLCanvasElement;
 
+// MediaPipe's WASM writes glog INFO/WARNING lines (e.g. "Created TensorFlow Lite
+// XNNPACK delegate") to console.error. They are not errors; drop only those lines.
+let consoleFiltered = false;
+function quietMediaPipeLogs() {
+  if (consoleFiltered || typeof window === "undefined") return;
+  consoleFiltered = true;
+  const noise = /^(INFO:|[IW]\d{4} |Graph successfully started running|OpenGL error checking)/;
+  for (const level of ["error", "warn", "log", "info"] as const) {
+    const original = console[level].bind(console);
+    console[level] = (...args: unknown[]) => {
+      if (typeof args[0] === "string" && noise.test(args[0])) return;
+      original(...args);
+    };
+  }
+}
+
 let visionPromise: Promise<typeof import("@mediapipe/tasks-vision")> | null = null;
 let filesetPromise: Promise<unknown> | null = null;
 let detectorPromise: Promise<FaceDetector> | null = null;
 let videoDetectorPromise: Promise<FaceDetector> | null = null;
 let segmenterPromise: Promise<ImageSegmenter> | null = null;
 
-const lib = () => (visionPromise ??= import("@mediapipe/tasks-vision"));
+const lib = () => {
+  quietMediaPipeLogs();
+  return (visionPromise ??= import("@mediapipe/tasks-vision"));
+};
 async function fileset() {
   const { FilesetResolver } = await lib();
   return (filesetPromise ??= FilesetResolver.forVisionTasks("/mediapipe/wasm"));

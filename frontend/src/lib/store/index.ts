@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
 import { del, get, set } from "idb-keyval";
 import type { Passport, SavedLook, Shelf, TryOnResult } from "@/lib/types";
+import { demoPassport } from "@/lib/passport/demo";
 
 // Everything personal lives on this device (IndexedDB). Nothing here is sent
 // anywhere unless she runs a try-on or chooses to share.
@@ -72,7 +73,13 @@ export const useBloom = create<BloomState>()(
     }),
     {
       name: "bloom",
-      version: 1,
+      version: 2,
+      // v2: the sample passport gained YouCam face analysis and hair length; refresh stored copies.
+      migrate: (persisted, version) => {
+        const state = persisted as Partial<BloomState>;
+        if (version < 2 && state.passport?.isDemo) state.passport = demoPassport();
+        return state as BloomState;
+      },
       storage: createJSONStorage(() => idbStorage),
       partialize: ({ passport, results, saved, shares, lastStyleId }) => ({ passport, results, saved, shares, lastStyleId }),
       onRehydrateStorage: () => () => useBloom.setState({ hydrated: true }),

@@ -1,12 +1,15 @@
 import Image from "next/image";
+import { Reveal, RiseText } from "@/components/motion/Reveal";
 import { Heart } from "@phosphor-icons/react/dist/ssr";
 
 export function HowItWorks() {
   return (
     <section id="how" className="mx-auto max-w-[1240px] scroll-mt-8 px-5 py-20 md:px-10 lg:py-28">
       <div className="max-w-[40rem]">
-        <h2 className="type-atelier text-h1 md:text-display">Three gentle steps.</h2>
-        <p className="mt-5 text-lead text-mulberry-soft">About ten minutes in all. Stop whenever you like; everything waits for you.</p>
+        <RiseText text="Three gentle steps." className="type-atelier text-h1 md:text-display" />
+        <Reveal delay={0.2}>
+          <p className="mt-5 text-lead text-mulberry-soft">About ten minutes in all. Stop whenever you like; everything waits for you.</p>
+        </Reveal>
       </div>
 
       <ol className="mt-14 grid gap-14 md:grid-cols-3 md:gap-8">
@@ -35,12 +38,14 @@ export function HowItWorks() {
 function Step({ n, title, body, children }: { n: number; title: string; body: string; children: React.ReactNode }) {
   return (
     <li className="flex flex-col">
-      <div className="relative grid aspect-[5/4] place-items-center overflow-hidden rounded-[var(--radius-card)] bg-ivory-deep">{children}</div>
-      <div className="mt-7 flex items-baseline gap-4">
-        <span className="type-atelier text-h2 leading-none text-rose-deep">{n}</span>
-        <h3 className="type-studio text-h3">{title}</h3>
-      </div>
-      <p className="mt-3 max-w-[38ch] text-body text-mulberry-soft">{body}</p>
+      <Reveal delay={(n - 1) * 0.15} className="flex flex-col">
+        <div className="relative grid aspect-[5/4] place-items-center overflow-hidden rounded-[var(--radius-card)] bg-ivory-deep">{children}</div>
+        <div className="mt-7 flex items-baseline gap-4">
+          <span className="type-atelier text-h2 leading-none text-rose-deep">{n}</span>
+          <h3 className="type-studio text-h3">{title}</h3>
+        </div>
+        <p className="mt-3 max-w-[38ch] text-body text-mulberry-soft">{body}</p>
+      </Reveal>
     </li>
   );
 }

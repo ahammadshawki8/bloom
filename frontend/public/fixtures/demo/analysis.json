@@ -1,0 +1,15 @@
+{
+ "source": "YouCam AI Face Attributes & Ratio Analyzer (face-attr-analysis), 2026-10-11",
+ "faceShape": "Square",
+ "eyebrowShape": [
+  "Straight",
+  "Soft Angled"
+ ],
+ "eyebrowThickness": [
+  "Average",
+  "Average"
+ ],
+ "eyeShape": "Almond",
+ "cheekbones": "Flat Cheekbone",
+ "hairLength": "short hair or longer"
+}

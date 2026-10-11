@@ -4,27 +4,31 @@ import { useMemo, useState, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
 import clsx from "clsx";
+import { CaretDown } from "@phosphor-icons/react";
 import { MirrorStage } from "./MirrorStage";
 import { StyleRail, type RailItem } from "./StyleRail";
 import { StylePanel } from "./StylePanel";
 import { BrowPicker } from "./BrowPicker";
-import { Chip } from "@/components/ui/Chip";
+import { FinishPicker } from "./FinishPicker";
+import { FitCard } from "./FitCard";
 import { ButtonLink, Button } from "@/components/ui/Button";
 import { toast } from "@/components/ui/Toast";
 import { api, ApiError } from "@/lib/api";
 import { useCatalog, findVariant } from "@/lib/catalog/useCatalog";
-import { rankLooks, closestVariant, type MatchMode } from "@/lib/match";
-import { deltaE2000 } from "@/lib/color";
+import { PALETTES } from "@/lib/catalog/looks";
+import { rankLooks, type MatchMode } from "@/lib/match";
+import { fitReport } from "@/lib/match/fit";
 import { useBloom } from "@/lib/store";
 import { demoPassport } from "@/lib/passport/demo";
 import { useRenderedColour } from "@/lib/vision/useRenderedColour";
 import type { BrowPreset, HairLength, Passport, Style, TryOnResult, Variant } from "@/lib/types";
 
-type Tab = "wigs" | "wraps" | "brows";
+type Tab = "wigs" | "wraps" | "brows" | "finish";
 const TABS: { id: Tab; label: string }[] = [
   { id: "wigs", label: "Wigs" },
   { id: "wraps", label: "Wraps" },
   { id: "brows", label: "Brows" },
+  { id: "finish", label: "Finish" },
 ];
 
 export function FittingRoom() {
@@ -52,15 +56,19 @@ function Room({ passport }: { passport: Passport }) {
   const [browId, setBrowId] = useState<string | null>(null);
   const [current, setCurrent] = useState<TryOnResult | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
+  const [finishBase, setFinishBase] = useState<TryOnResult | null>(null);
+  const [palette, setPalette] = useState(PALETTES[0].id);
+  const [necklace, setNecklace] = useState<string | null>(null);
   const reqId = useRef(0);
 
-  // Latest result per variant, for this passport kind (demo vs own)
+  // Latest result per variant
   const byVariant = useMemo(() => {
     const m = new Map<string, TryOnResult>();
     for (const r of Object.values(results).sort((a, b) => a.createdAt.localeCompare(b.createdAt))) m.set(r.variantId, r);
     return m;
   }, [results]);
   const tried = useMemo(() => new Set(byVariant.keys()), [byVariant]);
+  const hairResults = useMemo(() => [...byVariant.values()].filter((r) => r.kind === "wig" || r.kind === "wrap").reverse(), [byVariant]);
 
   // Deep link: ?result=<id>, applied once the catalogue has loaded
   const [linked, setLinked] = useState(false);
@@ -72,6 +80,11 @@ function Room({ passport }: { passport: Passport }) {
       if (r.kind === "brow") {
         setTab("brows");
         setBrowId(r.variantId);
+      } else if (r.kind === "look" && r.look) {
+        setTab("finish");
+        setPalette(r.look.palette);
+        setNecklace(r.look.necklace);
+        setFinishBase(results[r.look.baseResultId] ?? null);
       } else {
         const f = findVariant(styles, r.variantId);
         if (f) {
@@ -99,18 +112,20 @@ function Room({ passport }: { passport: Passport }) {
       const cached = cachedId ? byVariant.get(cachedId) : undefined;
       if (cached) {
         setCurrent(cached);
-        return;
+        return cached;
       }
       const id = ++reqId.current;
       setLoading(label);
       try {
         const r = await job();
-        if (id !== reqId.current) return;
+        if (id !== reqId.current) return null;
         addResult(r);
         setCurrent(r);
+        return r;
       } catch (e) {
         const err = e as ApiError;
         toast(err.hint ?? err.message ?? "That try-on didn't work. Please try again.");
+        return null;
       } finally {
         if (id === reqId.current) setLoading(null);
       }
@@ -118,11 +133,13 @@ function Room({ passport }: { passport: Passport }) {
     [byVariant, addResult],
   );
 
+  const realStyleOf = (style: Style) => (style.id.includes("::") ? ((styles ?? []).find((s) => s.id === style.id.split("::")[0]) ?? style) : style);
+
   const tryVariant = (style: Style, variant: Variant) => {
-    const realStyle = style.id.includes("::") ? ((styles ?? []).find((s) => s.id === style.id.split("::")[0]) ?? style) : style;
+    const realStyle = realStyleOf(style);
     setSelected({ style: realStyle, variant });
     useBloom.getState().setLastStyle(realStyle.id);
-    run(
+    return run(
       `Trying on ${realStyle.name}${realStyle.variants.length > 1 ? ` in ${variant.colorName}` : ""}…`,
       () => api.tryOn({ passport, style: realStyle, variant }),
       variant.id,
@@ -134,27 +151,33 @@ function Room({ passport }: { passport: Passport }) {
     run(`Drawing ${p.label.toLowerCase()} brows…`, () => api.brows({ passport, preset: p }), p.id);
   };
 
+  const compose = (base: TryOnResult, nextPalette: string, nextNecklace: string | null) => {
+    const id = `${base.variantId}--${nextPalette}${nextNecklace ? `--${nextNecklace}` : ""}`;
+    run(
+      "Finishing your look: brows, lashes, colour, then the necklace…",
+      () => api.composeLook({ passport, base, palette: nextPalette, necklace: nextNecklace }),
+      id,
+    );
+  };
+
+  const activeFinishBase = finishBase ?? (current && (current.kind === "wig" || current.kind === "wrap") ? current : (hairResults[0] ?? null));
+
+  // Fit report for the current hair result (wig or wrap)
+  const currentHair = current && (current.kind === "wig" || current.kind === "wrap") ? findVariant(styles, current.variantId) : null;
   const rendered = useRenderedColour(current && current.kind === "wig" ? current.image : null, passport.hair.lab);
+  const report = currentHair && currentHair.style.kind === "wig" ? fitReport(passport, currentHair.style, currentHair.variant, rendered.deltaE) : null;
+
   const isSaved = !!current && saved.some((s) => s.resultId === current.id);
-  const selectedReasons = selected ? (wigItems.find((w) => w.style.id === selected.style.id)?.reasons ?? []) : [];
 
   const panel =
     selected && ((tab === "wigs" && selected.style.kind === "wig") || (tab === "wraps" && selected.style.kind === "wrap")) ? (
-      <StylePanel
-        style={selected.style}
-        variant={selected.variant}
-        passport={passport}
-        busy={!!loading}
-        reasons={selected.style.kind === "wig" ? selectedReasons : []}
-        rendered={selected.style.kind === "wig" && current?.variantId === selected.variant.id ? rendered : null}
-        onVariant={(v) => tryVariant(selected.style, v)}
-      />
+      <StylePanel style={selected.style} variant={selected.variant} busy={!!loading} onVariant={(v) => tryVariant(selected.style, v)} />
     ) : null;
 
   return (
-    <div className="mx-auto grid max-w-[1180px] gap-6 px-4 pb-10 md:px-10 lg:grid-cols-[minmax(340px,440px)_1fr] lg:gap-12">
+    <div className="mx-auto grid max-w-[1180px] gap-5 px-4 pb-10 md:px-10 lg:grid-cols-[minmax(320px,400px)_1fr] lg:gap-10">
       {/* Mirror column */}
-      <div className="lg:self-start">
+      <div className="space-y-4 lg:self-start">
         <MirrorStage
           original={passport.photo}
           current={current?.image ?? null}
@@ -172,19 +195,22 @@ function Room({ passport }: { passport: Passport }) {
             }
           }}
         />
-        {panel && <div className="mt-8 hidden lg:block">{panel}</div>}
+        {report && <FitCard report={report} measuring={rendered.measuring} />}
       </div>
 
       {/* Controls column */}
-      <div className="min-w-0">
-        <div role="tablist" aria-label="What to try" className="relative grid grid-cols-3 rounded-full bg-ivory-deep p-1">
+      <div className="min-w-0 space-y-4">
+        <div role="tablist" aria-label="What to try" className="relative grid grid-cols-4 rounded-full bg-ivory-deep p-1">
           {TABS.map((t) => (
             <button
               key={t.id}
               role="tab"
               aria-selected={tab === t.id}
               onClick={() => setTab(t.id)}
-              className={clsx("relative h-11 rounded-full text-small font-semibold transition-colors", tab === t.id ? "text-mulberry" : "text-mulberry-soft")}
+              className={clsx(
+                "relative h-10 rounded-full text-[13px] font-semibold transition-colors sm:text-small",
+                tab === t.id ? "text-mulberry" : "text-mulberry-soft",
+              )}
             >
               {tab === t.id && (
                 <motion.span
@@ -198,27 +224,42 @@ function Room({ passport }: { passport: Passport }) {
           ))}
         </div>
 
-        {error && <p className="mt-6 text-small text-rose-deep">{error}</p>}
+        {error && <p className="text-small text-rose-deep">{error}</p>}
 
         {tab === "wigs" && (
-          <div className="mt-5">
-            <div className="-mx-4 no-scrollbar flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:px-0">
-              <Chip selected={mode === "match"} onClick={() => setMode("match")}>
-                Match my hair
-              </Chip>
-              <Chip selected={mode === "new"} onClick={() => setMode("new")}>
-                Something new
-              </Chip>
-              <span className="mx-1 w-px shrink-0 bg-line" aria-hidden />
-              {(["all", "short", "medium", "long"] as const).map((l) => (
-                <Chip key={l} selected={length === l} onClick={() => setLength(l)}>
-                  {l === "all" ? "Any length" : l[0].toUpperCase() + l.slice(1)}
-                </Chip>
-              ))}
+          <>
+            <div className="flex items-center gap-2">
+              <div className="grid flex-1 grid-cols-2 rounded-full p-1 ring-1 ring-line" role="radiogroup" aria-label="Match mode">
+                {(["match", "new"] as const).map((m) => (
+                  <button
+                    key={m}
+                    role="radio"
+                    aria-checked={mode === m}
+                    onClick={() => setMode(m)}
+                    className={clsx(
+                      "h-8 rounded-full text-[13px] font-medium transition-colors",
+                      mode === m ? "bg-mulberry text-ivory" : "text-mulberry-soft hover:text-mulberry",
+                    )}
+                  >
+                    {m === "match" ? "Match my hair" : "Something new"}
+                  </button>
+                ))}
+              </div>
+              <label className="relative shrink-0">
+                <span className="sr-only">Length</span>
+                <select
+                  value={length}
+                  onChange={(e) => setLength(e.target.value as HairLength | "all")}
+                  className="h-10 appearance-none rounded-full bg-paper pr-8 pl-4 text-[13px] font-medium ring-1 ring-line outline-none focus-visible:ring-2 focus-visible:ring-rose-deep"
+                >
+                  <option value="all">Any length</option>
+                  <option value="short">Short</option>
+                  <option value="medium">Medium</option>
+                  <option value="long">Long</option>
+                </select>
+                <CaretDown size={13} className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2" />
+              </label>
             </div>
-            <p className="mt-4 mb-3 text-micro text-mulberry-soft">
-              {mode === "match" ? "Closest to your measured colour first, then length and texture." : "A clear but wearable change from your colour."}
-            </p>
             {styles ? (
               wigItems.length ? (
                 <StyleRail
@@ -234,13 +275,13 @@ function Room({ passport }: { passport: Passport }) {
             ) : (
               <RailSkeleton />
             )}
-            {panel && <div className="mt-4 lg:hidden">{panel}</div>}
-          </div>
+            {panel}
+          </>
         )}
 
         {tab === "wraps" && (
-          <div className="mt-5">
-            <p className="mb-3 text-small text-mulberry-soft">Soft turbans and scarves, for sleeping, resting and everything in between.</p>
+          <>
+            <p className="text-[13px] text-mulberry-soft">Soft turbans and scarves, for sleeping, resting and everything in between.</p>
             {styles ? (
               <StyleRail
                 items={wrapItems}
@@ -252,40 +293,60 @@ function Room({ passport }: { passport: Passport }) {
             ) : (
               <RailSkeleton />
             )}
-            {panel && <div className="mt-4 lg:hidden">{panel}</div>}
-          </div>
+            {panel}
+          </>
         )}
 
-        {tab === "brows" && (
-          <div className="mt-5">
-            <BrowPicker passport={passport} selectedId={browId} onPick={tryBrow} busy={!!loading} />
-          </div>
+        {tab === "brows" && <BrowPicker passport={passport} selectedId={browId} onPick={tryBrow} busy={!!loading} />}
+
+        {tab === "finish" && (
+          <FinishPicker
+            bases={hairResults}
+            base={activeFinishBase}
+            palette={palette}
+            necklace={necklace}
+            busy={!!loading}
+            onBase={(b) => {
+              setFinishBase(b);
+              compose(b, palette, necklace);
+            }}
+            onPalette={(p) => {
+              setPalette(p);
+              if (activeFinishBase) compose(activeFinishBase, p, necklace);
+            }}
+            onNecklace={(n) => {
+              setNecklace(n);
+              if (activeFinishBase) compose(activeFinishBase, palette, n);
+            }}
+            onTryBase={async (variantId) => {
+              const f = findVariant(styles, variantId);
+              if (!f) return;
+              const r = await tryVariant(f.style, f.variant);
+              if (r) {
+                setFinishBase(r);
+                compose(r, palette, necklace);
+              }
+            }}
+          />
         )}
 
-        <ClosestHint passport={passport} styles={styles} />
+        <SharePrompt />
       </div>
     </div>
   );
 }
 
-function ClosestHint({ passport, styles }: { passport: Passport; styles: Style[] | null }) {
+function SharePrompt() {
   const saved = useBloom((s) => s.saved.length);
-  if (!styles || saved < 2) return null;
-  const best = styles
-    .filter((s) => s.kind === "wig")
-    .map((s) => ({ s, ...closestVariant(passport, s) }))
-    .sort((a, b) => a.deltaE - b.deltaE)[0];
+  if (saved < 2) return null;
   return (
-    <div className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-card)] bg-rose-wash p-5">
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-card)] bg-rose-wash p-4">
       <p className="text-small">
-        <span className="font-semibold">You have {saved} looks saved.</span> <span className="text-mulberry-soft">Ready to ask someone you love?</span>
+        <span className="font-semibold">{saved} looks saved.</span> <span className="text-mulberry-soft">Ready to ask someone you love?</span>
       </p>
       <ButtonLink href="/studio/saved" size="sm">
         Choose together
       </ButtonLink>
-      <span className="sr-only">
-        Closest colour in the collection: {best?.s.name}, ΔE {best ? deltaE2000(passport.hair.lab, best.variant.lab).toFixed(1) : ""}
-      </span>
     </div>
   );
 }
@@ -294,7 +355,7 @@ function RailSkeleton() {
   return (
     <div className="flex gap-3 overflow-hidden" aria-busy="true">
       {[0, 1, 2, 3].map((i) => (
-        <div key={i} className="aspect-[4/5] w-[132px] shrink-0 animate-pulse rounded-[22px] bg-ivory-deep" />
+        <div key={i} className="aspect-[4/5] w-[112px] shrink-0 animate-pulse rounded-[20px] bg-ivory-deep" />
       ))}
     </div>
   );
