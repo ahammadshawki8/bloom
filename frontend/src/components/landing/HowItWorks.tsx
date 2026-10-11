@@ -23,7 +23,7 @@ export function HowItWorks() {
         <Step
           n={2}
           title="Try looks on your own face"
-          body="Real wigs matched to your colour, soft wraps and turbans, and brows. Each one rendered on your photo, side by side with your own hair."
+          body="Real wigs matched to your colour, soft wraps and turbans, brows and lashes. Each one rendered on your photo, side by side with your own hair."
         >
           <TryOnVignette />
         </Step>

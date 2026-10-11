@@ -6,7 +6,7 @@ import type { Db } from "../db/pool";
 import { sessionOf } from "../services/session";
 import { decodeDataUrl, InputError, normalisePhoto } from "../services/images";
 import { assertBudget, charge } from "../services/budget";
-import { runTask, uploadImage } from "../youcam/client";
+import { FRIENDLY, runTask, uploadImage, YouCamError } from "../youcam/client";
 import { env } from "../env";
 
 interface Body {
@@ -62,6 +62,12 @@ export async function passportRoutes(app: FastifyInstance, db: Db) {
 
     const frontId = await uploadImage(await normalisePhoto(decodeDataUrl(front)));
     const reading: HairReading = {};
+    const notes: string[] = [];
+    const explain = (what: string) => (e: unknown) => {
+      req.log.warn({ err: e }, `${what} skipped`);
+      const reason = e instanceof YouCamError ? (FRIENDLY[e.code] ?? e.message) : "It couldn't be read this time.";
+      notes.push(`${what}: ${reason}`);
+    };
 
     const jobs: Promise<void>[] = [
       runTask<Record<string, unknown>>("/s2s/v2.0/task/face-attr-analysis", {
@@ -83,7 +89,7 @@ export async function passportRoutes(app: FastifyInstance, db: Db) {
           }
           await charge(db, session, "face-attr-analysis", 10);
         })
-        .catch((e) => req.log.warn({ err: e }, "face analysis skipped")),
+        .catch(explain("Face shape")),
       runTask<{ hair_length?: { term?: string } }>("/s2s/v2.0/task/hair-length-detection", { src_file_id: frontId })
         .then(async (r) => {
           const term = r.hair_length?.term;
@@ -93,7 +99,7 @@ export async function passportRoutes(app: FastifyInstance, db: Db) {
             await charge(db, session, "hair-length-detection", 2);
           }
         })
-        .catch((e) => req.log.warn({ err: e }, "hair length skipped")),
+        .catch(explain("Hair length")),
     ];
 
     if (hasSides) {
@@ -108,7 +114,7 @@ export async function passportRoutes(app: FastifyInstance, db: Db) {
             reading.texture = mapping.startsWith("1") ? "straight" : "wavy";
             await charge(db, session, "hair-type-detection", 2);
           }
-        })().catch((e) => req.log.warn({ err: e }, "hair type skipped")),
+        })().catch(explain("Curl pattern")),
       );
     }
     if (top) {
@@ -122,10 +128,11 @@ export async function passportRoutes(app: FastifyInstance, db: Db) {
             reading.density = level as 1 | 2 | 3 | 4;
             await charge(db, session, "hair-density-detection", 1);
           }
-        })().catch((e) => req.log.warn({ err: e }, "hair density skipped")),
+        })().catch(explain("Fullness")),
       );
     }
     await Promise.all(jobs);
+    if (notes.length) reading.notes = notes;
     return reading;
   });
 }

@@ -5,9 +5,9 @@ const num = (v: string | undefined, d: number) => (v && !Number.isNaN(Number(v))
 export const env = {
   port: num(process.env.PORT, 8787),
   host: process.env.HOST ?? "0.0.0.0",
-  /** Render Postgres in production; the PGlite dev server (npm run db:dev) locally. */
-  databaseUrl: process.env.DATABASE_URL ?? "postgresql://postgres:postgres@127.0.0.1:6544/postgres",
-  poolMax: num(process.env.PG_POOL_MAX, process.env.DATABASE_URL ? 10 : 1),
+  /** Render Postgres in production; a local real Postgres (npm run db:dev) in development. */
+  databaseUrl: process.env.DATABASE_URL ?? "postgresql://postgres:bloom@127.0.0.1:6544/bloom",
+  poolMax: num(process.env.PG_POOL_MAX, 10),
   publicUrl: (process.env.PUBLIC_URL ?? process.env.RENDER_EXTERNAL_URL ?? "http://localhost:8787").replace(/\/$/, ""),
   corsOrigins: (process.env.CORS_ORIGINS ?? "http://localhost:3000,http://localhost:3100,http://localhost:3300").split(",").map((s) => s.trim()),
   youcamKey: process.env.YOUCAM_API_KEY ?? "",

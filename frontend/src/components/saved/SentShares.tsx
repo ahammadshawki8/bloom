@@ -40,9 +40,7 @@ export function SentShares() {
             <li key={s.id} className="rounded-[var(--radius-card)] bg-paper p-4 ring-1 ring-line">
               <div className="flex items-center justify-between text-micro text-mulberry-soft">
                 <span>Sent {new Date(s.createdAt).toLocaleDateString(undefined, { day: "numeric", month: "short" })}</span>
-                <span>
-                  {share === undefined ? "Checking…" : expired || share === null ? "Closed" : `${voters} ${voters === 1 ? "reply" : "replies"}`}
-                </span>
+                <span>{share === undefined ? "Checking…" : expired || share === null ? "Closed" : `${voters} ${voters === 1 ? "reply" : "replies"}`}</span>
               </div>
               <div className="mt-3 flex gap-3">
                 {(share?.items ?? []).map((item, i) => {

@@ -135,7 +135,18 @@ export function PassportCard({ passport, reveal, transitionName }: Props) {
               />
             )}
           </dl>
-          {!passport.isDemo && !passport.length && (
+          {!!passport.analysisNotes?.length && (
+            <div className="mt-3 rounded-2xl bg-butter-wash px-4 py-3 text-micro">
+              <p className="font-semibold">Not read from this photo</p>
+              <ul className="mt-1 space-y-0.5 text-mulberry-soft">
+                {passport.analysisNotes.map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
+              </ul>
+              <p className="mt-1.5 text-mulberry-soft">A closer, straight-on photo in soft light usually fixes this. You can retake any time.</p>
+            </div>
+          )}
+          {!passport.isDemo && !passport.length && !passport.analysisNotes?.length && (
             <p className="mt-3 rounded-2xl bg-ivory px-4 py-3 text-micro text-mulberry-soft">
               Length, curl pattern and fullness are read by the YouCam hair APIs once Bloom&apos;s server is connected. Colour is already measured.
             </p>

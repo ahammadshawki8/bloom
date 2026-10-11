@@ -120,6 +120,7 @@ describe("family links", () => {
     expect(s.votes).toHaveLength(2);
     expect(s.votes.find((v) => v.itemIndex === 1)?.value).toBe(-1);
     expect(s.votes[0].note).toBe("The first one!");
+    expect(new Set(s.votes.map((v) => v.at)).size).toBe(1);
   });
 
   it("404s for unknown links", async () => {

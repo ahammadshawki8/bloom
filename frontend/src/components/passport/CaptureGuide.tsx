@@ -133,8 +133,9 @@ export function CaptureGuide({ mode, onCapture }: Props) {
     if (strict) {
       const face = await observeFace(canvas).catch(() => null);
       const result = checkFraming(face, canvas, brightness(canvas, face?.box));
-      // For uploads we only insist on the essentials; small framing differences are fine.
-      const blocking = result.issues.find((i) => ["no_face", "too_close", "head_cut", "turned"].includes(i.code));
+      // For uploads we only insist on a face; YouCam checks shoulders and pose and
+      // returns a plain-language fix if the photo won't work.
+      const blocking = result.issues.find((i) => i.code === "no_face");
       if (blocking) {
         setUploadIssue(`${blocking.message} Try another photo.`);
         URL.revokeObjectURL(img.src);

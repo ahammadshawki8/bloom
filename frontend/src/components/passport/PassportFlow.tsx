@@ -219,16 +219,19 @@ function Reading({
       ]);
       if (!alive) return;
       if (!hair || hair.confidence < 0.25) return cb.current.onFail();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- notes are kept separately as analysisNotes
+      const { notes, ...readingFacts } = reading;
       cb.current.onDone({
         id: crypto.randomUUID(),
         createdAt: new Date().toISOString(),
         isDemo: false,
         photo,
         hair,
-        ...reading,
+        ...readingFacts,
         density: shots.top ? reading.density : undefined,
         curl: shots.left || shots.right ? reading.curl : undefined,
         browHex: undefined,
+        analysisNotes: reading.notes,
       });
     })();
     return () => {

@@ -18,8 +18,8 @@ export function Hero() {
         />
         <Reveal delay={0.45}>
           <p className="mt-6 max-w-[33rem] text-lead text-mulberry-soft">
-            Bloom keeps a record of your own hair while it&apos;s still here, then lets you try matched wigs, head wraps and brows on your own face. At home, at
-            your pace, with the people you love.
+            Bloom keeps a record of your own hair while it&apos;s still here, then lets you try matched wigs, head wraps, brows and lashes on your own face. At
+            home, at your pace, with the people you love.
           </p>
         </Reveal>
         <Reveal delay={0.6}>

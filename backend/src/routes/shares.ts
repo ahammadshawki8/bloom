@@ -90,9 +90,14 @@ export async function shareRoutes(app: FastifyInstance, db: Db) {
     if (!votes.length) throw new InputError("Choose love it or not for me on at least one look.", "no_votes");
     const name = clip(req.body?.name, 40) ?? null;
     const note = clip(req.body?.note, 200) ?? null;
-    for (const [i, v] of votes.entries()) {
-      await db.query(`insert into share_votes (share_id, item_index, value, name, note) values ($1, $2, $3, $4, $5)`, [share.id, v.itemIndex, v.value, name, i === 0 ? note : null]);
-    }
+    // One statement per submission: the rows share a timestamp, so a submission counts as one reply.
+    const params: unknown[] = [share.id, name];
+    const rows = votes.map((v, i) => {
+      params.push(v.itemIndex, v.value, i === 0 ? note : null);
+      const n = params.length;
+      return `($1, $${n - 2}, $${n - 1}, $2, $${n})`;
+    });
+    await db.query(`insert into share_votes (share_id, item_index, value, name, note) values ${rows.join(", ")}`, params);
     return readShare(db, share.id);
   });
 }

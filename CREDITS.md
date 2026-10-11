@@ -15,4 +15,7 @@
 Demo passport face: Perfect Corp sample image from the YouCam API documentation. Try-on renders were produced with the YouCam API during the feasibility spike (`docs/spike/`).
 
 ## Product images
-Wig and head-wrap product images in the demo catalogue belong to their retailers and link back to the original product pages.
+Wig and head-wrap product images in the demo catalogue belong to their retailers (Godiva's Secret Wigs, Suburban Turban) and link back to the original product pages.
+
+## Software
+Next.js, React, Tailwind CSS, Motion, Phosphor Icons, MediaPipe Tasks Vision, Zustand, idb-keyval, Fastify, node-postgres, sharp, PGlite (tests), embedded-postgres (local development), Playwright, Vitest.

@@ -82,7 +82,9 @@ export function FamilyView() {
         {state.kind === "missing" && (
           <div className="mx-auto mt-16 max-w-md text-center">
             <h1 className="type-studio text-h2">This link has closed</h1>
-            <p className="mt-3 text-body text-mulberry-soft">Bloom links close after seven days to keep photos private. Ask for a fresh one if you&apos;d still like to help.</p>
+            <p className="mt-3 text-body text-mulberry-soft">
+              Bloom links close after seven days to keep photos private. Ask for a fresh one if you&apos;d still like to help.
+            </p>
           </div>
         )}
 
@@ -167,7 +169,12 @@ export function FamilyView() {
                   </p>
                 </motion.section>
               ) : (
-                <motion.section key="sent" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mx-auto mt-12 max-w-md rounded-[var(--radius-card)] bg-sage-wash p-6 text-center">
+                <motion.section
+                  key="sent"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mx-auto mt-12 max-w-md rounded-[var(--radius-card)] bg-sage-wash p-6 text-center"
+                >
                   <CheckCircle size={32} weight="fill" className="mx-auto text-sage-deep" />
                   <h2 className="mt-3 type-studio text-h3">Sent with love</h2>
                   <p className="mt-2 text-small text-mulberry-soft">
@@ -191,7 +198,21 @@ export function FamilyView() {
   );
 }
 
-function VoteButton({ on, disabled, onClick, label, tone = "up", children }: { on: boolean; disabled: boolean; onClick: () => void; label: string; tone?: "up" | "down"; children: React.ReactNode }) {
+function VoteButton({
+  on,
+  disabled,
+  onClick,
+  label,
+  tone = "up",
+  children,
+}: {
+  on: boolean;
+  disabled: boolean;
+  onClick: () => void;
+  label: string;
+  tone?: "up" | "down";
+  children: React.ReactNode;
+}) {
   return (
     <motion.button
       whileTap={{ scale: 0.92 }}

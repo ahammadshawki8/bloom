@@ -90,7 +90,13 @@ function Board() {
       .filter((s) => s.shelf === shelf && results[s.resultId])
       .map((s) => ({ s, r: results[s.resultId], m: metricsOf(results[s.resultId]) }))
       .filter(({ r, m }) =>
-        filter === "all" ? true : filter === "face" ? r.kind === "brow" || r.kind === "lash" : filter === "voted" ? m.votes.up + m.votes.down > 0 : r.kind === filter,
+        filter === "all"
+          ? true
+          : filter === "face"
+            ? r.kind === "brow" || r.kind === "lash"
+            : filter === "voted"
+              ? m.votes.up + m.votes.down > 0
+              : r.kind === filter,
       );
     const last = (v: number | null, dir: 1 | -1) => (v === null ? Infinity : v * dir);
     rows.sort((a, b) => {
@@ -172,7 +178,7 @@ function Board() {
           </select>
           <CaretDown size={12} className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2" />
         </label>
-        <div className="no-scrollbar -mr-4 flex gap-1.5 overflow-x-auto pr-4" role="radiogroup" aria-label="Show">
+        <div className="-mr-4 no-scrollbar flex gap-1.5 overflow-x-auto pr-4" role="radiogroup" aria-label="Show">
           {FILTERS.map((f) => (
             <button
               key={f.id}
@@ -192,7 +198,11 @@ function Board() {
 
       {visible.length === 0 ? (
         <p className="mt-10 text-small text-mulberry-soft">
-          {filter !== "all" ? "Nothing matches that filter yet." : shelf === "maybe" ? "Move looks here when you're not sure yet." : "Nothing in Loved right now."}
+          {filter !== "all"
+            ? "Nothing matches that filter yet."
+            : shelf === "maybe"
+              ? "Move looks here when you're not sure yet."
+              : "Nothing in Loved right now."}
         </p>
       ) : (
         <ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-7 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-5">

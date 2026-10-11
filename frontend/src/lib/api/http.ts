@@ -75,7 +75,11 @@ export const httpApi: BloomApi = {
     }).catch(() => null);
     if (!res || !res.ok || !res.body) {
       const body = res ? await res.json().catch(() => ({})) : {};
-      throw new ApiError(body.message ?? "The guide is unavailable.", body.code ?? "guide_unavailable", body.hint ?? "The guide couldn't start. Please try again in a moment.");
+      throw new ApiError(
+        body.message ?? "The guide is unavailable.",
+        body.code ?? "guide_unavailable",
+        body.hint ?? "The guide couldn't start. Please try again in a moment.",
+      );
     }
     const reader = res.body.getReader();
     const decoder = new TextDecoder();

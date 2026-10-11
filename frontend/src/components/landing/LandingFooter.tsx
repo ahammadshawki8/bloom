@@ -79,8 +79,8 @@ export function LandingFooter() {
             </ol>
           </div>
           <p>
-            Try-ons are rendered with the YouCam API (hair transfer and makeup virtual try-on). Product images belong to their retailers and link back to them.
-            Portrait photography from Unsplash; see CREDITS.md.
+            Try-ons and hair analysis use the YouCam API (hair transfer, makeup try-on, face and hair analysis). Product images belong to their retailers and
+            link back to them. Portrait photography from Unsplash; see CREDITS.md.
           </p>
         </div>
       </div>

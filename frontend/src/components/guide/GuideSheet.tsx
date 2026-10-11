@@ -12,7 +12,12 @@ import { api } from "@/lib/api";
 import { useBloom } from "@/lib/store";
 import type { GuideEvent, GuidePick } from "@/lib/types";
 
-const SUGGESTIONS = ["Close to my own colour, easy to look after", "Something new and lighter for summer", "Soft waves, around shoulder length", "A wig and a soft wrap for sleeping days"];
+const SUGGESTIONS = [
+  "Close to my own colour, easy to look after",
+  "Something new and lighter for summer",
+  "Soft waves, around shoulder length",
+  "A wig and a soft wrap for sleeping days",
+];
 
 const ICON: Record<string, typeof Sparkle> = {
   get_passport: IdentificationBadge,
@@ -106,11 +111,15 @@ export function GuideSheet() {
                 placeholder="e.g. close to my colour, low maintenance"
                 className="h-12 min-w-0 flex-1 rounded-2xl bg-paper px-4 text-body ring-1 ring-line outline-none placeholder:text-mulberry-faint focus:ring-2 focus:ring-rose-deep"
               />
-              <Button type="submit" disabled={running || !prompt.trim()} icon={running ? <CircleNotch size={18} className="animate-spin" /> : <Sparkle size={18} />}>
+              <Button
+                type="submit"
+                disabled={running || !prompt.trim()}
+                icon={running ? <CircleNotch size={18} className="animate-spin" /> : <Sparkle size={18} />}
+              >
                 {running ? "Working" : "Ask"}
               </Button>
             </div>
-            <div className="no-scrollbar -mx-5 mt-3 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0">
+            <div className="-mx-5 mt-3 no-scrollbar flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
@@ -207,7 +216,7 @@ function PickCard({ pick, demo, onGo }: { pick: GuidePick; demo: boolean; onGo: 
   const [src, setSrc] = useState(demo ? `/fixtures/tryon/${pick.variant_id}.webp` : `/fixtures/catalog/${pick.variant_id}.webp`);
   return (
     <li className="flex flex-col rounded-[22px] bg-paper p-3 ring-1 ring-line">
-      <span className="relative block aspect-[4/5] overflow-hidden arch bg-ivory-deep">
+      <span className="relative block aspect-[4/5] arch overflow-hidden bg-ivory-deep">
         <Image src={src} alt={pick.title} fill sizes="200px" className="object-cover" onError={() => setSrc(`/fixtures/catalog/${pick.variant_id}.webp`)} />
         {pick.overall !== undefined && (
           <span className="absolute top-3 right-3 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-semibold tabular-nums">Fit {pick.overall}</span>

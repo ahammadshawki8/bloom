@@ -18,7 +18,9 @@ export function GuideCard() {
           <h2 id="guide-title" className="type-studio text-[1.25rem] leading-tight">
             Not sure where to start?
           </h2>
-          <p className="mt-1 text-[13px] text-mulberry-soft">Tell the guide what you&apos;d like. It searches the collection, checks colour and fit against your passport, and picks three looks.</p>
+          <p className="mt-1 text-[13px] text-mulberry-soft">
+            Tell the guide what you&apos;d like. It searches the collection, checks colour and fit against your passport, and picks three looks.
+          </p>
         </div>
       </div>
       <form

@@ -75,6 +75,8 @@ export interface Passport {
   face?: FaceProfile;
   /** YouCam Hair Length Detection term for her own hair. */
   hairLengthTerm?: string;
+  /** Analyses that couldn't be read, so the card can say so instead of guessing. */
+  analysisNotes?: string[];
 }
 
 export type ResultKind = "wig" | "wrap" | "brow" | "lash";
@@ -140,6 +142,8 @@ export interface HairReading {
   density?: 1 | 2 | 3 | 4;
   face?: FaceProfile;
   hairLengthTerm?: string;
+  /** Analyses that couldn't be read from these photos, in plain words. */
+  notes?: string[];
 }
 
 export interface Share {

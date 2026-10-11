@@ -52,7 +52,8 @@ export function checkFraming(face: FaceObservation | null, frame: { width: numbe
   const widthRatio = box.width / frame.width;
   const cx = (box.x + box.width / 2) / frame.width;
 
-  if (widthRatio > 0.48 || box.y + box.height > frame.height * 0.78) add("too_close");
+  // Calibrated against photos YouCam hair transfer accepts (e.g. its own sample face).
+  if (widthRatio > 0.55 || box.y + box.height > frame.height * 0.88) add("too_close");
   else if (widthRatio < 0.16) add("too_far");
   if (cx < 0.3 || cx > 0.7) add("off_centre");
   // Hair above the forehead needs room: about 40% of a face height above the box.

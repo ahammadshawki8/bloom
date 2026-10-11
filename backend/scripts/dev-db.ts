@@ -1,19 +1,14 @@
-// Local Postgres for development: PGlite (Postgres compiled to WASM) behind a
-// Postgres wire-protocol socket, so the backend uses the normal `pg` driver
-// exactly as it does against Render Postgres in production.
-import fs from "node:fs";
+// Local Postgres for development (real Postgres binaries, data kept in .data/pg).
+//   npm run db:dev   then   DATABASE_URL=postgresql://postgres:bloom@127.0.0.1:6544/bloom
 import path from "node:path";
-import { PGlite } from "@electric-sql/pglite";
-import { PGLiteSocketServer } from "@electric-sql/pglite-socket";
+import { startLocalPostgres } from "./local-pg";
 
-const dir = path.resolve(import.meta.dirname, "../.data/pglite");
-fs.mkdirSync(dir, { recursive: true });
-const db = await PGlite.create(dir);
-const server = new PGLiteSocketServer({ db, port: Number(process.env.DEV_DB_PORT ?? 6544), host: "127.0.0.1" });
-await server.start();
-console.log(`dev Postgres (PGlite) listening on ${server.getServerConn()}  data: ${dir}`);
-process.on("SIGINT", async () => {
-  await server.stop();
-  await db.close();
+const dir = path.resolve(import.meta.dirname, "../.data/pg");
+const db = await startLocalPostgres({ dir, port: Number(process.env.DEV_DB_PORT ?? 6544), persistent: true });
+console.log(`dev Postgres ready: ${db.url}`);
+const stop = async () => {
+  await db.stop();
   process.exit(0);
-});
+};
+process.on("SIGINT", stop);
+process.on("SIGTERM", stop);

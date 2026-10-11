@@ -2,7 +2,7 @@
 
 > **Purpose of this file:** the single source of truth for building **Bloom**. It records what we're building, why, every decision and the evidence behind it, the feasibility tests already run, and exactly where we stopped. **Read it top to bottom at the start of every session and update it at the end.** This project lives in a NEW folder and repo, and Claude Code's memory for the old folder (YouCamAPI / Poise) does NOT carry over. So this file holds everything.
 >
-> **Created:** 2026-10-11 (handoff from the Poise session) · **Status:** Spec + plan written; **frontend (F0–F6) built in preview mode, awaiting user review**. **Next:** user review → backend B1–B5. · **Deadline:** **Nov 2, 2026 @ 11:45am EST** (= Nov 2, 10:45pm GMT+6)
+> **Created:** 2026-10-11 (handoff from the Poise session) · **Status:** **Full stack functional end to end** (frontend + backend + Postgres + YouCam + agent), verified with live e2e. **Next:** user deploys (Render Blueprint + Vercel) and prepares the submission. · **Deadline:** **Nov 2, 2026 @ 11:45am EST** (= Nov 2, 10:45pm GMT+6)
 
 ---
 
@@ -466,3 +466,13 @@ All files are in the handoff folder **`bloom-handoff/`**, which sits next to thi
   - Name locked: **Bloom**. Decided on a new repo.
   - Wrote this file and the `bloom-handoff/` folder (test script, inputs, results).
   - **Next session:** create the repo → confirm the §8 design sections with the user → write the spec (`docs/superpowers/specs/2026-10-xx-bloom-design.md`) → writing-plans → build Phase 0.
+
+- **2026-10-11 (review round 2 + backend).** User: drop the finish-look makeup/jewellery (off-mission), keep wigs/wraps/brows/lashes; family links need up AND down votes with tallies; Saved needs sort/filter by votes and metrics; add the agentic system; build the backend on Postgres and make everything work end to end; user will deploy and do submission material.
+  - Removed complete-look pipeline (code, fixtures, test). Added **lashes** (3 real makeup-VTO renders: Natural1, UpperDense1, Wispies1; 3 units).
+  - **Monorepo** (npm workspaces): `shared/` (types, colour, match, fit, presets, guide tools), `frontend/`, `backend/`.
+  - **Backend** (Fastify + pg + sharp): `/health`, `/catalog` (seeded from fixtures), `/tryon` (hair transfer + length measured on the render), `/brows`, `/lashes`, `/passport/read` (face analyzer, length, type, density; unreadable analyses reported as notes), `/shares` + `/votes` (±1, one statement per submission), `/results/:id` (bytea), `/agent` (SSE). Unit circuit breaker (BUDGET_TOTAL 600 / BUDGET_SESSION 60), result cache keyed by photo hash, sample passport served from fixtures (0 units).
+  - **Bloom guide**: OpenAI-compatible tool calling. Groq's `llama-3.3-70b-versatile` is no longer available on this account → default `openai/gpt-oss-120b` on Groq, OpenRouter llama as fallback, rule-based planner last. Tools are deterministic; face-fit explanations now only cite features the style really has (caught the model claiming "soft waves" for a straight wig).
+  - Local DB: PGlite socket crashes on messages >64 KB (bytea) → dev/e2e use **embedded-postgres** (real Postgres binaries, port 6544 dev / 6545 e2e); PGlite kept for small integration tests. Windows refused port 5433.
+  - Verified: 36 frontend unit, 12 backend integration, 8 live e2e (phone+desktop, real backend + Postgres + Groq agent), and a real-photo live YouCam e2e (16 units). Production bundle smoke-tested (`scripts/smoke-dist.ts`).
+  - Units this round ≈ 3 (lashes) + ~14 (crashed run) + 16 (live e2e) ≈ 33 → **≈266 spent, ≈1,060 left**.
+  - Deploy: `render.yaml` (bloom-db + bloom-api), Vercel root `frontend` with `NEXT_PUBLIC_API_MODE=live`, `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL`. README has the steps.

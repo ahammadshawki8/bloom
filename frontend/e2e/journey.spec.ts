@@ -31,9 +31,9 @@ test("a full Bloom journey on the sample face", async ({ page, context }) => {
   const family = await context.newPage();
   await family.goto(url!);
   await expect(family.getByText("Sara would love your help")).toBeVisible();
-  await family.locator('button[aria-label^="Choose"]').first().click();
+  await family.locator('button[aria-label^="Love"]').first().click();
   await family.getByPlaceholder("Mum").fill("Mum");
-  await family.getByRole("button", { name: /Send my heart/ }).click();
+  await family.getByRole("button", { name: /^Send to/ }).click();
   await expect(family.getByText("Sent with love")).toBeVisible();
 
   await page.goto("/studio/saved");
@@ -49,3 +49,25 @@ test("every studio page has no horizontal scroll", async ({ page }) => {
   }
 });
 
+test("the guide plans a shortlist and opens a look", async ({ page }) => {
+  await page.goto("/studio");
+  await page.getByRole("button", { name: "Look around with a sample face" }).click();
+  await page.getByLabel("What would you like?").fill("soft waves, close to my colour");
+  await page.getByRole("button", { name: "Ask" }).click();
+  const dialog = page.getByRole("dialog", { name: "Your Bloom guide" });
+  await expect(dialog.getByRole("link", { name: /Try it on/ }).first()).toBeVisible({ timeout: 60_000 });
+  await dialog
+    .getByRole("link", { name: /Try it on/ })
+    .first()
+    .click();
+  await expect(page).toHaveURL(/\/studio\/try/);
+  await expect(page.getByRole("button", { name: "Save this look" })).toBeVisible({ timeout: 20_000 });
+});
+
+test("brows and lashes", async ({ page }) => {
+  await page.goto("/studio");
+  await page.getByRole("button", { name: "Look around with a sample face" }).click();
+  await page.goto("/studio/try?tab=brows");
+  await page.getByRole("button", { name: /Wispy/ }).click();
+  await expect(page.locator('main img[src*="lash--wispy"]').first()).toBeVisible({ timeout: 20_000 });
+});
