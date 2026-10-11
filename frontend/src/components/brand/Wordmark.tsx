@@ -22,7 +22,10 @@ export function Wordmark({ className, size = "md" }: { className?: string; size?
   return (
     <span className={clsx("inline-flex items-center gap-2", className)}>
       <PetalMark size={size === "lg" ? 28 : 22} />
-      <span className={clsx("type-studio italic leading-none", size === "lg" ? "text-[1.75rem]" : "text-[1.4rem]")} style={{ fontVariationSettings: '"opsz" 72, "SOFT" 100, "WONK" 1' }}>
+      <span
+        className={clsx("type-studio leading-none italic", size === "lg" ? "text-[1.75rem]" : "text-[1.4rem]")}
+        style={{ fontVariationSettings: '"opsz" 72, "SOFT" 100, "WONK" 1' }}
+      >
         bloom
       </span>
     </span>

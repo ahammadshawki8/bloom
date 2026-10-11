@@ -9,7 +9,7 @@ const toLinear = (c: number) => {
 const fromLinear = (c: number) => 255 * (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055);
 const XN = 0.95047;
 const ZN = 1.08883;
-const f = (t: number) => (t > 216 / 24389 ? Math.cbrt(t) : (24389 / 27 * t + 16) / 116);
+const f = (t: number) => (t > 216 / 24389 ? Math.cbrt(t) : ((24389 / 27) * t + 16) / 116);
 const fInv = (t: number) => (t ** 3 > 216 / 24389 ? t ** 3 : (116 * t - 16) / (24389 / 27));
 
 export function rgbToLab(r: number, g: number, b: number): Lab {
@@ -42,7 +42,12 @@ export function hexToLab(hex: string): Lab {
 }
 
 export function labToHex(lab: Lab): string {
-  return "#" + labToRgb(lab).map((c) => c.toString(16).padStart(2, "0")).join("");
+  return (
+    "#" +
+    labToRgb(lab)
+      .map((c) => c.toString(16).padStart(2, "0"))
+      .join("")
+  );
 }
 
 // CIEDE2000 (Sharma, Wu & Dalal 2005) --------------------------------------
@@ -79,12 +84,7 @@ export function deltaE2000([L1, a1, b1]: Lab, [L2, a2, b2]: Lab): number {
     if (Math.abs(h1p - h2p) <= 180) hbp = (h1p + h2p) / 2;
     else hbp = h1p + h2p < 360 ? (h1p + h2p + 360) / 2 : (h1p + h2p - 360) / 2;
   }
-  const T =
-    1 -
-    0.17 * Math.cos(rad(hbp - 30)) +
-    0.24 * Math.cos(rad(2 * hbp)) +
-    0.32 * Math.cos(rad(3 * hbp + 6)) -
-    0.2 * Math.cos(rad(4 * hbp - 63));
+  const T = 1 - 0.17 * Math.cos(rad(hbp - 30)) + 0.24 * Math.cos(rad(2 * hbp)) + 0.32 * Math.cos(rad(3 * hbp + 6)) - 0.2 * Math.cos(rad(4 * hbp - 63));
   const dTheta = 30 * Math.exp(-(((hbp - 275) / 25) ** 2));
   const Rc = 2 * Math.sqrt(Cbp ** 7 / (Cbp ** 7 + 25 ** 7));
   const Sl = 1 + (0.015 * (Lbp - 50) ** 2) / Math.sqrt(20 + (Lbp - 50) ** 2);

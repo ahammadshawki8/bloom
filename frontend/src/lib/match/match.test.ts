@@ -6,8 +6,28 @@ import type { Passport, Style, Variant } from "@/lib/types";
 const v = (id: string, hex: string): Variant => ({ id, colorName: id, hex, lab: hexToLab(hex), image: "", refImageUrl: "", price: 200 });
 
 const styles: Style[] = [
-  { id: "short-a", kind: "wig", name: "A", retailer: "r", url: "", finalSale: false, length: "short", texture: "straight", variants: [v("a-dark", "#2b1e18"), v("a-brown", "#5f4129"), v("a-blonde", "#d3b98a")] },
-  { id: "medium-b", kind: "wig", name: "B", retailer: "r", url: "", finalSale: false, length: "medium", texture: "straight", variants: [v("b-brown", "#62432b"), v("b-red", "#8a3b22")] },
+  {
+    id: "short-a",
+    kind: "wig",
+    name: "A",
+    retailer: "r",
+    url: "",
+    finalSale: false,
+    length: "short",
+    texture: "straight",
+    variants: [v("a-dark", "#2b1e18"), v("a-brown", "#5f4129"), v("a-blonde", "#d3b98a")],
+  },
+  {
+    id: "medium-b",
+    kind: "wig",
+    name: "B",
+    retailer: "r",
+    url: "",
+    finalSale: false,
+    length: "medium",
+    texture: "straight",
+    variants: [v("b-brown", "#62432b"), v("b-red", "#8a3b22")],
+  },
   { id: "medium-c", kind: "wig", name: "C", retailer: "r", url: "", finalSale: false, length: "medium", texture: "wavy", variants: [v("c-silver", "#b0aaa4")] },
   { id: "wrap", kind: "wrap", name: "W", retailer: "r", url: "", finalSale: false, variants: [v("w-pink", "#f1a7c0")] },
 ];

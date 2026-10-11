@@ -41,7 +41,11 @@ export function BottomNav() {
             <li key={href}>
               <Link href={href} aria-current={active ? "page" : undefined} className="relative flex h-16 flex-col items-center justify-center gap-1">
                 {active && (
-                  <motion.span layoutId="tab-pill" className="absolute top-2 h-8 w-14 rounded-full bg-rose-wash" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
+                  <motion.span
+                    layoutId="tab-pill"
+                    className="absolute top-2 h-8 w-14 rounded-full bg-rose-wash"
+                    transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                  />
                 )}
                 <span className="relative">
                   <I size={22} weight={active ? "fill" : "regular"} className={active ? "text-mulberry" : "text-mulberry-soft"} />
@@ -78,7 +82,13 @@ export function SideRail() {
                   active ? "text-mulberry" : "text-mulberry-soft hover:bg-mulberry/[0.04] hover:text-mulberry",
                 )}
               >
-                {active && <motion.span layoutId="rail-pill" className="absolute inset-0 rounded-full bg-rose-wash" transition={{ type: "spring", stiffness: 500, damping: 40 }} />}
+                {active && (
+                  <motion.span
+                    layoutId="rail-pill"
+                    className="absolute inset-0 rounded-full bg-rose-wash"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
                 <span className="relative">
                   <I size={22} weight={active ? "fill" : "regular"} />
                   {href === "/studio/saved" && <SavedBadge />}

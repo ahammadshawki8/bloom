@@ -40,29 +40,38 @@ export function PrivacyView() {
                 ))}
               </ul>
             ) : (
-              <p className="mt-1 text-small text-mulberry-soft">Nothing yet. When you make a passport or try a look, it&apos;s kept here, in this browser only.</p>
+              <p className="mt-1 text-small text-mulberry-soft">
+                Nothing yet. When you make a passport or try a look, it&apos;s kept here, in this browser only.
+              </p>
             )}
           </Row>
           <Row icon={<CloudArrowUp size={22} />} tone="bg-lilac-wash" title="Sent only when you ask">
             <p className="mt-1 text-small text-mulberry-soft">
-              When you try a look, your passport photo goes to our server and the YouCam API to render it, and the result comes back to you. When you
-              share with family, the looks you pick are stored behind a private link that closes after seven days.
+              When you try a look, your passport photo goes to our server and the YouCam API to render it, and the result comes back to you. When you share with
+              family, the looks you pick are stored behind a private link that closes after seven days.
             </p>
           </Row>
           <Row icon={<Prohibit size={22} />} tone="bg-rose-wash" title="Never">
             <p className="mt-1 text-small text-mulberry-soft">
-              No accounts, no advertising, no selling or training on your photos. Bloom never guesses anything about your health and gives no medical
-              advice.
+              No accounts, no advertising, no selling or training on your photos. Bloom never guesses anything about your health and gives no medical advice.
             </p>
           </Row>
         </div>
 
         <section className="mt-10 rounded-[var(--radius-card)] bg-paper p-5 ring-1 ring-line md:p-6">
           <h2 className="type-studio text-h3">Delete everything</h2>
-          <p className="mt-2 text-small text-mulberry-soft">Removes your passport, photos, try-ons, saved looks and share history from this phone. This can&apos;t be undone.</p>
+          <p className="mt-2 text-small text-mulberry-soft">
+            Removes your passport, photos, try-ons, saved looks and share history from this phone. This can&apos;t be undone.
+          </p>
           <AnimatePresence mode="wait" initial={false}>
             {confirming ? (
-              <motion.div key="confirm" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-5 flex flex-wrap items-center gap-3">
+              <motion.div
+                key="confirm"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="mt-5 flex flex-wrap items-center gap-3"
+              >
                 <Button
                   className="bg-rose-deep hover:bg-[#93545b]"
                   icon={<Trash size={18} />}

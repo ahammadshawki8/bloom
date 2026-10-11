@@ -152,7 +152,13 @@ export async function measureHairColour(src: Source): Promise<HairColour | null>
   const med = medianLab(samples);
   const near = samples.filter((s) => Math.hypot(s[0] - med[0], s[1] - med[1], s[2] - med[2]) < 15).length;
   const rounded: Lab = [Number(med[0].toFixed(2)), Number(med[1].toFixed(2)), Number(med[2].toFixed(2))];
-  return { lab: rounded, hex: labToHex(rounded), name: nameHairColour(rounded), confidence: Number((near / samples.length).toFixed(2)), samples: samples.length };
+  return {
+    lab: rounded,
+    hex: labToHex(rounded),
+    name: nameHairColour(rounded),
+    confidence: Number((near / samples.length).toFixed(2)),
+    samples: samples.length,
+  };
 }
 
 if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {

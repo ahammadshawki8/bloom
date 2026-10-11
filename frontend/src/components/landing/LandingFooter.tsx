@@ -25,7 +25,7 @@ export function ClosingInvite() {
     <section className="relative overflow-hidden">
       <div className="mx-auto grid max-w-[1240px] items-center gap-10 px-5 py-20 md:px-10 lg:grid-cols-[1fr_auto] lg:py-24">
         <div>
-          <h2 className="type-atelier max-w-[18ch] text-h1 md:text-display">Your studio is ready whenever you are.</h2>
+          <h2 className="max-w-[18ch] type-atelier text-h1 md:text-display">Your studio is ready whenever you are.</h2>
           <div className="mt-8">
             <OpenStudio size="lg" arrow>
               Open your studio
@@ -69,8 +69,8 @@ export function LandingFooter() {
             </ol>
           </div>
           <p>
-            Try-ons are rendered with the YouCam API (hair transfer and makeup virtual try-on). Product images belong to their retailers and link back to
-            them. Portrait photography from Unsplash; see CREDITS.md.
+            Try-ons are rendered with the YouCam API (hair transfer and makeup virtual try-on). Product images belong to their retailers and link back to them.
+            Portrait photography from Unsplash; see CREDITS.md.
           </p>
         </div>
       </div>

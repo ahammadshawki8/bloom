@@ -60,7 +60,10 @@ export function StylePanel({ style, variant, passport, onVariant, rendered, reas
                   title={v.colorName}
                   disabled={busy}
                   onClick={() => onVariant(v)}
-                  className={clsx("size-10 rounded-full ring-offset-2 ring-offset-paper transition-transform active:scale-90 disabled:opacity-60", on ? "ring-2 ring-mulberry" : "ring-1 ring-line hover:scale-105")}
+                  className={clsx(
+                    "size-10 rounded-full ring-offset-2 ring-offset-paper transition-transform active:scale-90 disabled:opacity-60",
+                    on ? "ring-2 ring-mulberry" : "ring-1 ring-line hover:scale-105",
+                  )}
                   style={{ background: v.hex }}
                 />
               );
@@ -71,7 +74,12 @@ export function StylePanel({ style, variant, passport, onVariant, rendered, reas
 
       {/* colour match, verified on the render */}
       {isWig && (
-        <div className={clsx("mt-5 rounded-[20px] p-4", words.tone === "match" || words.tone === "close" ? "bg-sage-wash" : words.tone === "gentle" ? "bg-butter-wash" : "bg-lilac-wash")}>
+        <div
+          className={clsx(
+            "mt-5 rounded-[20px] p-4",
+            words.tone === "match" || words.tone === "close" ? "bg-sage-wash" : words.tone === "gentle" ? "bg-butter-wash" : "bg-lilac-wash",
+          )}
+        >
           <div className="flex items-center gap-3">
             <span className="flex -space-x-2" aria-hidden>
               <span className="size-8 rounded-full ring-2 ring-white" style={{ background: passport.hair.hex }} />
@@ -91,7 +99,9 @@ export function StylePanel({ style, variant, passport, onVariant, rendered, reas
               <dt className="flex items-center gap-1 text-mulberry-soft">
                 <Ruler size={12} /> Measured on you
               </dt>
-              <dd className="font-medium">{rendered?.measuring ? "Measuring…" : rendered?.deltaE != null ? `ΔE ${rendered.deltaE.toFixed(1)}` : "Try it on to measure"}</dd>
+              <dd className="font-medium">
+                {rendered?.measuring ? "Measuring…" : rendered?.deltaE != null ? `ΔE ${rendered.deltaE.toFixed(1)}` : "Try it on to measure"}
+              </dd>
             </div>
           </dl>
         </div>

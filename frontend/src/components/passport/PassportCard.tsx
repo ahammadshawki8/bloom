@@ -20,19 +20,32 @@ interface Props {
 export function PassportCard({ passport, reveal, transitionName }: Props) {
   const item = (i: number) =>
     reveal
-      ? { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.35 + i * 0.12, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } }
+      ? {
+          initial: { opacity: 0, y: 10 },
+          animate: { opacity: 1, y: 0 },
+          transition: { delay: 0.35 + i * 0.12, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+        }
       : {};
 
   return (
     <article className="passport-card overflow-hidden rounded-[var(--radius-sheet)] bg-paper shadow-float ring-1 ring-line print:shadow-none">
       <div className="grid gap-0 sm:grid-cols-[0.9fr_1.1fr]">
         <div className="bg-rose-wash p-5 sm:p-7">
-          <ArchMirror src={passport.photo} alt="Passport photo" transitionName={transitionName} reveal={false} sizes="(min-width: 640px) 320px, 80vw" className="mx-auto max-w-[280px]" />
+          <ArchMirror
+            src={passport.photo}
+            alt="Passport photo"
+            transitionName={transitionName}
+            reveal={false}
+            sizes="(min-width: 640px) 320px, 80vw"
+            className="mx-auto max-w-[280px]"
+          />
         </div>
         <div className="flex flex-col p-5 sm:p-7">
           <motion.div {...item(0)}>
-            <p className="text-micro text-mulberry-soft">{passport.isDemo ? "Sample hair passport" : "Hair passport"} · measured {fmt(passport.createdAt)}</p>
-            <h2 className="type-studio mt-1 text-h2">Your natural hair</h2>
+            <p className="text-micro text-mulberry-soft">
+              {passport.isDemo ? "Sample hair passport" : "Hair passport"} · measured {fmt(passport.createdAt)}
+            </p>
+            <h2 className="mt-1 type-studio text-h2">Your natural hair</h2>
           </motion.div>
 
           <motion.div {...item(1)} className="mt-6 flex items-center gap-4 rounded-[22px] bg-ivory p-4">
@@ -48,14 +61,21 @@ export function PassportCard({ passport, reveal, transitionName }: Props) {
               <p className="mt-0.5 text-micro text-mulberry-soft">
                 {passport.hair.hex.toUpperCase()} · L*{passport.hair.lab[0].toFixed(0)} a*{passport.hair.lab[1].toFixed(0)} b*{passport.hair.lab[2].toFixed(0)}
               </p>
-              <p className="mt-0.5 text-micro text-mulberry-soft">Measured on this phone{passport.hair.samples ? ` from ${passport.hair.samples.toLocaleString()} hair pixels` : ""}</p>
+              <p className="mt-0.5 text-micro text-mulberry-soft">
+                Measured on this phone{passport.hair.samples ? ` from ${passport.hair.samples.toLocaleString()} hair pixels` : ""}
+              </p>
             </div>
           </motion.div>
 
           <dl className="mt-5 divide-y divide-line">
             {passport.length && <Row i={2} reveal={reveal} label="Length" value={LENGTH[passport.length]} />}
             {(passport.curl || passport.texture) && (
-              <Row i={3} reveal={reveal} label="Texture" value={passport.curl ? `${passport.curl.label} (${passport.curl.code.toUpperCase()})` : TEXTURE[passport.texture!]} />
+              <Row
+                i={3}
+                reveal={reveal}
+                label="Texture"
+                value={passport.curl ? `${passport.curl.label} (${passport.curl.code.toUpperCase()})` : TEXTURE[passport.texture!]}
+              />
             )}
             {passport.density && (
               <Row
@@ -88,7 +108,9 @@ export function PassportCard({ passport, reveal, transitionName }: Props) {
               />
             )}
           </dl>
-          <p className="mt-auto pt-5 text-micro text-mulberry-soft">Show this to a wig fitter to match colour and length. A cosmetic record, not a medical one.</p>
+          <p className="mt-auto pt-5 text-micro text-mulberry-soft">
+            Show this to a wig fitter to match colour and length. A cosmetic record, not a medical one.
+          </p>
         </div>
       </div>
     </article>

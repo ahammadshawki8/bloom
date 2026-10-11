@@ -10,12 +10,12 @@ export function Hero() {
           <span className="size-1.5 rounded-full bg-rose" />
           For the weeks before chemotherapy
         </p>
-        <h1 className="type-atelier text-balance text-[2.9rem] leading-[1.02] sm:text-display md:text-[4rem] lg:text-hero">
+        <h1 className="type-atelier text-[2.9rem] leading-[1.02] text-balance sm:text-display md:text-[4rem] lg:text-hero">
           Choose your hair before treatment does.
         </h1>
         <p className="mt-6 max-w-[33rem] text-lead text-mulberry-soft">
-          Bloom keeps a record of your own hair while it&apos;s still here, then lets you try matched wigs, head wraps and brows on your own face. At
-          home, at your pace, with the people you love.
+          Bloom keeps a record of your own hair while it&apos;s still here, then lets you try matched wigs, head wraps and brows on your own face. At home, at
+          your pace, with the people you love.
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
           <OpenStudio size="lg" arrow>

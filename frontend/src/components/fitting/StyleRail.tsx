@@ -25,7 +25,7 @@ const toneRing = { match: "ring-sage", close: "ring-sage", gentle: "ring-butter-
 /** Horizontal rail on phones, a grid on desktop. Each card is a product on its mannequin. */
 export function StyleRail({ items, selectedStyleId, triedVariantIds, onPick, showMatch }: Props) {
   return (
-    <ul className="no-scrollbar -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pt-1 pb-3 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:px-0 xl:grid-cols-4">
+    <ul className="-mx-4 no-scrollbar flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pt-1 pb-3 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:px-0 xl:grid-cols-4">
       {items.map((item) => {
         const selected = item.style.id === selectedStyleId;
         const words = item.deltaE !== undefined ? describeDeltaE(item.deltaE) : null;
@@ -35,17 +35,28 @@ export function StyleRail({ items, selectedStyleId, triedVariantIds, onPick, sho
               <span
                 className={clsx(
                   "relative block aspect-[4/5] overflow-hidden rounded-[22px] bg-white ring-2 transition-all duration-300",
-                  selected ? "ring-mulberry shadow-lift" : "ring-transparent group-hover:ring-line",
+                  selected ? "shadow-lift ring-mulberry" : "ring-transparent group-hover:ring-line",
                 )}
               >
-                <Image src={item.variant.image} alt={`${item.style.name} in ${item.variant.colorName}`} fill sizes="(min-width: 1024px) 220px, 132px" className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]" />
+                <Image
+                  src={item.variant.image}
+                  alt={`${item.style.name} in ${item.variant.colorName}`}
+                  fill
+                  sizes="(min-width: 1024px) 220px, 132px"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+                />
                 {triedVariantIds.has(item.variant.id) && (
-                  <span className="absolute top-2 left-2 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-sage-deep">Tried</span>
+                  <span className="absolute top-2 left-2 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-sage-deep">
+                    Tried
+                  </span>
                 )}
-                {selected && <motion.span layoutId="rail-selected" className="absolute inset-0 rounded-[22px] ring-2 ring-inset ring-white/70" />}
+                {selected && <motion.span layoutId="rail-selected" className="absolute inset-0 rounded-[22px] ring-2 ring-white/70 ring-inset" />}
               </span>
               <span className="mt-2 flex items-center gap-2">
-                <span className={clsx("size-4 shrink-0 rounded-full ring-2 ring-offset-1 ring-offset-ivory", words ? toneRing[words.tone] : "ring-line")} style={{ background: item.variant.hex }} />
+                <span
+                  className={clsx("size-4 shrink-0 rounded-full ring-2 ring-offset-1 ring-offset-ivory", words ? toneRing[words.tone] : "ring-line")}
+                  style={{ background: item.variant.hex }}
+                />
                 <span className="min-w-0">
                   <span className="block truncate text-small font-medium">{item.style.name}</span>
                   <span className="block truncate text-[12px] text-mulberry-soft">{showMatch && words ? words.label : item.variant.colorName}</span>

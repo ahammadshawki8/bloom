@@ -35,7 +35,7 @@ export function ArchMirror({
   children,
 }: Props) {
   const frame = (
-    <div className={clsx("arch relative isolate aspect-[4/5] bg-ivory-deep", className)}>
+    <div className={clsx("relative isolate aspect-[4/5] arch bg-ivory-deep", className)}>
       <AnimatePresence initial={false} mode="sync">
         <motion.div
           key={src}
@@ -49,7 +49,10 @@ export function ArchMirror({
         </motion.div>
       </AnimatePresence>
       {/* a soft inner rim, like glass catching light */}
-      <div aria-hidden className="arch pointer-events-none absolute inset-0 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.5),inset_0_-40px_60px_-50px_rgb(67_41_58/0.35)]" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 arch shadow-[inset_0_0_0_1px_rgb(255_255_255/0.5),inset_0_-40px_60px_-50px_rgb(67_41_58/0.35)]"
+      />
       {children}
     </div>
   );

@@ -76,5 +76,4 @@ export const useBloom = create<BloomState>()(
 );
 
 /** Find the saved entry for a result, if any. */
-export const useSavedFor = (resultId: string | undefined) =>
-  useBloom((s) => (resultId ? s.saved.find((x) => x.resultId === resultId) : undefined));
+export const useSavedFor = (resultId: string | undefined) => useBloom((s) => (resultId ? s.saved.find((x) => x.resultId === resultId) : undefined));

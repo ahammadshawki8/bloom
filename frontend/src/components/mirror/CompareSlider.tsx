@@ -35,14 +35,7 @@ export function CompareSlider({ before, after, beforeLabel = "Your hair", afterL
   };
 
   return (
-    <div
-      ref={box}
-      className="absolute inset-0 touch-none select-none"
-      onPointerDown={onDown}
-      onPointerMove={onMove}
-      onPointerUp={onUp}
-      onPointerCancel={onUp}
-    >
+    <div ref={box} className="absolute inset-0 touch-none select-none" onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
       <Image src={after} alt={afterLabel} fill sizes="(min-width: 1024px) 480px, 90vw" className="object-cover" />
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
         <Image src={before} alt={beforeLabel} fill sizes="(min-width: 1024px) 480px, 90vw" className="object-cover" />

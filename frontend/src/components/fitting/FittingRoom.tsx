@@ -119,10 +119,14 @@ function Room({ passport }: { passport: Passport }) {
   );
 
   const tryVariant = (style: Style, variant: Variant) => {
-    const realStyle = style.id.includes("::") ? (styles ?? []).find((s) => s.id === style.id.split("::")[0]) ?? style : style;
+    const realStyle = style.id.includes("::") ? ((styles ?? []).find((s) => s.id === style.id.split("::")[0]) ?? style) : style;
     setSelected({ style: realStyle, variant });
     useBloom.getState().setLastStyle(realStyle.id);
-    run(`Trying on ${realStyle.name}${realStyle.variants.length > 1 ? ` in ${variant.colorName}` : ""}…`, () => api.tryOn({ passport, style: realStyle, variant }), variant.id);
+    run(
+      `Trying on ${realStyle.name}${realStyle.variants.length > 1 ? ` in ${variant.colorName}` : ""}…`,
+      () => api.tryOn({ passport, style: realStyle, variant }),
+      variant.id,
+    );
   };
 
   const tryBrow = (p: BrowPreset) => {
@@ -182,7 +186,13 @@ function Room({ passport }: { passport: Passport }) {
               onClick={() => setTab(t.id)}
               className={clsx("relative h-11 rounded-full text-small font-semibold transition-colors", tab === t.id ? "text-mulberry" : "text-mulberry-soft")}
             >
-              {tab === t.id && <motion.span layoutId="tab-bg" className="absolute inset-0 rounded-full bg-paper shadow-lift" transition={{ type: "spring", stiffness: 500, damping: 38 }} />}
+              {tab === t.id && (
+                <motion.span
+                  layoutId="tab-bg"
+                  className="absolute inset-0 rounded-full bg-paper shadow-lift"
+                  transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                />
+              )}
               <span className="relative">{t.label}</span>
             </button>
           ))}
@@ -192,7 +202,7 @@ function Room({ passport }: { passport: Passport }) {
 
         {tab === "wigs" && (
           <div className="mt-5">
-            <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:px-0">
+            <div className="-mx-4 no-scrollbar flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:px-0">
               <Chip selected={mode === "match"} onClick={() => setMode("match")}>
                 Match my hair
               </Chip>
@@ -211,7 +221,13 @@ function Room({ passport }: { passport: Passport }) {
             </p>
             {styles ? (
               wigItems.length ? (
-                <StyleRail items={wigItems} selectedStyleId={selected?.style.id ?? null} triedVariantIds={tried} onPick={(i) => tryVariant(i.style, i.variant)} showMatch />
+                <StyleRail
+                  items={wigItems}
+                  selectedStyleId={selected?.style.id ?? null}
+                  triedVariantIds={tried}
+                  onPick={(i) => tryVariant(i.style, i.variant)}
+                  showMatch
+                />
               ) : (
                 <p className="py-8 text-center text-small text-mulberry-soft">No styles in that length yet. Try another length.</p>
               )
@@ -267,7 +283,9 @@ function ClosestHint({ passport, styles }: { passport: Passport; styles: Style[]
       <ButtonLink href="/studio/saved" size="sm">
         Choose together
       </ButtonLink>
-      <span className="sr-only">Closest colour in the collection: {best?.s.name}, ΔE {best ? deltaE2000(passport.hair.lab, best.variant.lab).toFixed(1) : ""}</span>
+      <span className="sr-only">
+        Closest colour in the collection: {best?.s.name}, ΔE {best ? deltaE2000(passport.hair.lab, best.variant.lab).toFixed(1) : ""}
+      </span>
     </div>
   );
 }
@@ -287,7 +305,9 @@ function NoPassport() {
   return (
     <div className="mx-auto max-w-[560px] px-4 py-10 text-center">
       <h2 className="type-studio text-h2">First, your hair passport</h2>
-      <p className="mx-auto mt-3 max-w-[40ch] text-body text-mulberry-soft">Every look is matched to your measured colour and tried on your own photo. It takes about two minutes.</p>
+      <p className="mx-auto mt-3 max-w-[40ch] text-body text-mulberry-soft">
+        Every look is matched to your measured colour and tried on your own photo. It takes about two minutes.
+      </p>
       <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
         <ButtonLink href="/studio/passport/new">Make my passport</ButtonLink>
         <Button variant="outline" onClick={() => setPassport(demoPassport())}>

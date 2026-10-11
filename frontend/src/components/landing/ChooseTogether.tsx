@@ -5,10 +5,10 @@ export function ChooseTogether() {
   return (
     <section className="mx-auto grid max-w-[1240px] items-center gap-14 px-5 py-20 md:px-10 lg:grid-cols-[1.1fr_1fr] lg:gap-20 lg:py-28">
       <div className="order-2 lg:order-1">
-        <h2 className="type-atelier max-w-[14ch] text-h1 md:text-display">Nobody should have to choose alone.</h2>
+        <h2 className="max-w-[14ch] type-atelier text-h1 md:text-display">Nobody should have to choose alone.</h2>
         <p className="mt-6 max-w-[44ch] text-lead text-mulberry-soft">
-          Send your three favourite looks to your sister, your mum, your best friend. They open a link on any phone and tap a heart. No app, no sign-up.
-          The link closes on its own after seven days.
+          Send your three favourite looks to your sister, your mum, your best friend. They open a link on any phone and tap a heart. No app, no sign-up. The
+          link closes on its own after seven days.
         </p>
       </div>
       <div className="relative order-1 mx-auto w-full max-w-[520px] lg:order-2">
@@ -24,11 +24,11 @@ export function ChooseTogether() {
         {/* the family view, floating */}
         <div className="absolute -bottom-8 left-4 w-[62%] max-w-[300px] rounded-[24px] bg-paper p-4 shadow-float sm:left-[-28px]">
           <p className="text-micro text-mulberry-soft">From Sara</p>
-          <p className="type-studio mt-0.5 text-[1.05rem] leading-snug">Which one feels like me?</p>
+          <p className="mt-0.5 type-studio text-[1.05rem] leading-snug">Which one feels like me?</p>
           <div className="mt-3 grid grid-cols-3 gap-2">
             {["hope-medium-wig--coffee-latte", "bamboo-turban--periwinkle", "rochelle-long-wig--marble-brown"].map((l, i) => (
               <div key={l} className="relative">
-                <div className="arch relative aspect-[4/5]">
+                <div className="relative aspect-[4/5] arch">
                   <Image src={`/fixtures/tryon/${l}.webp`} alt="" fill sizes="90px" className="object-cover" />
                 </div>
                 <span

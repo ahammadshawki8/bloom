@@ -33,7 +33,11 @@ describe("checkFraming", () => {
   });
 
   it("flags a tilted head", () => {
-    const r = checkFraming({ box: { x: 380, y: 300, width: 260, height: 300 }, leftEye: { x: 465, y: 380 }, rightEye: { x: 555, y: 430 }, nose: { x: 510, y: 470 } }, frame, 140);
+    const r = checkFraming(
+      { box: { x: 380, y: 300, width: 260, height: 300 }, leftEye: { x: 465, y: 380 }, rightEye: { x: 555, y: 430 }, nose: { x: 510, y: 470 } },
+      frame,
+      140,
+    );
     expect(r.issues.map((i) => i.code)).toContain("tilted");
   });
 

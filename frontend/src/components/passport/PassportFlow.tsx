@@ -42,7 +42,10 @@ export function PassportFlow() {
         <div className="mb-6 flex items-center justify-between">
           <ol className="flex items-center gap-1.5" aria-label={`Photo ${stepIndex + 1} of ${SEQUENCE.length}`}>
             {SEQUENCE.map((s, i) => (
-              <li key={s} className={`h-1.5 rounded-full transition-all duration-500 ${i < stepIndex ? "w-6 bg-mulberry" : i === stepIndex ? "w-10 bg-rose-deep" : "w-6 bg-line"}`} />
+              <li
+                key={s}
+                className={`h-1.5 rounded-full transition-all duration-500 ${i < stepIndex ? "w-6 bg-mulberry" : i === stepIndex ? "w-10 bg-rose-deep" : "w-6 bg-line"}`}
+              />
             ))}
           </ol>
           <span className="text-micro text-mulberry-soft">
@@ -95,7 +98,7 @@ export function PassportFlow() {
 
           {step === "reveal" && draft && (
             <div>
-              <h2 className="type-studio mb-6 text-center text-h2">Here&apos;s your hair, kept.</h2>
+              <h2 className="mb-6 text-center type-studio text-h2">Here&apos;s your hair, kept.</h2>
               <PassportCard passport={draft} reveal />
               <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <Button
@@ -144,13 +147,15 @@ function Intro({ onBegin }: { onBegin: () => void }) {
     <div className="text-center">
       <div className="mx-auto flex w-max items-end gap-2" aria-hidden>
         {["/fixtures/demo/face.webp", "/fixtures/tryon/kelly-short-wig--marble-brown.webp"].map((s, i) => (
-          <div key={s} className={`arch relative aspect-[4/5] overflow-hidden ${i === 0 ? "w-28" : "w-20 opacity-70"}`}>
+          <div key={s} className={`relative aspect-[4/5] arch overflow-hidden ${i === 0 ? "w-28" : "w-20 opacity-70"}`}>
             <Image src={s} alt="" fill sizes="112px" className="object-cover" />
           </div>
         ))}
       </div>
-      <h1 className="type-studio mt-7 text-h1 md:text-display">Your hair passport</h1>
-      <p className="mx-auto mt-3 max-w-[38ch] text-lead text-mulberry-soft">A careful record of your hair as it is today, so every wig and colour can be matched to you.</p>
+      <h1 className="mt-7 type-studio text-h1 md:text-display">Your hair passport</h1>
+      <p className="mx-auto mt-3 max-w-[38ch] text-lead text-mulberry-soft">
+        A careful record of your hair as it is today, so every wig and colour can be matched to you.
+      </p>
       <ul className="mx-auto mt-8 max-w-[380px] space-y-3 text-left">
         {[
           { icon: <Eye size={20} />, t: "One straight-on photo, then three optional ones", s: "Sides for curl pattern, top for fullness" },
@@ -173,14 +178,26 @@ function Intro({ onBegin }: { onBegin: () => void }) {
       <Button size="lg" className="mt-8" onClick={onBegin} iconEnd={<ArrowRight size={18} />}>
         Begin
       </Button>
-      <p className="mx-auto mt-4 max-w-[40ch] text-micro text-mulberry-soft">Bloom is cosmetic. It describes your hair; it never says anything about your health.</p>
+      <p className="mx-auto mt-4 max-w-[40ch] text-micro text-mulberry-soft">
+        Bloom is cosmetic. It describes your hair; it never says anything about your health.
+      </p>
     </div>
   );
 }
 
 const LINES = ["Finding your hair…", "Measuring its colour, pixel by pixel…", "Reading length and texture…", "Writing your passport…"];
 
-function Reading({ photo, shots, onDone, onFail }: { photo: string; shots: Partial<Record<CaptureMode, string>>; onDone: (p: Passport) => void; onFail: () => void }) {
+function Reading({
+  photo,
+  shots,
+  onDone,
+  onFail,
+}: {
+  photo: string;
+  shots: Partial<Record<CaptureMode, string>>;
+  onDone: (p: Passport) => void;
+  onFail: () => void;
+}) {
   const [line, setLine] = useState(0);
   const cb = useRef({ onDone, onFail, shots });
   useLayoutEffect(() => {
@@ -223,7 +240,7 @@ function Reading({ photo, shots, onDone, onFail }: { photo: string; shots: Parti
   return (
     <div className="flex flex-col items-center text-center">
       <div className="relative w-full max-w-[300px]">
-        <div className="arch relative aspect-[4/5]">
+        <div className="relative aspect-[4/5] arch">
           <Image src={photo} alt="Your photo" fill unoptimized className="object-cover" />
           {/* a soft light sweeping down the mirror */}
           <motion.div
@@ -236,7 +253,14 @@ function Reading({ photo, shots, onDone, onFail }: { photo: string; shots: Parti
         </div>
       </div>
       <AnimatePresence mode="wait">
-        <motion.p key={line} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} className="type-studio mt-7 text-h3" role="status">
+        <motion.p
+          key={line}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          className="mt-7 type-studio text-h3"
+          role="status"
+        >
           {LINES[line]}
         </motion.p>
       </AnimatePresence>

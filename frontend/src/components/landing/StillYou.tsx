@@ -14,9 +14,7 @@ export function StillYou() {
           />
         </div>
         <div className="lg:py-20">
-          <p className="type-atelier text-h1 leading-[1.08] md:text-display">
-            Some women choose a wig. Some choose a wrap. Some choose neither.
-          </p>
+          <p className="type-atelier text-h1 leading-[1.08] md:text-display">Some women choose a wig. Some choose a wrap. Some choose neither.</p>
           <p className="mt-8 max-w-[42ch] text-lead text-ivory/75">
             Every one of those is right. Bloom is a place to try all of it, gently and privately, so whatever you decide feels like your choice.
           </p>

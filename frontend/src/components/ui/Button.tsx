@@ -44,15 +44,7 @@ export function Button({ variant = "primary", size = "md", icon, iconEnd, classN
   );
 }
 
-export function ButtonLink({
-  variant = "primary",
-  size = "md",
-  icon,
-  iconEnd,
-  className,
-  children,
-  ...rest
-}: Common & ComponentProps<typeof Link>) {
+export function ButtonLink({ variant = "primary", size = "md", icon, iconEnd, className, children, ...rest }: Common & ComponentProps<typeof Link>) {
   return (
     <Link className={clsx(base, variants[variant], sizes[size], className)} {...rest}>
       {icon}

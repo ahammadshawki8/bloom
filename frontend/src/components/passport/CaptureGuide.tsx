@@ -161,14 +161,41 @@ export function CaptureGuide({ mode, onCapture }: Props) {
       </div>
 
       <div className="relative mt-6 w-full max-w-[360px]">
-        <div className="arch relative aspect-[4/5] bg-mulberry/90">
-          <video ref={video} playsInline muted className={clsx("absolute inset-0 size-full -scale-x-100 object-cover transition-opacity duration-500", cam === "live" ? "opacity-100" : "opacity-0")} />
+        <div className="relative aspect-[4/5] arch bg-mulberry/90">
+          <video
+            ref={video}
+            playsInline
+            muted
+            className={clsx(
+              "absolute inset-0 size-full -scale-x-100 object-cover transition-opacity duration-500",
+              cam === "live" ? "opacity-100" : "opacity-0",
+            )}
+          />
 
           {/* guide overlay: where the head and shoulders go */}
           {cam === "live" && (
             <svg viewBox="0 0 400 500" className="pointer-events-none absolute inset-0 size-full" aria-hidden>
-              <ellipse cx="200" cy={mode === "top" ? 230 : 205} rx="92" ry="118" fill="none" stroke="white" strokeOpacity={ok ? 0.95 : 0.6} strokeWidth="2" strokeDasharray={ok ? "0" : "6 8"} />
-              {mode !== "top" && <path d="M40 470 C 80 380, 140 360, 200 360 C 260 360, 320 380, 360 470" fill="none" stroke="white" strokeOpacity="0.45" strokeWidth="2" strokeDasharray="6 8" />}
+              <ellipse
+                cx="200"
+                cy={mode === "top" ? 230 : 205}
+                rx="92"
+                ry="118"
+                fill="none"
+                stroke="white"
+                strokeOpacity={ok ? 0.95 : 0.6}
+                strokeWidth="2"
+                strokeDasharray={ok ? "0" : "6 8"}
+              />
+              {mode !== "top" && (
+                <path
+                  d="M40 470 C 80 380, 140 360, 200 360 C 260 360, 320 380, 360 470"
+                  fill="none"
+                  stroke="white"
+                  strokeOpacity="0.45"
+                  strokeWidth="2"
+                  strokeDasharray="6 8"
+                />
+              )}
             </svg>
           )}
 
@@ -180,7 +207,9 @@ export function CaptureGuide({ mode, onCapture }: Props) {
                 <div>
                   <Camera size={34} className="mx-auto opacity-80" />
                   <p className="mt-3 text-small">
-                    {cam === "denied" ? "Camera access is off. You can allow it in your browser settings, or use a photo instead." : "No camera here. Use a photo instead."}
+                    {cam === "denied"
+                      ? "Camera access is off. You can allow it in your browser settings, or use a photo instead."
+                      : "No camera here. Use a photo instead."}
                   </p>
                 </div>
               )}
@@ -197,7 +226,10 @@ export function CaptureGuide({ mode, onCapture }: Props) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   role="status"
-                  className={clsx("flex items-center gap-2 rounded-full px-4 py-2 text-small font-medium backdrop-blur-md", ok && strict ? "bg-sage/90 text-white" : "bg-white/85 text-mulberry")}
+                  className={clsx(
+                    "flex items-center gap-2 rounded-full px-4 py-2 text-small font-medium backdrop-blur-md",
+                    ok && strict ? "bg-sage/90 text-white" : "bg-white/85 text-mulberry",
+                  )}
                 >
                   {ok && strict && <CheckCircle size={18} weight="fill" />}
                   {message}
@@ -219,12 +251,25 @@ export function CaptureGuide({ mode, onCapture }: Props) {
           >
             <svg viewBox="0 0 76 76" className="absolute inset-0 -rotate-90" aria-hidden>
               <circle cx="38" cy="38" r="35" fill="none" stroke="var(--color-line)" strokeWidth="3" />
-              <circle cx="38" cy="38" r="35" fill="none" stroke="var(--color-rose-deep)" strokeWidth="3" strokeLinecap="round" strokeDasharray={220} strokeDashoffset={220 * (1 - progress)} />
+              <circle
+                cx="38"
+                cy="38"
+                r="35"
+                fill="none"
+                stroke="var(--color-rose-deep)"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeDasharray={220}
+                strokeDashoffset={220 * (1 - progress)}
+              />
             </svg>
             <span className="size-[58px] rounded-full bg-rose" />
           </button>
         )}
-        <button onClick={() => file.current?.click()} className="flex items-center gap-2 text-small font-medium underline decoration-rose/60 underline-offset-4">
+        <button
+          onClick={() => file.current?.click()}
+          className="flex items-center gap-2 text-small font-medium underline decoration-rose/60 underline-offset-4"
+        >
           <ImageSquare size={18} />
           {cam === "live" ? "Use a photo instead" : "Choose a photo"}
         </button>

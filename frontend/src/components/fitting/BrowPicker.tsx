@@ -32,10 +32,20 @@ export function BrowPicker({ passport, selectedId, onPick, busy }: Props) {
                 disabled={busy}
                 onClick={() => onPick(p)}
                 aria-pressed={on}
-                className={clsx("block w-full overflow-hidden rounded-[22px] bg-paper text-left ring-2 transition-all disabled:opacity-70", on ? "ring-mulberry" : "ring-transparent hover:ring-line")}
+                className={clsx(
+                  "block w-full overflow-hidden rounded-[22px] bg-paper text-left ring-2 transition-all disabled:opacity-70",
+                  on ? "ring-mulberry" : "ring-transparent hover:ring-line",
+                )}
               >
                 <span className="relative block aspect-[2/1] overflow-hidden">
-                  <Image src={`/fixtures/tryon/${p.id}.webp`} alt="" fill sizes="240px" className="scale-[2.6] object-cover object-[50%_40%]" style={{ transformOrigin: "50% 41%" }} />
+                  <Image
+                    src={`/fixtures/tryon/${p.id}.webp`}
+                    alt=""
+                    fill
+                    sizes="240px"
+                    className="scale-[2.6] object-cover object-[50%_40%]"
+                    style={{ transformOrigin: "50% 41%" }}
+                  />
                 </span>
                 <span className="block p-3">
                   <span className="block text-small font-medium">{p.label}</span>

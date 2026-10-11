@@ -30,7 +30,7 @@ export function HeroMirror() {
     <figure className="relative mx-auto w-[86%] max-w-[440px] sm:w-full" onPointerEnter={() => setPaused(true)} onPointerLeave={() => setPaused(false)}>
       <div className="relative">
         {/* a second arch behind the mirror, like a reflection's edge */}
-        <div aria-hidden className="arch absolute inset-0 translate-x-4 translate-y-4 bg-rose-wash md:translate-x-6 md:translate-y-6" />
+        <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 arch bg-rose-wash md:translate-x-6 md:translate-y-6" />
         <ArchMirror src={look.src} alt={`${look.title}. A real virtual try-on on a sample face.`} transitionName="mirror" priority className="shadow-float" />
 
         {/* measured swatch, like a label tucked into the vanity frame */}
@@ -67,7 +67,9 @@ export function HeroMirror() {
             aria-current={n === i}
             className="grid size-8 place-items-center"
           >
-            <span className={clsx("block rounded-full transition-all duration-300", n === i ? "h-2 w-6 bg-mulberry" : "size-2 bg-mulberry/25 hover:bg-mulberry/50")} />
+            <span
+              className={clsx("block rounded-full transition-all duration-300", n === i ? "h-2 w-6 bg-mulberry" : "size-2 bg-mulberry/25 hover:bg-mulberry/50")}
+            />
           </button>
         ))}
       </figcaption>

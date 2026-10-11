@@ -68,7 +68,9 @@ function Content() {
         </ButtonLink>
       </div>
       {passport.isDemo && (
-        <p className="no-print mt-4 text-small text-mulberry-soft">This is the sample face from the YouCam API documentation, so you can explore before taking photos.</p>
+        <p className="no-print mt-4 text-small text-mulberry-soft">
+          This is the sample face from the YouCam API documentation, so you can explore before taking photos.
+        </p>
       )}
     </>
   );

@@ -20,7 +20,7 @@ export function WhyNow() {
           />
         </div>
         <div>
-          <h2 className="type-atelier max-w-[16ch] text-h1 md:text-display">The best time to choose a wig is before you need one.</h2>
+          <h2 className="max-w-[16ch] type-atelier text-h1 md:text-display">The best time to choose a wig is before you need one.</h2>
           <ul className="mt-10 space-y-7">
             {TRUTHS.map((t) => (
               <li key={t.ref} className="border-t border-line pt-6">

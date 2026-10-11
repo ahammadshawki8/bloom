@@ -27,7 +27,11 @@ export function StudioHome() {
       <PageHeader
         brand
         actions={
-          <Link href="/studio/privacy" className="grid size-11 place-items-center rounded-full hover:bg-mulberry/5 md:hidden" aria-label="Privacy and your data">
+          <Link
+            href="/studio/privacy"
+            className="grid size-11 place-items-center rounded-full hover:bg-mulberry/5 md:hidden"
+            aria-label="Privacy and your data"
+          >
             <ShieldCheck size={22} />
           </Link>
         }
@@ -51,7 +55,9 @@ export function StudioHome() {
                 sizes="(min-width: 1024px) 300px, 40vw"
               >
                 {!hasPassport && (
-                  <span className="absolute inset-x-0 bottom-3 mx-auto w-max rounded-full bg-white/80 px-2.5 py-1 text-[11px] font-medium backdrop-blur">Sample</span>
+                  <span className="absolute inset-x-0 bottom-3 mx-auto w-max rounded-full bg-white/80 px-2.5 py-1 text-[11px] font-medium backdrop-blur">
+                    Sample
+                  </span>
                 )}
               </ArchMirror>
             </div>
@@ -64,7 +70,9 @@ export function StudioHome() {
                     <span className="type-studio text-[1.25rem] leading-tight">{passport.hair.name}</span>
                   </div>
                   <p className="mt-2 text-small text-mulberry-soft">
-                    {[passport.length && lengthWord[passport.length], passport.texture, passport.density && densityWord[passport.density]].filter(Boolean).join(" · ")}
+                    {[passport.length && lengthWord[passport.length], passport.texture, passport.density && densityWord[passport.density]]
+                      .filter(Boolean)
+                      .join(" · ")}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2 lg:justify-center">
                     <ButtonLink href="/studio/try" size="sm">
@@ -86,7 +94,7 @@ export function StudioHome() {
                     <Button
                       size="sm"
                       variant="quiet"
-                      className="h-auto! -ml-2 py-2 text-left whitespace-normal! underline decoration-rose/60 underline-offset-4 sm:ml-0"
+                      className="-ml-2 h-auto! py-2 text-left whitespace-normal! underline decoration-rose/60 underline-offset-4 sm:ml-0"
                       onClick={() => {
                         setPassport(demoPassport());
                         toast("Using the sample face. You can make your own anytime.");
@@ -102,8 +110,22 @@ export function StudioHome() {
 
           {/* Category tiles */}
           <section aria-label="Explore" className="grid grid-cols-2 gap-3 sm:gap-4">
-            <Tile href="/studio/try?tab=wigs" title="Try a new look" sub="Wigs matched to you" tone="bg-lilac-wash" img="/fixtures/tryon/abigail-lf-medium-wig--honey-wheat.webp" tall />
-            <Tile href="/studio/try?tab=wraps" title="Head wraps" sub="Soft turbans and scarves" tone="bg-sage-wash" img="/fixtures/tryon/bamboo-turban--sage-green.webp" tall />
+            <Tile
+              href="/studio/try?tab=wigs"
+              title="Try a new look"
+              sub="Wigs matched to you"
+              tone="bg-lilac-wash"
+              img="/fixtures/tryon/abigail-lf-medium-wig--honey-wheat.webp"
+              tall
+            />
+            <Tile
+              href="/studio/try?tab=wraps"
+              title="Head wraps"
+              sub="Soft turbans and scarves"
+              tone="bg-sage-wash"
+              img="/fixtures/tryon/bamboo-turban--sage-green.webp"
+              tall
+            />
             <Tile href="/studio/try?tab=brows" title="Brows & beauty" sub="Shape and shade" tone="bg-butter-wash" icon={<Sparkle size={22} />} />
             <SavedTile />
           </section>
@@ -115,12 +137,37 @@ export function StudioHome() {
   );
 }
 
-function Tile({ href, title, sub, tone, img, icon, tall }: { href: string; title: string; sub: string; tone: string; img?: string; icon?: React.ReactNode; tall?: boolean }) {
+function Tile({
+  href,
+  title,
+  sub,
+  tone,
+  img,
+  icon,
+  tall,
+}: {
+  href: string;
+  title: string;
+  sub: string;
+  tone: string;
+  img?: string;
+  icon?: React.ReactNode;
+  tall?: boolean;
+}) {
   return (
-    <Link href={href} className={`group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] ${tone} transition-transform duration-300 active:scale-[0.98]`}>
+    <Link
+      href={href}
+      className={`group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] ${tone} transition-transform duration-300 active:scale-[0.98]`}
+    >
       {img && (
         <div className={`relative ${tall ? "aspect-[4/4.2]" : "aspect-square"} overflow-hidden`}>
-          <Image src={img} alt="" fill sizes="(min-width: 1024px) 300px, 45vw" className="object-cover object-top transition-transform duration-500 ease-[var(--ease-petal)] group-hover:scale-[1.03]" />
+          <Image
+            src={img}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 300px, 45vw"
+            className="object-cover object-top transition-transform duration-500 ease-[var(--ease-petal)] group-hover:scale-[1.03]"
+          />
         </div>
       )}
       <div className="flex flex-1 flex-col justify-end p-4">
@@ -138,9 +185,15 @@ function Tile({ href, title, sub, tone, img, icon, tall }: { href: string; title
 function SavedTile() {
   const saved = useBloom((s) => s.saved);
   const results = useBloom((s) => s.results);
-  const thumbs = saved.slice(0, 3).map((x) => results[x.resultId]).filter(Boolean);
+  const thumbs = saved
+    .slice(0, 3)
+    .map((x) => results[x.resultId])
+    .filter(Boolean);
   return (
-    <Link href="/studio/saved" className="group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] bg-paper p-4 ring-1 ring-line transition-transform active:scale-[0.98]">
+    <Link
+      href="/studio/saved"
+      className="group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] bg-paper p-4 ring-1 ring-line transition-transform active:scale-[0.98]"
+    >
       <div className="mb-6 flex h-[22px] items-center">
         {thumbs.length ? (
           <span className="flex -space-x-2">

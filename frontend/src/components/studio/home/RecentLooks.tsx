@@ -21,11 +21,11 @@ export function RecentLooks() {
           Open studio
         </Link>
       </div>
-      <ul className="no-scrollbar -mx-4 mt-4 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0">
+      <ul className="-mx-4 mt-4 no-scrollbar flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0">
         {recent.map((r) => (
           <li key={r.id} className="snap-start">
             <Link href={`/studio/try?result=${encodeURIComponent(r.id)}`} className="block w-28 md:w-32">
-              <span className="arch relative block aspect-[4/5] bg-ivory-deep">
+              <span className="relative block aspect-[4/5] arch bg-ivory-deep">
                 <Image src={r.image} alt="A look you tried" fill sizes="128px" className="object-cover" />
               </span>
             </Link>

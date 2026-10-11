@@ -21,18 +21,21 @@ export function HeartToggle({ on, onToggle, label = "Save this look", size = "md
       aria-pressed={on}
       aria-label={on ? "Saved. Tap to remove" : label}
       onClick={onToggle}
-      className={clsx(
-        "relative inline-grid place-items-center rounded-full bg-paper shadow-lift transition-transform active:scale-90",
-        dim,
-        className,
-      )}
+      className={clsx("relative inline-grid place-items-center rounded-full bg-paper shadow-lift transition-transform active:scale-90", dim, className)}
     >
       <motion.span key={String(on)} initial={{ scale: on ? 0.4 : 1 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 520, damping: 14 }}>
         <Heart size={size === "lg" ? 26 : 22} weight={on ? "fill" : "regular"} className={on ? "text-rose-deep" : "text-mulberry"} />
       </motion.span>
       <AnimatePresence>
         {on && (
-          <motion.span key="burst" className="pointer-events-none absolute inset-0" initial={{ opacity: 1 }} animate={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }}>
+          <motion.span
+            key="burst"
+            className="pointer-events-none absolute inset-0"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7 }}
+          >
             {[0, 60, 120, 180, 240, 300].map((deg) => (
               <motion.span
                 key={deg}

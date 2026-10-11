@@ -53,7 +53,12 @@ export function MirrorStage({ original, current, loadingLabel, saved, onToggleSa
         {/* peek label */}
         <AnimatePresence>
           {peek && (
-            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute top-[18%] left-1/2 -translate-x-1/2 rounded-full bg-white/85 px-3 py-1 text-micro font-medium backdrop-blur">
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute top-[18%] left-1/2 -translate-x-1/2 rounded-full bg-white/85 px-3 py-1 text-micro font-medium backdrop-blur"
+            >
               Your own hair
             </motion.span>
           )}
@@ -72,7 +77,7 @@ export function MirrorStage({ original, current, loadingLabel, saved, onToggleSa
             >
               <div className="flex flex-col items-center gap-3 px-6 text-center">
                 <PetalLoader />
-                <p className="type-studio max-w-[22ch] text-[1.1rem] leading-snug">{loadingLabel}</p>
+                <p className="max-w-[22ch] type-studio text-[1.1rem] leading-snug">{loadingLabel}</p>
               </div>
             </motion.div>
           )}
@@ -93,7 +98,10 @@ export function MirrorStage({ original, current, loadingLabel, saved, onToggleSa
             onClick={() => setComparing((c) => !c)}
             aria-pressed={comparing}
             aria-label={comparing ? "Stop comparing" : "Compare with your own hair"}
-            className={clsx("grid size-11 place-items-center rounded-full shadow-lift transition-colors active:scale-90", comparing ? "bg-mulberry text-ivory" : "bg-paper text-mulberry")}
+            className={clsx(
+              "grid size-11 place-items-center rounded-full shadow-lift transition-colors active:scale-90",
+              comparing ? "bg-mulberry text-ivory" : "bg-paper text-mulberry",
+            )}
           >
             <ArrowsLeftRight size={20} />
           </button>
@@ -104,9 +112,7 @@ export function MirrorStage({ original, current, loadingLabel, saved, onToggleSa
           <HandPointing size={14} /> Press and hold the mirror to see your own hair
         </p>
       )}
-      {!current && (
-        <p className="mt-3 text-center text-micro text-mulberry-soft">Pick a look below to try it on.</p>
-      )}
+      {!current && <p className="mt-3 text-center text-micro text-mulberry-soft">Pick a look below to try it on.</p>}
       {/* keep the original warm in cache for instant peeks */}
       <Image src={original} alt="" width={8} height={10} className="hidden" aria-hidden />
     </div>
@@ -115,7 +121,14 @@ export function MirrorStage({ original, current, loadingLabel, saved, onToggleSa
 
 export function PetalLoader({ size = 54 }: { size?: number }) {
   return (
-    <motion.svg width={size} height={size} viewBox="0 0 44 44" aria-hidden animate={{ rotate: 360 }} transition={{ duration: 6, ease: "linear", repeat: Infinity }}>
+    <motion.svg
+      width={size}
+      height={size}
+      viewBox="0 0 44 44"
+      aria-hidden
+      animate={{ rotate: 360 }}
+      transition={{ duration: 6, ease: "linear", repeat: Infinity }}
+    >
       {[0, 72, 144, 216, 288].map((d, i) => (
         <g key={d} transform={`rotate(${d} 22 22)`}>
           <motion.ellipse

@@ -85,25 +85,38 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-rose-deep);
   outline-offset: 3px;
-  border-radius: 6px;
+}
+/* fields draw their own focus ring */
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
 }
 
 /* Two moods of one typeface: atelier (refined) and studio (soft) */
 @utility type-atelier {
   font-family: var(--font-serif);
-  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 0;
+  font-variation-settings:
+    "opsz" 144,
+    "SOFT" 30,
+    "WONK" 0;
   font-weight: 330;
   letter-spacing: -0.022em;
 }
 @utility type-studio {
   font-family: var(--font-serif);
-  font-variation-settings: "opsz" 60, "SOFT" 100, "WONK" 0;
+  font-variation-settings:
+    "opsz" 60,
+    "SOFT" 100,
+    "WONK" 0;
   font-weight: 470;
   letter-spacing: -0.012em;
 }
 @utility type-italic-soft {
   font-style: italic;
-  font-variation-settings: "opsz" 72, "SOFT" 100, "WONK" 1;
+  font-variation-settings:
+    "opsz" 72,
+    "SOFT" 100,
+    "WONK" 1;
 }
 
 /* The vanity mirror: a tall rectangle with a semicircular top */
