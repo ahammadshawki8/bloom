@@ -62,9 +62,11 @@ function Content() {
   const info = describeLook(result, styles);
   const isWig = result.kind === "wig";
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
+  // claims-ok: placeholder the prescribing doctor completes; Bloom fills in nothing medical
+  const dx = "[diagnosis]";
   const letter = `To whom it may concern,
 
-${patient || "[Patient name]"} is under my care for [diagnosis] and is receiving treatment that is expected to cause hair loss (alopecia). I am prescribing a cranial hair prosthesis for this patient.
+${patient || "[Patient name]"} is under my care for ${dx} and is receiving treatment that is expected to cause hair loss (alopecia). I am prescribing a cranial hair prosthesis for this patient.
 
 [Doctor's name and signature]
 [Practice name, address and phone]

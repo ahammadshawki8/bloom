@@ -12,6 +12,7 @@ const GROUPS = [
   {
     title: "Never happens",
     tone: "bg-rose-wash",
+    // claims-ok: listed under the heading "Never happens"
     items: ["Diagnosis or medical advice", "Selling or training on your photos", "Guessing anything about your health"],
   },
 ];

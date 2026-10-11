@@ -9,9 +9,11 @@ export default function TryPage() {
   return (
     <>
       <PageHeader title="Your fitting room" />
-      <Suspense fallback={null}>
-        <FittingRoom />
-      </Suspense>
+      <main>
+        <Suspense fallback={null}>
+          <FittingRoom />
+        </Suspense>
+      </main>
     </>
   );
 }

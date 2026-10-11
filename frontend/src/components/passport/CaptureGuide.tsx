@@ -228,7 +228,7 @@ export function CaptureGuide({ mode, onCapture }: Props) {
                   role="status"
                   className={clsx(
                     "flex items-center gap-2 rounded-full px-4 py-2 text-small font-medium backdrop-blur-md",
-                    ok && strict ? "bg-sage/90 text-white" : "bg-white/85 text-mulberry",
+                    ok && strict ? "bg-sage-deep/95 text-white" : "bg-white/85 text-mulberry",
                   )}
                 >
                   {ok && strict && <CheckCircle size={18} weight="fill" />}

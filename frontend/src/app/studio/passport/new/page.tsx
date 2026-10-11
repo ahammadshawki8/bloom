@@ -8,7 +8,9 @@ export default function NewPassportPage() {
   return (
     <>
       <PageHeader back={{ href: "/studio/passport", label: "Passport" }} />
-      <PassportFlow />
+      <main>
+        <PassportFlow />
+      </main>
     </>
   );
 }

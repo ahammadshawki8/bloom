@@ -8,10 +8,15 @@ import type { Passport, SavedLook, Shelf, TryOnResult } from "@/lib/types";
 // Everything personal lives on this device (IndexedDB). Nothing here is sent
 // anywhere unless she runs a try-on or chooses to share.
 
+const hasIdb = () => typeof indexedDB !== "undefined";
 const idbStorage: StateStorage = {
-  getItem: async (name) => (await get<string>(name)) ?? null,
-  setItem: (name, value) => set(name, value),
-  removeItem: (name) => del(name),
+  getItem: async (name) => (hasIdb() ? ((await get<string>(name)) ?? null) : null),
+  setItem: async (name, value) => {
+    if (hasIdb()) await set(name, value);
+  },
+  removeItem: async (name) => {
+    if (hasIdb()) await del(name);
+  },
 };
 
 export interface SentShare {
@@ -57,7 +62,7 @@ export const useBloom = create<BloomState>()(
       setLastStyle: (lastStyleId) => setState({ lastStyleId }),
       clearAll: async () => {
         setState({ passport: null, results: {}, saved: [], shares: [], lastStyleId: null });
-        await del("bloom");
+        if (hasIdb()) await del("bloom");
         try {
           localStorage.removeItem("bloom.mock.shares");
         } catch {

@@ -73,7 +73,7 @@ export function PrivacyView() {
                 className="mt-5 flex flex-wrap items-center gap-3"
               >
                 <Button
-                  className="bg-rose-deep hover:bg-[#93545b]"
+                  className="bg-rose-deep hover:bg-[#7d434b]"
                   icon={<Trash size={18} />}
                   onClick={async () => {
                     await clearAll();
