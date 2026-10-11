@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Bloom design tokens
+   One ground (ivory), one ink (mulberry), two brand accents (rose, sage),
+   four playground washes. See docs/superpowers/specs/2026-10-11-bloom-design.md §3
+   ------------------------------------------------------------------ */
+@theme {
+  --color-ivory: #fbf6f2;
+  --color-ivory-deep: #f3eae3;
+  --color-paper: #fffdfb;
+  --color-mulberry: #43293a;
+  --color-mulberry-soft: #7a6170;
+  --color-mulberry-faint: #b9a8b1;
+  --color-line: #eadfd9;
+  --color-rose: #c98e8e;
+  --color-rose-deep: #a8636a;
+  --color-rose-wash: #f4dedc;
+  --color-sage: #8fa08a;
+  --color-sage-deep: #5d7059;
+  --color-sage-wash: #e3eadf;
+  --color-lilac-wash: #e7e1f0;
+  --color-lilac-deep: #6f6290;
+  --color-butter-wash: #f7ebcb;
+  --color-butter-deep: #8a6a2b;
+
+  --font-serif: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-chip: 12px;
+  --radius-card: 28px;
+  --radius-sheet: 32px;
+
+  --shadow-float: 0 18px 40px -24px rgb(67 41 58 / 0.38);
+  --shadow-lift: 0 10px 24px -18px rgb(67 41 58 / 0.45);
+
+  --ease-petal: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --text-micro: 0.8125rem;
+  --text-micro--line-height: 1.35;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.45;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.55;
+  --text-lead: 1.3125rem;
+  --text-lead--line-height: 1.45;
+  --text-h3: 1.625rem;
+  --text-h3--line-height: 1.15;
+  --text-h2: 2.0625rem;
+  --text-h2--line-height: 1.08;
+  --text-h1: 2.5625rem;
+  --text-h1--line-height: 1.04;
+  --text-display: 3.25rem;
+  --text-display--line-height: 1;
+  --text-hero: 4.5rem;
+  --text-hero--line-height: 0.98;
+}
+
+:root {
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-ivory);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-ivory);
+  color: var(--color-mulberry);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-rose-wash);
+  color: var(--color-mulberry);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rose-deep);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Two moods of one typeface: atelier (refined) and studio (soft) */
+@utility type-atelier {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 0;
+  font-weight: 330;
+  letter-spacing: -0.022em;
+}
+@utility type-studio {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 60, "SOFT" 100, "WONK" 0;
+  font-weight: 470;
+  letter-spacing: -0.012em;
+}
+@utility type-italic-soft {
+  font-style: italic;
+  font-variation-settings: "opsz" 72, "SOFT" 100, "WONK" 1;
+}
+
+/* The vanity mirror: a tall rectangle with a semicircular top */
+@utility arch {
+  border-radius: 999px 999px var(--radius-card) var(--radius-card);
+  overflow: hidden;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   View transitions: the mirror travels from atelier to studio
+   ------------------------------------------------------------------ */
+::view-transition-group(.mirror-morph) {
+  animation-duration: 720ms;
+  animation-timing-function: var(--ease-petal);
+}
+::view-transition-image-pair(.mirror-morph) {
+  animation-name: mirror-soften;
+}
+@keyframes mirror-soften {
+  40% {
+    filter: blur(2px) saturate(1.05);
+  }
+}
+
+::view-transition-old(.page-fade) {
+  animation: 180ms ease-out both bloom-fade-out;
+}
+::view-transition-new(.page-fade) {
+  animation: 320ms var(--ease-petal) 120ms both bloom-fade-in;
+}
+@keyframes bloom-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes bloom-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

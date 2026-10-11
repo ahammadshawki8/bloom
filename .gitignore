@@ -1,0 +1,20 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# deps / builds
+node_modules/
+.next/
+dist/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# local-only material
+bloom-handoff/
+ui_inspiration/
+.playwright-mcp/
+.vercel
+*.log
+.DS_Store

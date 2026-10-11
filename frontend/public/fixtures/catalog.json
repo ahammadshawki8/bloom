@@ -1,0 +1,864 @@
+{
+ "generatedAt": "2026-10-11",
+ "styles": [
+  {
+   "id": "tracy-short-wig",
+   "kind": "wig",
+   "name": "Tracy",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/tracy-short-wig",
+   "finalSale": false,
+   "length": "short",
+   "texture": "straight",
+   "bangs": true,
+   "capSize": "average",
+   "laceFront": false,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "tracy-short-wig--ginger-brown",
+     "colorName": "Ginger Brown",
+     "hex": "#2e251e",
+     "lab": [
+      15.57,
+      2.97,
+      6.53
+     ],
+     "image": "/fixtures/catalog/tracy-short-wig--ginger-brown.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1tracyGin.jpg",
+     "price": 209.0
+    },
+    {
+     "id": "tracy-short-wig--marble-brown-h",
+     "colorName": "Marble Brown (highlighted)",
+     "hex": "#674d35",
+     "lab": [
+      34.91,
+      7.6,
+      18.23
+     ],
+     "image": "/fixtures/catalog/tracy-short-wig--marble-brown-h.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1tracymar-H.jpg",
+     "price": 209.0
+    },
+    {
+     "id": "tracy-short-wig--copper-glaze",
+     "colorName": "Copper Glaze",
+     "hex": "#9a6e49",
+     "lab": [
+      50.14,
+      12.64,
+      27.69
+     ],
+     "image": "/fixtures/catalog/tracy-short-wig--copper-glaze.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1tracycopp.jpg",
+     "price": 209.0
+    },
+    {
+     "id": "tracy-short-wig--silver-mink",
+     "colorName": "Silver Mink",
+     "hex": "#b0a08f",
+     "lab": [
+      66.89,
+      3.05,
+      11.14
+     ],
+     "image": "/fixtures/catalog/tracy-short-wig--silver-mink.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1tracymink.jpg",
+     "price": 209.0
+    }
+   ]
+  },
+  {
+   "id": "cristi-short-wig",
+   "kind": "wig",
+   "name": "Cristi",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/cristi-short-wig",
+   "finalSale": false,
+   "length": "short",
+   "texture": "straight",
+   "bangs": true,
+   "capSize": "average",
+   "laceFront": false,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "cristi-short-wig--coffee-latte",
+     "colorName": "Coffee Latte",
+     "hex": "#31241c",
+     "lab": [
+      15.48,
+      4.32,
+      8.05
+     ],
+     "image": "/fixtures/catalog/cristi-short-wig--coffee-latte.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_cristi_clatte.jpg",
+     "price": 199.0
+    },
+    {
+     "id": "cristi-short-wig--chestnut",
+     "colorName": "Chestnut",
+     "hex": "#3f261b",
+     "lab": [
+      17.9,
+      10.27,
+      11.84
+     ],
+     "image": "/fixtures/catalog/cristi-short-wig--chestnut.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_cristi_cnut.jpg",
+     "price": 199.0
+    },
+    {
+     "id": "cristi-short-wig--auburn-sugar",
+     "colorName": "Auburn Sugar",
+     "hex": "#543929",
+     "lab": [
+      26.51,
+      9.74,
+      14.69
+     ],
+     "image": "/fixtures/catalog/cristi-short-wig--auburn-sugar.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_cristi_aub.jpg",
+     "price": 199.0
+    },
+    {
+     "id": "cristi-short-wig--chai-cream",
+     "colorName": "Chai Cream",
+     "hex": "#967350",
+     "lab": [
+      51.1,
+      9.22,
+      24.47
+     ],
+     "image": "/fixtures/catalog/cristi-short-wig--chai-cream.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_cristi_chai.jpg",
+     "price": 199.0
+    }
+   ]
+  },
+  {
+   "id": "kelly-short-wig",
+   "kind": "wig",
+   "name": "Kelly",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/kelly-short-wig",
+   "finalSale": false,
+   "length": "short",
+   "texture": "straight",
+   "bangs": false,
+   "capSize": "average",
+   "laceFront": false,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "kelly-short-wig--chocolate-swirl",
+     "colorName": "Chocolate Swirl",
+     "hex": "#3a2d22",
+     "lab": [
+      19.46,
+      4.05,
+      9.04
+     ],
+     "image": "/fixtures/catalog/kelly-short-wig--chocolate-swirl.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_kelly_cswirl.jpg",
+     "price": 209.0
+    },
+    {
+     "id": "kelly-short-wig--marble-brown",
+     "colorName": "Marble Brown",
+     "hex": "#483225",
+     "lab": [
+      23.01,
+      7.6,
+      12.31
+     ],
+     "image": "/fixtures/catalog/kelly-short-wig--marble-brown.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_kelly_mar.jpg",
+     "price": 209.0
+    },
+    {
+     "id": "kelly-short-wig--sandy-silver",
+     "colorName": "Sandy Silver",
+     "hex": "#826f5c",
+     "lab": [
+      48.19,
+      4.38,
+      13.56
+     ],
+     "image": "/fixtures/catalog/kelly-short-wig--sandy-silver.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_kelly_sandy.jpg",
+     "price": 209.0
+    },
+    {
+     "id": "kelly-short-wig--creamy-blond",
+     "colorName": "Creamy Blond",
+     "hex": "#c7ac85",
+     "lab": [
+      71.88,
+      4.01,
+      24.1
+     ],
+     "image": "/fixtures/catalog/kelly-short-wig--creamy-blond.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_kelly_cr_blond.jpg",
+     "price": 209.0
+    }
+   ]
+  },
+  {
+   "id": "hope-medium-wig",
+   "kind": "wig",
+   "name": "Hope",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/hope-medium-wig",
+   "finalSale": false,
+   "length": "medium",
+   "texture": "straight",
+   "bangs": true,
+   "capSize": "average",
+   "laceFront": false,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "hope-medium-wig--coffee-latte",
+     "colorName": "Coffee Latte",
+     "hex": "#33281f",
+     "lab": [
+      17.06,
+      3.97,
+      7.49
+     ],
+     "image": "/fixtures/catalog/hope-medium-wig--coffee-latte.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_hope_clatte.jpg",
+     "price": 239.0
+    },
+    {
+     "id": "hope-medium-wig--irish-spice",
+     "colorName": "Irish Spice",
+     "hex": "#593121",
+     "lab": [
+      25.05,
+      16.28,
+      17.82
+     ],
+     "image": "/fixtures/catalog/hope-medium-wig--irish-spice.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_hope_irish.jpg",
+     "price": 239.0
+    },
+    {
+     "id": "hope-medium-wig--sandy-silver",
+     "colorName": "Sandy Silver",
+     "hex": "#857361",
+     "lab": [
+      49.73,
+      4.17,
+      12.57
+     ],
+     "image": "/fixtures/catalog/hope-medium-wig--sandy-silver.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_hope_sandy.jpg",
+     "price": 239.0
+    },
+    {
+     "id": "hope-medium-wig--moonlight",
+     "colorName": "Moonlight",
+     "hex": "#bcb0a6",
+     "lab": [
+      72.57,
+      2.65,
+      6.82
+     ],
+     "image": "/fixtures/catalog/hope-medium-wig--moonlight.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_hope_moon.jpg",
+     "price": 239.0
+    }
+   ]
+  },
+  {
+   "id": "alana-medium-wig",
+   "kind": "wig",
+   "name": "Alana",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/alana-medium-wig",
+   "finalSale": false,
+   "length": "medium",
+   "texture": "straight",
+   "bangs": false,
+   "capSize": "average",
+   "laceFront": false,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "alana-medium-wig--ginger-brown",
+     "colorName": "Ginger Brown",
+     "hex": "#28201a",
+     "lab": [
+      13.08,
+      2.27,
+      5.98
+     ],
+     "image": "/fixtures/catalog/alana-medium-wig--ginger-brown.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_alana_gin.jpg",
+     "price": 229.0
+    },
+    {
+     "id": "alana-medium-wig--red-spice",
+     "colorName": "Red Spice",
+     "hex": "#653821",
+     "lab": [
+      28.65,
+      17.32,
+      22.51
+     ],
+     "image": "/fixtures/catalog/alana-medium-wig--red-spice.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_alana_red_spice.jpg",
+     "price": 229.0
+    },
+    {
+     "id": "alana-medium-wig--frosted-taupe",
+     "colorName": "Frosted Taupe",
+     "hex": "#a08970",
+     "lab": [
+      58.51,
+      4.53,
+      16.73
+     ],
+     "image": "/fixtures/catalog/alana-medium-wig--frosted-taupe.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_alana_taupe.jpg",
+     "price": 229.0
+    },
+    {
+     "id": "alana-medium-wig--silver-mink",
+     "colorName": "Silver Mink",
+     "hex": "#b0a291",
+     "lab": [
+      67.28,
+      2.36,
+      10.79
+     ],
+     "image": "/fixtures/catalog/alana-medium-wig--silver-mink.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_alana_silver_mink.jpg",
+     "price": 229.0
+    }
+   ]
+  },
+  {
+   "id": "abigail-lf-medium-wig",
+   "kind": "wig",
+   "name": "Abigail LF",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/abigail-lf-medium-wig",
+   "finalSale": false,
+   "length": "medium",
+   "texture": "straight",
+   "bangs": false,
+   "capSize": "average",
+   "laceFront": true,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "abigail-lf-medium-wig--ginger-brown",
+     "colorName": "Ginger Brown",
+     "hex": "#2d241d",
+     "lab": [
+      14.93,
+      3.13,
+      6.38
+     ],
+     "image": "/fixtures/catalog/abigail-lf-medium-wig--ginger-brown.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_abigail_gin.jpg",
+     "price": 279.0
+    },
+    {
+     "id": "abigail-lf-medium-wig--red-spice",
+     "colorName": "Red Spice",
+     "hex": "#573220",
+     "lab": [
+      25.15,
+      14.66,
+      18.51
+     ],
+     "image": "/fixtures/catalog/abigail-lf-medium-wig--red-spice.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_abigail_red_spice.jpg",
+     "price": 279.0
+    },
+    {
+     "id": "abigail-lf-medium-wig--honey-wheat",
+     "colorName": "Honey Wheat",
+     "hex": "#866644",
+     "lab": [
+      45.51,
+      8.72,
+      24.2
+     ],
+     "image": "/fixtures/catalog/abigail-lf-medium-wig--honey-wheat.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_abigail_honey.jpg",
+     "price": 279.0
+    },
+    {
+     "id": "abigail-lf-medium-wig--silver-mink",
+     "colorName": "Silver Mink",
+     "hex": "#ad9d8d",
+     "lab": [
+      65.8,
+      3.2,
+      10.5
+     ],
+     "image": "/fixtures/catalog/abigail-lf-medium-wig--silver-mink.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_abigail_mink.jpg",
+     "price": 279.0
+    }
+   ]
+  },
+  {
+   "id": "monroe-medium-wig",
+   "kind": "wig",
+   "name": "Monroe",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/monroe-medium-wig",
+   "finalSale": false,
+   "length": "medium",
+   "texture": "wavy",
+   "bangs": true,
+   "capSize": "average",
+   "laceFront": false,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "monroe-medium-wig--cappucino",
+     "colorName": "Cappucino",
+     "hex": "#2b2620",
+     "lab": [
+      15.51,
+      0.85,
+      4.91
+     ],
+     "image": "/fixtures/catalog/monroe-medium-wig--cappucino.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_monroe_capp.jpg",
+     "price": 239.0
+    },
+    {
+     "id": "monroe-medium-wig--coffee-latte",
+     "colorName": "Coffee Latte",
+     "hex": "#352a22",
+     "lab": [
+      18.02,
+      3.44,
+      7.27
+     ],
+     "image": "/fixtures/catalog/monroe-medium-wig--coffee-latte.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_monroe_coffee_latte.jpg",
+     "price": 239.0
+    },
+    {
+     "id": "monroe-medium-wig--marble-brown-h",
+     "colorName": "Marble Brown (highlighted)",
+     "hex": "#5e4632",
+     "lab": [
+      31.77,
+      7.05,
+      16.22
+     ],
+     "image": "/fixtures/catalog/monroe-medium-wig--marble-brown-h.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_monroe_mar-H.jpg",
+     "price": 239.0
+    },
+    {
+     "id": "monroe-medium-wig--creamy-blond",
+     "colorName": "Creamy Blond",
+     "hex": "#ad9979",
+     "lab": [
+      64.08,
+      2.55,
+      19.44
+     ],
+     "image": "/fixtures/catalog/monroe-medium-wig--creamy-blond.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_monroe_cr_blond.jpg",
+     "price": 239.0
+    }
+   ]
+  },
+  {
+   "id": "nina-medium-wig",
+   "kind": "wig",
+   "name": "Nina",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/nina-medium-wig",
+   "finalSale": false,
+   "length": "medium",
+   "texture": "wavy",
+   "bangs": true,
+   "capSize": "average",
+   "laceFront": false,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "nina-medium-wig--dark-chocolate",
+     "colorName": "Dark Chocolate",
+     "hex": "#2c241c",
+     "lab": [
+      14.76,
+      2.49,
+      6.72
+     ],
+     "image": "/fixtures/catalog/nina-medium-wig--dark-chocolate.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_nina_dk_choc.jpg",
+     "price": 219.0
+    },
+    {
+     "id": "nina-medium-wig--ginger-brown",
+     "colorName": "Ginger Brown",
+     "hex": "#382a1f",
+     "lab": [
+      18.32,
+      4.9,
+      9.96
+     ],
+     "image": "/fixtures/catalog/nina-medium-wig--ginger-brown.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_nina_gin.jpg",
+     "price": 219.0
+    },
+    {
+     "id": "nina-medium-wig--harvest-gold",
+     "colorName": "Harvest Gold",
+     "hex": "#755e42",
+     "lab": [
+      41.41,
+      5.07,
+      19.63
+     ],
+     "image": "/fixtures/catalog/nina-medium-wig--harvest-gold.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_nina_harv.jpg",
+     "price": 219.0
+    },
+    {
+     "id": "nina-medium-wig--creamy-blond",
+     "colorName": "Creamy Blond",
+     "hex": "#cab088",
+     "lab": [
+      73.18,
+      3.09,
+      24.22
+     ],
+     "image": "/fixtures/catalog/nina-medium-wig--creamy-blond.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_nina_cr_blond.jpg",
+     "price": 219.0
+    }
+   ]
+  },
+  {
+   "id": "jenna-long-wig",
+   "kind": "wig",
+   "name": "Jenna",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/jenna-long-wig",
+   "finalSale": false,
+   "length": "long",
+   "texture": "straight",
+   "bangs": false,
+   "capSize": "average",
+   "laceFront": false,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "jenna-long-wig--cappucino",
+     "colorName": "Cappucino",
+     "hex": "#2b231d",
+     "lab": [
+      14.43,
+      2.49,
+      5.79
+     ],
+     "image": "/fixtures/catalog/jenna-long-wig--cappucino.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_jenna_capp.jpg",
+     "price": 229.0
+    },
+    {
+     "id": "jenna-long-wig--ginger-brown",
+     "colorName": "Ginger Brown",
+     "hex": "#3c2c21",
+     "lab": [
+      19.61,
+      5.36,
+      10.23
+     ],
+     "image": "/fixtures/catalog/jenna-long-wig--ginger-brown.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_jenna_gin.jpg",
+     "price": 229.0
+    },
+    {
+     "id": "jenna-long-wig--marble-brown",
+     "colorName": "Marble Brown",
+     "hex": "#543c2c",
+     "lab": [
+      27.63,
+      7.82,
+      14.33
+     ],
+     "image": "/fixtures/catalog/jenna-long-wig--marble-brown.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_jenna_mar.jpg",
+     "price": 229.0
+    },
+    {
+     "id": "jenna-long-wig--frosted-taupe",
+     "colorName": "Frosted Taupe",
+     "hex": "#af987f",
+     "lab": [
+      64.24,
+      4.41,
+      16.38
+     ],
+     "image": "/fixtures/catalog/jenna-long-wig--frosted-taupe.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_jenna_taupe.jpg",
+     "price": 229.0
+    }
+   ]
+  },
+  {
+   "id": "rochelle-long-wig",
+   "kind": "wig",
+   "name": "Rochelle",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/rochelle-long-wig",
+   "finalSale": false,
+   "length": "long",
+   "texture": "wavy",
+   "bangs": false,
+   "capSize": "average",
+   "laceFront": false,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "rochelle-long-wig--expresso",
+     "colorName": "Expresso",
+     "hex": "#201d1a",
+     "lab": [
+      11.02,
+      0.35,
+      2.81
+     ],
+     "image": "/fixtures/catalog/rochelle-long-wig--expresso.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_rochelle_exp.jpg",
+     "price": 229.0
+    },
+    {
+     "id": "rochelle-long-wig--dark-chocolate",
+     "colorName": "Dark Chocolate",
+     "hex": "#29221b",
+     "lab": [
+      13.79,
+      2.3,
+      6.03
+     ],
+     "image": "/fixtures/catalog/rochelle-long-wig--dark-chocolate.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_rochelle_dk_choc.jpg",
+     "price": 229.0
+    },
+    {
+     "id": "rochelle-long-wig--marble-brown",
+     "colorName": "Marble Brown",
+     "hex": "#513929",
+     "lab": [
+      26.24,
+      7.98,
+      14.32
+     ],
+     "image": "/fixtures/catalog/rochelle-long-wig--marble-brown.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_rochelle_mar.jpg",
+     "price": 229.0
+    },
+    {
+     "id": "rochelle-long-wig--creamy-blond",
+     "colorName": "Creamy Blond",
+     "hex": "#c8ad85",
+     "lab": [
+      72.07,
+      4.08,
+      23.88
+     ],
+     "image": "/fixtures/catalog/rochelle-long-wig--creamy-blond.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_rochelle_cr_blond.jpg",
+     "price": 229.0
+    }
+   ]
+  },
+  {
+   "id": "diana-lf-long-wig",
+   "kind": "wig",
+   "name": "Diana LF",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/diana-lf-long-wig",
+   "finalSale": false,
+   "length": "long",
+   "texture": "straight",
+   "bangs": true,
+   "capSize": "average",
+   "laceFront": true,
+   "rooted": false,
+   "variants": [
+    {
+     "id": "diana-lf-long-wig--ginger-brown",
+     "colorName": "Ginger Brown",
+     "hex": "#2e241d",
+     "lab": [
+      15.27,
+      3.2,
+      6.48
+     ],
+     "image": "/fixtures/catalog/diana-lf-long-wig--ginger-brown.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_diana_gin.jpg",
+     "price": 289.0
+    },
+    {
+     "id": "diana-lf-long-wig--auburn-sugar",
+     "colorName": "Auburn Sugar",
+     "hex": "#593625",
+     "lab": [
+      26.44,
+      13.46,
+      16.85
+     ],
+     "image": "/fixtures/catalog/diana-lf-long-wig--auburn-sugar.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_diana_aub.jpg",
+     "price": 289.0
+    },
+    {
+     "id": "diana-lf-long-wig--copper-glaze",
+     "colorName": "Copper Glaze",
+     "hex": "#936641",
+     "lab": [
+      47.14,
+      13.87,
+      28.04
+     ],
+     "image": "/fixtures/catalog/diana-lf-long-wig--copper-glaze.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_diana_copp.jpg",
+     "price": 289.0
+    },
+    {
+     "id": "diana-lf-long-wig--creamy-toast",
+     "colorName": "Creamy Toast",
+     "hex": "#d0b691",
+     "lab": [
+      75.27,
+      3.72,
+      22.33
+     ],
+     "image": "/fixtures/catalog/diana-lf-long-wig--creamy-toast.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_diana_cr_toast.jpg",
+     "price": 289.0
+    }
+   ]
+  },
+  {
+   "id": "bamboo-turban",
+   "kind": "wrap",
+   "name": "Bamboo Turban",
+   "retailer": "Godiva's Secret Wigs",
+   "url": "https://godivassecretwigs.com/products/bamboo-turban",
+   "finalSale": false,
+   "variants": [
+    {
+     "id": "bamboo-turban--black",
+     "colorName": "Black",
+     "hex": "#20201e",
+     "lab": [
+      12.29,
+      -0.46,
+      1.39
+     ],
+     "image": "/fixtures/catalog/bamboo-turban--black.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/bamboo_black.jpg",
+     "price": 30.0
+    },
+    {
+     "id": "bamboo-turban--cashmere-pink",
+     "colorName": "Cashmere Pink",
+     "hex": "#f8bbca",
+     "lab": [
+      81.68,
+      24.1,
+      1.16
+     ],
+     "image": "/fixtures/catalog/bamboo-turban--cashmere-pink.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/bamboo_pink.jpg",
+     "price": 30.0
+    },
+    {
+     "id": "bamboo-turban--charcoal-grey",
+     "colorName": "Charcoal Grey",
+     "hex": "#66645f",
+     "lab": [
+      42.31,
+      -0.01,
+      3.22
+     ],
+     "image": "/fixtures/catalog/bamboo-turban--charcoal-grey.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/bamboo_charcoal.jpg",
+     "price": 30.0
+    },
+    {
+     "id": "bamboo-turban--navy",
+     "colorName": "Navy",
+     "hex": "#2c2e3d",
+     "lab": [
+      19.33,
+      3.32,
+      -9.9
+     ],
+     "image": "/fixtures/catalog/bamboo-turban--navy.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/Bamboo_navy_1.jpg",
+     "price": 30.0
+    },
+    {
+     "id": "bamboo-turban--periwinkle",
+     "colorName": "Periwinkle",
+     "hex": "#7495d4",
+     "lab": [
+      61.62,
+      5.02,
+      -35.83
+     ],
+     "image": "/fixtures/catalog/bamboo-turban--periwinkle.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/bamboo_peri.jpg",
+     "price": 30.0
+    },
+    {
+     "id": "bamboo-turban--sage-green",
+     "colorName": "Sage Green",
+     "hex": "#97afa2",
+     "lab": [
+      69.47,
+      -10.94,
+      3.76
+     ],
+     "image": "/fixtures/catalog/bamboo-turban--sage-green.webp",
+     "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/bamboo_sage.jpg",
+     "price": 30.0
+    }
+   ]
+  },
+  {
+   "id": "floral-head-scarf",
+   "kind": "wrap",
+   "name": "Floral Head Scarf",
+   "retailer": "Suburban Turban",
+   "url": "https://suburbanturban.com/",
+   "finalSale": false,
+   "variants": [
+    {
+     "id": "floral-head-scarf--floral",
+     "colorName": "Floral print",
+     "hex": "#c9a7a0",
+     "lab": [
+      72,
+      10,
+      8
+     ],
+     "image": "/fixtures/catalog/floral-head-scarf--floral.webp",
+     "refImageUrl": "https://suburbanturban.com/wp-content/uploads/2024/07/headscarf-floral-front.jpg",
+     "price": 28.0
+    }
+   ]
+  }
+ ]
+}
