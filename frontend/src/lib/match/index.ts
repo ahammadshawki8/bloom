@@ -3,6 +3,9 @@ import type { Passport, Style, Variant } from "@/lib/types";
 
 export type MatchMode = "match" | "new";
 
+/** How a variant reads when worn: measured on a render when we have one, else from the product photo. */
+export const wornLab = (v: Variant) => v.renderLab ?? v.lab;
+
 export interface RankedLook {
   style: Style;
   variant: Variant;
@@ -15,7 +18,7 @@ export function closestVariant(passport: Passport, style: Style): { variant: Var
   let best = style.variants[0];
   let bestDe = Infinity;
   for (const variant of style.variants) {
-    const d = deltaE2000(passport.hair.lab, variant.lab);
+    const d = deltaE2000(passport.hair.lab, wornLab(variant));
     if (d < bestDe) {
       best = variant;
       bestDe = d;
@@ -45,7 +48,7 @@ export function rankLooks(passport: Passport, styles: Style[], mode: MatchMode):
     const texturePenalty = passport.texture && style.texture !== passport.texture ? 3 : 0;
     let pick: RankedLook | null = null;
     for (const variant of style.variants) {
-      const deltaE = deltaE2000(passport.hair.lab, variant.lab);
+      const deltaE = deltaE2000(passport.hair.lab, wornLab(variant));
       const score = mode === "match" ? deltaE + lengthPenalty + texturePenalty : Math.abs(deltaE - 14) + (lengthPenalty + texturePenalty) / 3;
       if (!pick || score < pick.score) pick = { style, variant, deltaE, score, reasons: [] };
     }

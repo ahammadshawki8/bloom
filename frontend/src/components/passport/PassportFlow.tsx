@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
@@ -183,7 +183,9 @@ const LINES = ["Finding your hair…", "Measuring its colour, pixel by pixel…"
 function Reading({ photo, shots, onDone, onFail }: { photo: string; shots: Partial<Record<CaptureMode, string>>; onDone: (p: Passport) => void; onFail: () => void }) {
   const [line, setLine] = useState(0);
   const cb = useRef({ onDone, onFail, shots });
-  cb.current = { onDone, onFail, shots };
+  useLayoutEffect(() => {
+    cb.current = { onDone, onFail, shots };
+  });
 
   useEffect(() => {
     const { shots } = cb.current;

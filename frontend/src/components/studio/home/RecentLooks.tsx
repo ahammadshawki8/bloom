@@ -21,7 +21,7 @@ export function RecentLooks() {
           Open studio
         </Link>
       </div>
-      <ul className="no-scrollbar -mx-4 mt-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0">
+      <ul className="no-scrollbar -mx-4 mt-4 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0">
         {recent.map((r) => (
           <li key={r.id} className="snap-start">
             <Link href={`/studio/try?result=${encodeURIComponent(r.id)}`} className="block w-28 md:w-32">

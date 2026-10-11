@@ -26,7 +26,12 @@
      ],
      "image": "/fixtures/catalog/tracy-short-wig--ginger-brown.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1tracyGin.jpg",
-     "price": 209.0
+     "price": 209.0,
+     "renderLab": [
+      12.82,
+      6.35,
+      8.85
+     ]
     },
     {
      "id": "tracy-short-wig--marble-brown-h",
@@ -39,7 +44,12 @@
      ],
      "image": "/fixtures/catalog/tracy-short-wig--marble-brown-h.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1tracymar-H.jpg",
-     "price": 209.0
+     "price": 209.0,
+     "renderLab": [
+      20.23,
+      8.45,
+      15.83
+     ]
     },
     {
      "id": "tracy-short-wig--copper-glaze",
@@ -52,7 +62,12 @@
      ],
      "image": "/fixtures/catalog/tracy-short-wig--copper-glaze.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1tracycopp.jpg",
-     "price": 209.0
+     "price": 209.0,
+     "renderLab": [
+      32.6,
+      13.44,
+      25.69
+     ]
     },
     {
      "id": "tracy-short-wig--silver-mink",
@@ -65,7 +80,12 @@
      ],
      "image": "/fixtures/catalog/tracy-short-wig--silver-mink.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1tracymink.jpg",
-     "price": 209.0
+     "price": 209.0,
+     "renderLab": [
+      59.12,
+      3.72,
+      11.73
+     ]
     }
    ]
   },
@@ -94,7 +114,12 @@
      ],
      "image": "/fixtures/catalog/cristi-short-wig--coffee-latte.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_cristi_clatte.jpg",
-     "price": 199.0
+     "price": 199.0,
+     "renderLab": [
+      14.18,
+      7.35,
+      9.43
+     ]
     },
     {
      "id": "cristi-short-wig--chestnut",
@@ -107,7 +132,12 @@
      ],
      "image": "/fixtures/catalog/cristi-short-wig--chestnut.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_cristi_cnut.jpg",
-     "price": 199.0
+     "price": 199.0,
+     "renderLab": [
+      12.54,
+      12.41,
+      11.17
+     ]
     },
     {
      "id": "cristi-short-wig--auburn-sugar",
@@ -120,7 +150,12 @@
      ],
      "image": "/fixtures/catalog/cristi-short-wig--auburn-sugar.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_cristi_aub.jpg",
-     "price": 199.0
+     "price": 199.0,
+     "renderLab": [
+      18.71,
+      10.63,
+      13.94
+     ]
     },
     {
      "id": "cristi-short-wig--chai-cream",
@@ -133,7 +168,12 @@
      ],
      "image": "/fixtures/catalog/cristi-short-wig--chai-cream.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_cristi_chai.jpg",
-     "price": 199.0
+     "price": 199.0,
+     "renderLab": [
+      37.28,
+      11.69,
+      23.76
+     ]
     }
    ]
   },
@@ -162,7 +202,12 @@
      ],
      "image": "/fixtures/catalog/kelly-short-wig--chocolate-swirl.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_kelly_cswirl.jpg",
-     "price": 209.0
+     "price": 209.0,
+     "renderLab": [
+      15.81,
+      6.32,
+      9.44
+     ]
     },
     {
      "id": "kelly-short-wig--marble-brown",
@@ -175,7 +220,12 @@
      ],
      "image": "/fixtures/catalog/kelly-short-wig--marble-brown.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_kelly_mar.jpg",
-     "price": 209.0
+     "price": 209.0,
+     "renderLab": [
+      18.64,
+      8.44,
+      12.72
+     ]
     },
     {
      "id": "kelly-short-wig--sandy-silver",
@@ -188,7 +238,12 @@
      ],
      "image": "/fixtures/catalog/kelly-short-wig--sandy-silver.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_kelly_sandy.jpg",
-     "price": 209.0
+     "price": 209.0,
+     "renderLab": [
+      40.87,
+      4.92,
+      12.91
+     ]
     },
     {
      "id": "kelly-short-wig--creamy-blond",
@@ -201,7 +256,12 @@
      ],
      "image": "/fixtures/catalog/kelly-short-wig--creamy-blond.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_kelly_cr_blond.jpg",
-     "price": 209.0
+     "price": 209.0,
+     "renderLab": [
+      60.49,
+      5.22,
+      22.8
+     ]
     }
    ]
   },
@@ -230,7 +290,12 @@
      ],
      "image": "/fixtures/catalog/hope-medium-wig--coffee-latte.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_hope_clatte.jpg",
-     "price": 239.0
+     "price": 239.0,
+     "renderLab": [
+      15.79,
+      6.12,
+      7.71
+     ]
     },
     {
      "id": "hope-medium-wig--irish-spice",
@@ -243,7 +308,12 @@
      ],
      "image": "/fixtures/catalog/hope-medium-wig--irish-spice.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_hope_irish.jpg",
-     "price": 239.0
+     "price": 239.0,
+     "renderLab": [
+      19.16,
+      17.82,
+      17.61
+     ]
     },
     {
      "id": "hope-medium-wig--sandy-silver",
@@ -256,7 +326,12 @@
      ],
      "image": "/fixtures/catalog/hope-medium-wig--sandy-silver.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_hope_sandy.jpg",
-     "price": 239.0
+     "price": 239.0,
+     "renderLab": [
+      38.79,
+      4.93,
+      12.58
+     ]
     },
     {
      "id": "hope-medium-wig--moonlight",
@@ -269,7 +344,12 @@
      ],
      "image": "/fixtures/catalog/hope-medium-wig--moonlight.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_hope_moon.jpg",
-     "price": 239.0
+     "price": 239.0,
+     "renderLab": [
+      60.67,
+      3.39,
+      6.85
+     ]
     }
    ]
   },
@@ -298,7 +378,12 @@
      ],
      "image": "/fixtures/catalog/alana-medium-wig--ginger-brown.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_alana_gin.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      12.89,
+      5.75,
+      7.65
+     ]
     },
     {
      "id": "alana-medium-wig--red-spice",
@@ -311,7 +396,12 @@
      ],
      "image": "/fixtures/catalog/alana-medium-wig--red-spice.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_alana_red_spice.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      19.55,
+      19.65,
+      19.96
+     ]
     },
     {
      "id": "alana-medium-wig--frosted-taupe",
@@ -324,7 +414,12 @@
      ],
      "image": "/fixtures/catalog/alana-medium-wig--frosted-taupe.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_alana_taupe.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      43.4,
+      6.68,
+      17.07
+     ]
     },
     {
      "id": "alana-medium-wig--silver-mink",
@@ -337,7 +432,12 @@
      ],
      "image": "/fixtures/catalog/alana-medium-wig--silver-mink.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_alana_silver_mink.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      62.94,
+      3.31,
+      10.09
+     ]
     }
    ]
   },
@@ -366,7 +466,12 @@
      ],
      "image": "/fixtures/catalog/abigail-lf-medium-wig--ginger-brown.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_abigail_gin.jpg",
-     "price": 279.0
+     "price": 279.0,
+     "renderLab": [
+      14.43,
+      6.06,
+      8.21
+     ]
     },
     {
      "id": "abigail-lf-medium-wig--red-spice",
@@ -379,7 +484,12 @@
      ],
      "image": "/fixtures/catalog/abigail-lf-medium-wig--red-spice.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_abigail_red_spice.jpg",
-     "price": 279.0
+     "price": 279.0,
+     "renderLab": [
+      18.8,
+      16.01,
+      17.81
+     ]
     },
     {
      "id": "abigail-lf-medium-wig--honey-wheat",
@@ -392,7 +502,12 @@
      ],
      "image": "/fixtures/catalog/abigail-lf-medium-wig--honey-wheat.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_abigail_honey.jpg",
-     "price": 279.0
+     "price": 279.0,
+     "renderLab": [
+      33.42,
+      10.01,
+      23.22
+     ]
     },
     {
      "id": "abigail-lf-medium-wig--silver-mink",
@@ -405,7 +520,12 @@
      ],
      "image": "/fixtures/catalog/abigail-lf-medium-wig--silver-mink.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_abigail_mink.jpg",
-     "price": 279.0
+     "price": 279.0,
+     "renderLab": [
+      59.47,
+      3.32,
+      9.48
+     ]
     }
    ]
   },
@@ -434,7 +554,12 @@
      ],
      "image": "/fixtures/catalog/monroe-medium-wig--cappucino.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_monroe_capp.jpg",
-     "price": 239.0
+     "price": 239.0,
+     "renderLab": [
+      12.47,
+      6.76,
+      8.01
+     ]
     },
     {
      "id": "monroe-medium-wig--coffee-latte",
@@ -447,7 +572,12 @@
      ],
      "image": "/fixtures/catalog/monroe-medium-wig--coffee-latte.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_monroe_coffee_latte.jpg",
-     "price": 239.0
+     "price": 239.0,
+     "renderLab": [
+      13.78,
+      7.2,
+      9.33
+     ]
     },
     {
      "id": "monroe-medium-wig--marble-brown-h",
@@ -460,7 +590,12 @@
      ],
      "image": "/fixtures/catalog/monroe-medium-wig--marble-brown-h.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_monroe_mar-H.jpg",
-     "price": 239.0
+     "price": 239.0,
+     "renderLab": [
+      23.41,
+      8.43,
+      16.06
+     ]
     },
     {
      "id": "monroe-medium-wig--creamy-blond",
@@ -473,7 +608,12 @@
      ],
      "image": "/fixtures/catalog/monroe-medium-wig--creamy-blond.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_monroe_cr_blond.jpg",
-     "price": 239.0
+     "price": 239.0,
+     "renderLab": [
+      57.07,
+      4.94,
+      21.39
+     ]
     }
    ]
   },
@@ -502,7 +642,12 @@
      ],
      "image": "/fixtures/catalog/nina-medium-wig--dark-chocolate.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_nina_dk_choc.jpg",
-     "price": 219.0
+     "price": 219.0,
+     "renderLab": [
+      10.62,
+      5.33,
+      7.1
+     ]
     },
     {
      "id": "nina-medium-wig--ginger-brown",
@@ -515,7 +660,12 @@
      ],
      "image": "/fixtures/catalog/nina-medium-wig--ginger-brown.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_nina_gin.jpg",
-     "price": 219.0
+     "price": 219.0,
+     "renderLab": [
+      13.42,
+      7.97,
+      9.87
+     ]
     },
     {
      "id": "nina-medium-wig--harvest-gold",
@@ -528,7 +678,12 @@
      ],
      "image": "/fixtures/catalog/nina-medium-wig--harvest-gold.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_nina_harv.jpg",
-     "price": 219.0
+     "price": 219.0,
+     "renderLab": [
+      26.84,
+      6.43,
+      18.17
+     ]
     },
     {
      "id": "nina-medium-wig--creamy-blond",
@@ -541,7 +696,12 @@
      ],
      "image": "/fixtures/catalog/nina-medium-wig--creamy-blond.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_nina_cr_blond.jpg",
-     "price": 219.0
+     "price": 219.0,
+     "renderLab": [
+      61.61,
+      5.62,
+      25.01
+     ]
     }
    ]
   },
@@ -570,7 +730,12 @@
      ],
      "image": "/fixtures/catalog/jenna-long-wig--cappucino.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_jenna_capp.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      16.2,
+      5.91,
+      7.61
+     ]
     },
     {
      "id": "jenna-long-wig--ginger-brown",
@@ -583,7 +748,12 @@
      ],
      "image": "/fixtures/catalog/jenna-long-wig--ginger-brown.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_jenna_gin.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      18.18,
+      7.32,
+      11.34
+     ]
     },
     {
      "id": "jenna-long-wig--marble-brown",
@@ -596,7 +766,12 @@
      ],
      "image": "/fixtures/catalog/jenna-long-wig--marble-brown.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_jenna_mar.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      21.61,
+      8.5,
+      13.42
+     ]
     },
     {
      "id": "jenna-long-wig--frosted-taupe",
@@ -609,7 +784,12 @@
      ],
      "image": "/fixtures/catalog/jenna-long-wig--frosted-taupe.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_jenna_taupe.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      51.72,
+      5.19,
+      15.21
+     ]
     }
    ]
   },
@@ -638,7 +818,12 @@
      ],
      "image": "/fixtures/catalog/rochelle-long-wig--expresso.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_rochelle_exp.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      9.26,
+      2.61,
+      2.52
+     ]
     },
     {
      "id": "rochelle-long-wig--dark-chocolate",
@@ -651,7 +836,12 @@
      ],
      "image": "/fixtures/catalog/rochelle-long-wig--dark-chocolate.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_rochelle_dk_choc.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      12.45,
+      4.61,
+      5.23
+     ]
     },
     {
      "id": "rochelle-long-wig--marble-brown",
@@ -664,7 +854,12 @@
      ],
      "image": "/fixtures/catalog/rochelle-long-wig--marble-brown.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_rochelle_mar.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      19.77,
+      8.33,
+      12.59
+     ]
     },
     {
      "id": "rochelle-long-wig--creamy-blond",
@@ -677,7 +872,12 @@
      ],
      "image": "/fixtures/catalog/rochelle-long-wig--creamy-blond.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_rochelle_cr_blond.jpg",
-     "price": 229.0
+     "price": 229.0,
+     "renderLab": [
+      55.13,
+      5.97,
+      22.78
+     ]
     }
    ]
   },
@@ -706,7 +906,12 @@
      ],
      "image": "/fixtures/catalog/diana-lf-long-wig--ginger-brown.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_diana_gin.jpg",
-     "price": 289.0
+     "price": 289.0,
+     "renderLab": [
+      16.74,
+      6.39,
+      8.14
+     ]
     },
     {
      "id": "diana-lf-long-wig--auburn-sugar",
@@ -719,7 +924,12 @@
      ],
      "image": "/fixtures/catalog/diana-lf-long-wig--auburn-sugar.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_diana_aub.jpg",
-     "price": 289.0
+     "price": 289.0,
+     "renderLab": [
+      22.74,
+      14.93,
+      17.08
+     ]
     },
     {
      "id": "diana-lf-long-wig--copper-glaze",
@@ -732,7 +942,12 @@
      ],
      "image": "/fixtures/catalog/diana-lf-long-wig--copper-glaze.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_diana_copp.jpg",
-     "price": 289.0
+     "price": 289.0,
+     "renderLab": [
+      37.1,
+      15.34,
+      27.09
+     ]
     },
     {
      "id": "diana-lf-long-wig--creamy-toast",
@@ -745,7 +960,12 @@
      ],
      "image": "/fixtures/catalog/diana-lf-long-wig--creamy-toast.webp",
      "refImageUrl": "https://cdn.shopify.com/s/files/1/0594/1274/2349/files/1_diana_cr_toast.jpg",
-     "price": 289.0
+     "price": 289.0,
+     "renderLab": [
+      64.83,
+      5.62,
+      22.7
+     ]
     }
    ]
   },

@@ -28,6 +28,13 @@ describe("closestVariant", () => {
   });
 });
 
+describe("worn colour", () => {
+  it("prefers the colour measured on a render over the product photo", () => {
+    const shadowed: Style = { ...styles[1], id: "shadow", variants: [{ ...v("red", "#5f4129"), renderLab: hexToLab("#a0452a") }, v("brown", "#6a4a33")] };
+    expect(closestVariant(passport, shadowed).variant.id).toBe("brown");
+  });
+});
+
 describe("rankLooks", () => {
   it("in match mode puts same-colour, same-length, same-texture first", () => {
     const ranked = rankLooks(passport, styles, "match");

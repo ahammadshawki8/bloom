@@ -11,6 +11,8 @@ export interface Variant {
   colorName: string;
   hex: string;
   lab: Lab;
+  /** Colour measured from a real try-on render on a face (same on-device pipeline as the passport). */
+  renderLab?: Lab;
   /** Local display image (mannequin / product shot). */
   image: string;
   /** Public product image used as the try-on reference. */

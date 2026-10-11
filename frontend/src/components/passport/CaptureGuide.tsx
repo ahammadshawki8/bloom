@@ -30,7 +30,6 @@ export function CaptureGuide({ mode, onCapture }: Props) {
   const file = useRef<HTMLInputElement>(null);
   const [cam, setCam] = useState<CamState>("starting");
   const [framing, setFraming] = useState<FramingResult | null>(null);
-  const [holdStart, setHoldStart] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
   const [uploadIssue, setUploadIssue] = useState<string | null>(null);
   const strict = mode === "front";
@@ -95,27 +94,34 @@ export function CaptureGuide({ mode, onCapture }: Props) {
     return () => cancelAnimationFrame(raf);
   }, [cam, strict]);
 
-  // Hold-still auto capture
+  // Hold-still auto capture: one animation loop, state only set from the frame callback
   const ok = !strict || framing?.ok === true;
+  const okRef = useRef(ok);
+  useEffect(() => {
+    okRef.current = ok;
+  }, [ok]);
   useEffect(() => {
     if (cam !== "live" || !strict) return;
-    if (!ok) {
-      setHoldStart(null);
-      setProgress(0);
-      return;
-    }
-    const start = holdStart ?? performance.now();
-    if (holdStart === null) setHoldStart(start);
     let raf = 0;
-    const tick = () => {
-      const p = Math.min(1, (performance.now() - start) / HOLD_MS);
-      setProgress(p);
-      if (p >= 1) shoot();
-      else raf = requestAnimationFrame(tick);
+    let start: number | null = null;
+    let lastP = -1;
+    const tick = (now: number) => {
+      raf = requestAnimationFrame(tick);
+      if (!okRef.current) start = null;
+      else start ??= now;
+      const p = start === null ? 0 : Math.min(1, (now - start) / HOLD_MS);
+      if (Math.abs(p - lastP) > 0.01) {
+        lastP = p;
+        setProgress(p);
+      }
+      if (p >= 1) {
+        cancelAnimationFrame(raf);
+        shoot();
+      }
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [ok, cam, strict, holdStart, shoot]);
+  }, [cam, strict, shoot]);
 
   async function onFile(f: File | undefined) {
     if (!f) return;
