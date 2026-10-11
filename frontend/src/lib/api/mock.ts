@@ -61,13 +61,10 @@ export const mockApi: BloomApi = {
   },
 
   async readHair(): Promise<HairReading> {
-    await wait(jitter(2200));
-    return {
-      length: "medium",
-      texture: "straight",
-      curl: { code: "1b", label: "Straight with soft body" },
-      density: 3,
-    };
+    // Length, curl and density come from the YouCam hair APIs on the backend.
+    // In preview mode we return nothing rather than invent values for her photo.
+    await wait(400);
+    return {};
   },
 
   async tryOn({ style, variant }) {

@@ -2,7 +2,7 @@
 
 > **Purpose of this file:** the single source of truth for building **Bloom**. It records what we're building, why, every decision and the evidence behind it, the feasibility tests already run, and exactly where we stopped. **Read it top to bottom at the start of every session and update it at the end.** This project lives in a NEW folder and repo, and Claude Code's memory for the old folder (YouCamAPI / Poise) does NOT carry over. So this file holds everything.
 >
-> **Created:** 2026-10-11 (handoff from the Poise session) · **Status:** Idea LOCKED and feasibility test PASSED. **Next:** confirm the design sections (§9), write the spec, write the implementation plan, then build. · **Deadline:** **Nov 2, 2026 @ 11:45am EST** (= Nov 2, 10:45pm GMT+6)
+> **Created:** 2026-10-11 (handoff from the Poise session) · **Status:** Spec + plan written; **frontend (F0–F6) built in preview mode, awaiting user review**. **Next:** user review → backend B1–B5. · **Deadline:** **Nov 2, 2026 @ 11:45am EST** (= Nov 2, 10:45pm GMT+6)
 
 ---
 
@@ -437,6 +437,15 @@ All files are in the handoff folder **`bloom-handoff/`**, which sits next to thi
 ---
 
 ## 17. Progress log
+
+- **2026-10-11 (frontend build session).** User decisions: two folders (`frontend/` → Vercel, `backend/` → Render + Render Postgres; user will upgrade the DB before the free tier's 30-day expiry). PWA, mobile-first + desktop. Landing = atelier (ivory, sage, rose, serif, real portraits); app = **"gentle play"** playground; the two worlds must connect. Cold start = gentle waking toast + polling. User delegated remaining design calls and asked to build the full frontend, then pause for review.
+  - Docs: `docs/superpowers/specs/2026-10-11-bloom-design.md`, `docs/superpowers/plans/2026-10-11-bloom-implementation.md` (tiers F0–F6 frontend, B1–B5 backend).
+  - **Frontend tiers F0–F6 DONE** (mock API mode). Landing, waking toast, studio shell/home, hair passport (live MediaPipe framing + on-device hair colour), fitting room (wigs/wraps/brows, compare, verification loop), saved board, compare, family share links + vote page, decision + insurance pack, privacy/delete-all, PWA (manifest, icons, SW, offline page), claim linter, Playwright journey (phone + desktop), Lighthouse a11y/BP/SEO 100 (landing, home), LCP 310 ms.
+  - Bridge concept: the **arched vanity mirror** shared between landing and studio (React `<ViewTransition name="mirror">`); Fraunces (two axis moods) + Figtree; tokens in `frontend/src/app/globals.css`.
+  - Catalogue: 11 wig styles × 4 colours + 6 bamboo turbans (Godiva's Secret Wigs, public Shopify JSON) + floral scarf; built by `tools/build_catalog.py`. **55 real YouCam renders** on the demo face via `tools/render_fixtures.mjs` (~108 units spent → **~1,207 left**). Each wig variant also has `renderLab` (colour measured on its render) so ranking reflects worn colour.
+  - Verified facts: **HCPCS A9282 = "Wig, any type, each"** (aapc.com/codes/hcpcs-codes/A9282); coverage varies by plan (BCBS VT, TRICARE, BCBS RI). **EBeauty** free wigs need a note from doctor/nurse/social worker and ask for photos of hair from before hair loss (wtop.com 2024-04 article) → the passport is that photo.
+  - Landing photos: Unsplash licence, credited in `CREDITS.md`.
+  - **Next:** user reviews the frontend → then backend B1–B5 → switch `NEXT_PUBLIC_API_MODE=live`.
 
 - **2026-10-11 (setup).**
   - Created `C:\Users\Shawki\Desktop\Bloom`. Moved `planBloom.md` and `bloom-handoff/` there. Copied `.env`, `AGENTS.md` and `CLAUDE.md`. Copied the reusable Poise code and MediaPipe models into `bloom-handoff/poise-reuse/`, and Poise's plan into `bloom-handoff/poise-plan-reference.md`. **Not yet a git repo.**

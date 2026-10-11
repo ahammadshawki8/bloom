@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/Button";
 import { toast } from "@/components/ui/Toast";
 import { useBloom } from "@/lib/store";
 
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
+
 export function PrivacyView() {
   const passport = useBloom((s) => s.passport);
   const results = useBloom((s) => s.results);
@@ -20,9 +22,9 @@ export function PrivacyView() {
 
   const stored = [
     passport ? (passport.isDemo ? "A sample passport" : "Your hair passport and its photos") : null,
-    Object.keys(results).length ? `${Object.keys(results).length} try-on images` : null,
-    saved.length ? `${saved.length} saved looks` : null,
-    shares.length ? `${shares.length} share links` : null,
+    Object.keys(results).length ? plural(Object.keys(results).length, "try-on image") : null,
+    saved.length ? plural(saved.length, "saved look") : null,
+    shares.length ? plural(shares.length, "share link") : null,
   ].filter(Boolean) as string[];
 
   return (

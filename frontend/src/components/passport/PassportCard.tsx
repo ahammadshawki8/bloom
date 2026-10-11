@@ -108,6 +108,11 @@ export function PassportCard({ passport, reveal, transitionName }: Props) {
               />
             )}
           </dl>
+          {!passport.isDemo && !passport.length && (
+            <p className="mt-3 rounded-2xl bg-ivory px-4 py-3 text-micro text-mulberry-soft">
+              Length, curl pattern and fullness are read by the YouCam hair APIs once Bloom&apos;s server is connected. Colour is already measured.
+            </p>
+          )}
           <p className="mt-auto pt-5 text-micro text-mulberry-soft">
             Show this to a wig fitter to match colour and length. A cosmetic record, not a medical one.
           </p>
