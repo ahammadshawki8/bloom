@@ -46,7 +46,7 @@ function PassportVignette() {
       <div className="min-w-0 flex-1 space-y-2.5">
         <p className="type-studio text-[1.05rem] leading-tight">Hair passport</p>
         <div className="flex items-center gap-2">
-          <span className="size-6 rounded-full ring-2 ring-white" style={{ background: "#5e4028" }} />
+          <span className="size-6 rounded-full ring-2 ring-white" style={{ background: "#493321" }} />
           <span className="text-micro leading-tight">Dark chocolate brown</span>
         </div>
         <p className="text-micro text-mulberry-soft">Medium · straight · full</p>

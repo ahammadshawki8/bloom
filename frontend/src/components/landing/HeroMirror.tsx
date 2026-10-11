@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { ArchMirror } from "@/components/mirror/ArchMirror";
 
 const LOOKS = [
-  { src: "/fixtures/demo/face.webp", title: "Her own hair", note: "Measured: dark chocolate brown", swatch: "#5e4028" },
+  { src: "/fixtures/demo/face.webp", title: "Her own hair", note: "Measured: dark chocolate brown", swatch: "#493321" },
   { src: "/fixtures/tryon/monroe-medium-wig--coffee-latte.webp", title: "Monroe wig, coffee latte", note: "Very close to her colour", swatch: "#4d3a2f" },
   { src: "/fixtures/tryon/floral-head-scarf--floral.webp", title: "Floral head scarf", note: "Tied the way she likes", swatch: "#c9a7a0" },
   { src: "/fixtures/tryon/bamboo-turban--sage-green.webp", title: "Bamboo turban, sage", note: "Soft for sleeping days", swatch: "#8fae9a" },

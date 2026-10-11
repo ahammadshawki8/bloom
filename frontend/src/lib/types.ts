@@ -40,6 +40,8 @@ export interface HairColour {
   name: string;
   /** 0..1 — share of sampled pixels that agreed with the median. */
   confidence: number;
+  /** Number of hair pixels the median was taken from. */
+  samples?: number;
 }
 
 export interface Passport {

@@ -115,7 +115,7 @@ export function nameHairColour([L, a, b]: Lab): string {
   if (C < 9 && L > 55) return L > 76 ? "Silver white" : "Soft silver";
   if (L < 22) return C > 6 ? "Espresso" : "Soft black";
   if (L < 35) return warm ? "Dark auburn" : "Dark chocolate brown";
-  if (L < 50) return a > 15 ? "Auburn" : C < 12 ? "Ash brown" : "Chestnut brown";
+  if (L < 50) return a > 15 ? "Auburn" : a > 11 && a / Math.max(b, 1) > 0.75 ? "Auburn brown" : C < 12 ? "Ash brown" : "Chestnut brown";
   if (L < 62) return warm ? "Copper" : C < 14 ? "Mushroom brown" : "Light brown";
   if (L < 72) return a > 12 ? "Strawberry blonde" : C < 16 ? "Ash blonde" : "Honey blonde";
   return C < 14 ? "Pale ash blonde" : b > 24 ? "Golden blonde" : "Light blonde";
