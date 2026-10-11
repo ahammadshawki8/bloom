@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import clsx from "clsx";
-import { Check, X, ArrowsLeftRight, UsersThree, Heart, Question } from "@phosphor-icons/react";
+import { Check, X, ArrowsLeftRight, UsersThree, Heart, Question, ThumbsDown, CaretDown } from "@phosphor-icons/react";
 import { PageHeader } from "@/components/studio/PageHeader";
 import { Hydrated } from "@/components/studio/Hydrated";
 import { ButtonLink, Button } from "@/components/ui/Button";
@@ -13,7 +13,11 @@ import { toast } from "@/components/ui/Toast";
 import { useBloom } from "@/lib/store";
 import { useCatalog } from "@/lib/catalog/useCatalog";
 import { describeLook } from "@/lib/catalog/describe";
-import type { Shelf } from "@/lib/types";
+import type { Shelf, TryOnResult } from "@/lib/types";
+import { deltaE2000 } from "@/lib/color";
+import { wornLab } from "@/lib/match";
+import { fitReport } from "@/lib/match/fit";
+import { useShareTallies } from "@/lib/shares/useTallies";
 import { CompareSheet } from "./CompareSheet";
 import { ShareSheet } from "./ShareSheet";
 import { SentShares } from "./SentShares";
@@ -31,6 +35,23 @@ export function SavedBoard() {
   );
 }
 
+type SortKey = "newest" | "family" | "fit" | "colour" | "price";
+type FilterKey = "all" | "wig" | "wrap" | "face" | "voted";
+const SORTS: { id: SortKey; label: string }[] = [
+  { id: "newest", label: "Newest first" },
+  { id: "family", label: "Family favourites" },
+  { id: "fit", label: "Best fit" },
+  { id: "colour", label: "Closest colour" },
+  { id: "price", label: "Price: low to high" },
+];
+const FILTERS: { id: FilterKey; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "wig", label: "Wigs" },
+  { id: "wrap", label: "Wraps" },
+  { id: "face", label: "Brows & lashes" },
+  { id: "voted", label: "Family voted" },
+];
+
 function Board() {
   const saved = useBloom((s) => s.saved);
   const results = useBloom((s) => s.results);
@@ -41,8 +62,54 @@ function Board() {
   const [picked, setPicked] = useState<string[]>([]);
   const [sheet, setSheet] = useState<"compare" | "share" | null>(null);
 
+  const passport = useBloom((s) => s.passport);
+  const { byResult } = useShareTallies();
+  const [sort, setSort] = useState<SortKey>("newest");
+  const [filter, setFilter] = useState<FilterKey>("all");
+
   const counts = { keep: saved.filter((s) => s.shelf === "keep").length, maybe: saved.filter((s) => s.shelf === "maybe").length };
-  const visible = useMemo(() => saved.filter((s) => s.shelf === shelf && results[s.resultId]), [saved, shelf, results]);
+
+  // Metrics each saved look can be sorted by.
+  const metricsOf = (r: TryOnResult) => {
+    const info = describeLook(r, styles);
+    const votes = byResult[r.id] ?? { up: 0, down: 0 };
+    const isWig = info.style?.kind === "wig" && info.variant;
+    const variant = info.variant && r.renderLength ? { ...info.variant, renderLength: r.renderLength } : info.variant;
+    return {
+      info,
+      votes,
+      net: votes.up - votes.down,
+      fit: isWig && passport && info.style && variant ? fitReport(passport, info.style, variant).overall : null,
+      dE: isWig && passport && info.variant ? deltaE2000(passport.hair.lab, wornLab(info.variant)) : null,
+      price: info.variant?.price ?? null,
+    };
+  };
+
+  const visible = useMemo(() => {
+    const rows = saved
+      .filter((s) => s.shelf === shelf && results[s.resultId])
+      .map((s) => ({ s, r: results[s.resultId], m: metricsOf(results[s.resultId]) }))
+      .filter(({ r, m }) =>
+        filter === "all" ? true : filter === "face" ? r.kind === "brow" || r.kind === "lash" : filter === "voted" ? m.votes.up + m.votes.down > 0 : r.kind === filter,
+      );
+    const last = (v: number | null, dir: 1 | -1) => (v === null ? Infinity : v * dir);
+    rows.sort((a, b) => {
+      switch (sort) {
+        case "family":
+          return b.m.net - a.m.net || b.m.votes.up - a.m.votes.up;
+        case "fit":
+          return last(a.m.fit, -1) - last(b.m.fit, -1);
+        case "colour":
+          return last(a.m.dE, 1) - last(b.m.dE, 1);
+        case "price":
+          return last(a.m.price, 1) - last(b.m.price, 1);
+        default:
+          return b.s.savedAt.localeCompare(a.s.savedAt);
+      }
+    });
+    return rows;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saved, shelf, results, sort, filter, byResult, styles, passport]);
 
   const toggle = (id: string) => setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : p.length >= 3 ? p : [...p, id]));
 
@@ -89,14 +156,50 @@ function Board() {
         ))}
       </div>
 
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <label className="relative">
+          <span className="sr-only">Sort by</span>
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortKey)}
+            className="h-9 appearance-none rounded-full bg-paper pr-8 pl-4 text-[13px] font-medium ring-1 ring-line outline-none focus-visible:ring-2 focus-visible:ring-rose-deep"
+          >
+            {SORTS.map((o) => (
+              <option key={o.id} value={o.id}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+          <CaretDown size={12} className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2" />
+        </label>
+        <div className="no-scrollbar -mr-4 flex gap-1.5 overflow-x-auto pr-4" role="radiogroup" aria-label="Show">
+          {FILTERS.map((f) => (
+            <button
+              key={f.id}
+              role="radio"
+              aria-checked={filter === f.id}
+              onClick={() => setFilter(f.id)}
+              className={clsx(
+                "h-9 shrink-0 rounded-full px-3.5 text-[13px] font-medium transition-colors",
+                filter === f.id ? "bg-mulberry text-ivory" : "bg-paper text-mulberry ring-1 ring-line hover:ring-mulberry/30",
+              )}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {visible.length === 0 ? (
-        <p className="mt-10 text-small text-mulberry-soft">{shelf === "maybe" ? "Move looks here when you're not sure yet." : "Nothing in Loved right now."}</p>
+        <p className="mt-10 text-small text-mulberry-soft">
+          {filter !== "all" ? "Nothing matches that filter yet." : shelf === "maybe" ? "Move looks here when you're not sure yet." : "Nothing in Loved right now."}
+        </p>
       ) : (
         <ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-7 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-5">
           <AnimatePresence initial={false}>
-            {visible.map(({ resultId }) => {
-              const r = results[resultId];
-              const info = describeLook(r, styles);
+            {visible.map(({ r, m }) => {
+              const resultId = r.id;
+              const info = m.info;
               const on = picked.includes(resultId);
               const order = picked.indexOf(resultId) + 1;
               return (
@@ -149,6 +252,19 @@ function Board() {
                     <div className="min-w-0">
                       <p className="truncate text-small font-medium">{info.title}</p>
                       <p className="truncate text-[12px] text-mulberry-soft">{info.subtitle}</p>
+                      <p className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[11px] text-mulberry-soft tabular-nums">
+                        {m.fit !== null && <span>Fit {m.fit}</span>}
+                        {m.votes.up + m.votes.down > 0 && (
+                          <span className="flex items-center gap-1.5">
+                            <span className="flex items-center gap-0.5 text-rose-deep">
+                              <Heart size={11} weight="fill" /> {m.votes.up}
+                            </span>
+                            <span className="flex items-center gap-0.5">
+                              <ThumbsDown size={11} /> {m.votes.down}
+                            </span>
+                          </span>
+                        )}
+                      </p>
                     </div>
                     <button
                       onClick={() => {

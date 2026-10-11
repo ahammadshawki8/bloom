@@ -1,9 +1,9 @@
-import { ApiError, type BloomApi, type CreateShareInput, type HairReading } from "./types";
-import { LOOK_BASES, lookImage } from "@/lib/catalog/looks";
-import type { Share, Style, TryOnResult } from "@/lib/types";
+import type { BloomApi, CreateShareInput, HairReading } from "./types";
+import { planWithRules, type Share, type Style, type TryOnResult } from "@/lib/types";
 
-// Mock implementation backed by real fixtures. Every try-on image it returns is a
-// genuine YouCam render on the demo face (see tools/render_fixtures.mjs).
+// Preview implementation backed by real fixtures. Every try-on image it returns is
+// a genuine YouCam render on the sample face (see tools/render_fixtures.mjs), and
+// the guide runs the same rule-based planner the backend falls back to.
 
 const SHARE_KEY = "bloom.mock.shares";
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -11,6 +11,10 @@ const jitter = (base: number) => base + Math.round(Math.random() * base * 0.4);
 const uid = () => Math.random().toString(36).slice(2, 10);
 
 let catalogPromise: Promise<Style[]> | null = null;
+const loadCatalog = () =>
+  (catalogPromise ??= fetch("/fixtures/catalog.json")
+    .then((r) => r.json())
+    .then((d: { styles: Style[] }) => d.styles));
 
 function readShares(): Record<string, Share> {
   try {
@@ -27,7 +31,7 @@ function writeShares(all: Record<string, Share>) {
   }
 }
 
-function result(kind: TryOnResult["kind"], styleId: string, variantId: string): TryOnResult {
+function result(kind: TryOnResult["kind"], styleId: string, variantId: string, renderLength?: string): TryOnResult {
   return {
     id: `${variantId}--${uid()}`,
     kind,
@@ -36,6 +40,7 @@ function result(kind: TryOnResult["kind"], styleId: string, variantId: string): 
     image: `/fixtures/tryon/${variantId}.webp`,
     createdAt: new Date().toISOString(),
     source: "demo",
+    renderLength,
   };
 }
 
@@ -54,23 +59,23 @@ export const mockApi: BloomApi = {
     return true;
   },
 
-  catalog() {
-    catalogPromise ??= fetch("/fixtures/catalog.json")
-      .then((r) => r.json())
-      .then((d: { styles: Style[] }) => d.styles);
-    return catalogPromise;
-  },
+  catalog: loadCatalog,
 
-  async readHair(): Promise<HairReading> {
-    // Length, curl and density come from the YouCam hair APIs on the backend.
-    // In preview mode we return nothing rather than invent values for her photo.
+  async readHair({ isDemo }): Promise<HairReading> {
+    // Length, curl, density and face shape come from the YouCam APIs on the backend.
+    // In preview mode we return nothing for a real photo rather than invent values.
     await wait(400);
-    return {};
+    if (!isDemo) return {};
+    const a = await fetch("/fixtures/demo/analysis.json").then((r) => r.json());
+    return {
+      face: { shape: a.faceShape, browShape: a.eyebrowShape[1], browThickness: a.eyebrowThickness[0], eyeShape: a.eyeShape, cheekbones: a.cheekbones },
+      hairLengthTerm: a.hairLength,
+    };
   },
 
   async tryOn({ style, variant }) {
     await wait(jitter(2600));
-    return result(style.kind, style.id, variant.id);
+    return result(style.kind, style.id, variant.id, variant.renderLength);
   },
 
   async brows({ preset }) {
@@ -78,26 +83,9 @@ export const mockApi: BloomApi = {
     return result("brow", "brows", preset.id);
   },
 
-  async composeLook({ base, palette, necklace }) {
-    if (!LOOK_BASES.includes(base.variantId)) {
-      throw new ApiError(
-        "Not pre-rendered in preview mode",
-        "preview_only",
-        "In preview mode, complete looks are ready for the sage turban, the floral scarf and the Tracy pixie. Any look works once Bloom's server is connected.",
-      );
-    }
-    await wait(jitter(2400));
-    const id = `${base.variantId}--${palette}${necklace ? `--${necklace}` : ""}`;
-    return {
-      id: `${id}--${uid()}`,
-      kind: "look",
-      styleId: base.styleId,
-      variantId: id,
-      image: lookImage(base.variantId, palette, necklace),
-      createdAt: new Date().toISOString(),
-      source: "demo",
-      look: { baseResultId: base.id, baseVariantId: base.variantId, palette, necklace },
-    };
+  async lashes({ preset }) {
+    await wait(jitter(1800));
+    return result("lash", "lashes", preset.id);
   },
 
   async createShare(input: CreateShareInput) {
@@ -123,13 +111,23 @@ export const mockApi: BloomApi = {
     return readShares()[id] ?? null;
   },
 
-  async vote(id, vote) {
+  async vote(id, { votes, name, note }) {
     await wait(400);
     const all = readShares();
     const share = all[id];
-    if (!share) throw new Error("This link has expired.");
-    share.votes.push({ ...vote, at: new Date().toISOString() });
+    if (!share) throw new Error("This link has closed.");
+    const at = new Date().toISOString();
+    votes.forEach((v, i) => share.votes.push({ itemIndex: v.itemIndex, value: v.value, name, note: i === 0 ? note : undefined, at }));
     writeShares(all);
     return share;
+  },
+
+  async guide({ prompt, passport }, onEvent, signal) {
+    const styles = await loadCatalog();
+    for (const e of planWithRules(prompt, passport, styles)) {
+      if (signal?.aborted) return;
+      await wait(e.type === "tool" ? jitter(450) : 250);
+      onEvent(e);
+    }
   },
 };

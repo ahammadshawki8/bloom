@@ -73,11 +73,17 @@ export const useBloom = create<BloomState>()(
     }),
     {
       name: "bloom",
-      version: 2,
+      version: 3,
       // v2: the sample passport gained YouCam face analysis and hair length; refresh stored copies.
       migrate: (persisted, version) => {
         const state = persisted as Partial<BloomState>;
         if (version < 2 && state.passport?.isDemo) state.passport = demoPassport();
+        // v3: "complete look" results were removed from the product.
+        if (version < 3 && state.results) {
+          const keep = Object.fromEntries(Object.entries(state.results).filter(([, r]) => (r.kind as string) !== "look"));
+          state.results = keep;
+          state.saved = (state.saved ?? []).filter((x) => keep[x.resultId]);
+        }
         return state as BloomState;
       },
       storage: createJSONStorage(() => idbStorage),

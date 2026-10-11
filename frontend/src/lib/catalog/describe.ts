@@ -1,6 +1,5 @@
-import { BROW_PRESETS } from "./brows";
+import { BROW_PRESETS, LASH_PRESETS } from "./brows";
 import { findVariant } from "./useCatalog";
-import { NECKLACES, PALETTES } from "./looks";
 import type { Style, TryOnResult, Variant } from "@/lib/types";
 
 export interface LookInfo {
@@ -16,16 +15,9 @@ export function describeLook(result: TryOnResult, styles: Style[] | null): LookI
     const preset = BROW_PRESETS.find((p) => p.id === result.variantId);
     return { title: `${preset?.label ?? "New"} brows`, subtitle: "In your passport shade" };
   }
-  if (result.kind === "look" && result.look) {
-    const base = findVariant(styles, result.look.baseVariantId);
-    const palette = PALETTES.find((p) => p.id === result.look!.palette)?.label;
-    const necklace = NECKLACES.find((n) => n.id === result.look!.necklace)?.label;
-    return {
-      title: base ? `${base.style.name}, complete` : "Complete look",
-      subtitle: [palette, necklace].filter(Boolean).join(" · "),
-      style: base?.style,
-      variant: base?.variant,
-    };
+  if (result.kind === "lash") {
+    const preset = LASH_PRESETS.find((p) => p.id === result.variantId);
+    return { title: `${preset?.label ?? "New"} lashes`, subtitle: "Lash look" };
   }
   const found = findVariant(styles, result.variantId);
   if (!found) return { title: "A look you tried", subtitle: "" };

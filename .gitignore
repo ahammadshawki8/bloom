@@ -20,3 +20,7 @@ ui_inspiration/
 .DS_Store
 frontend/test-results/
 frontend/playwright-report/
+
+# backend local data
+backend/.data/
+backend/dist/

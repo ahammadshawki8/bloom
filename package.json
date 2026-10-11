@@ -1,0 +1,16 @@
+{
+  "name": "bloom",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev:db": "npm run db:dev -w backend",
+    "dev:backend": "npm run dev -w backend",
+    "dev:frontend": "npm run dev -w frontend",
+    "test": "npm test -w frontend && npm test -w backend",
+    "build": "npm run build -w backend && npm run build -w frontend"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@bloom/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Domain logic shared by the Bloom frontend and backend: types, colour science, matching, fit scoring.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  }
+}

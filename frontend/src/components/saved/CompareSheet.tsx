@@ -1,50 +1,33 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart } from "@phosphor-icons/react";
+import { Heart, ThumbsDown } from "@phosphor-icons/react";
 import { Sheet } from "@/components/ui/Sheet";
 import { useBloom } from "@/lib/store";
 import { useCatalog } from "@/lib/catalog/useCatalog";
 import { describeLook } from "@/lib/catalog/describe";
-import { NECKLACES, PALETTES } from "@/lib/catalog/looks";
 import { deltaE2000, describeDeltaE } from "@/lib/color";
 import { wornLab } from "@/lib/match";
 import { fitReport, lengthWords } from "@/lib/match/fit";
-import { api } from "@/lib/api";
+import { useShareTallies } from "@/lib/shares/useTallies";
 import type { TryOnResult } from "@/lib/types";
 
 const LENGTH = { short: "Short", medium: "Medium", long: "Long" } as const;
-const KIND = { wig: "Wig", wrap: "Head wrap", brow: "Brows", look: "Complete look" } as const;
+const KIND = { wig: "Wig", wrap: "Head wrap", brow: "Brows", lash: "Lashes" } as const;
 
 /** Side by side, in detail: her own hair as the reference column, then each chosen look. */
 export function CompareSheet({ open, ids, onClose }: { open: boolean; ids: string[]; onClose: () => void }) {
   const results = useBloom((s) => s.results);
   const passport = useBloom((s) => s.passport);
-  const shares = useBloom((s) => s.shares);
   const { styles } = useCatalog();
-  const [hearts, setHearts] = useState<Record<string, number>>({});
+  const { byResult } = useShareTallies();
   const looks = ids.map((id) => results[id]).filter(Boolean);
-
-  useEffect(() => {
-    if (!open) return;
-    let alive = true;
-    Promise.all(shares.map((s) => api.getShare(s.id))).then((all) => {
-      const counts: Record<string, number> = {};
-      for (const share of all)
-        share?.votes.forEach((v) => (counts[share.items[v.itemIndex]?.resultId] = (counts[share.items[v.itemIndex]?.resultId] ?? 0) + 1));
-      if (alive) setHearts(counts);
-    });
-    return () => {
-      alive = false;
-    };
-  }, [open, shares]);
 
   if (!passport) return null;
 
-  const hair = (r: TryOnResult) => (r.kind === "look" && r.look ? results[r.look.baseResultId] : r);
-  const info = (r: TryOnResult) => describeLook(hair(r) ?? r, styles);
+  const info = (r: TryOnResult) => describeLook(r, styles);
 
   const rows: { label: string; you: ReactNode; cell: (r: TryOnResult) => ReactNode }[] = [
     { label: "Type", you: "Natural hair", cell: (r) => KIND[r.kind] },
@@ -109,23 +92,11 @@ export function CompareSheet({ open, ids, onClose }: { open: boolean; ids: strin
       },
     },
     {
-      label: "Finishing",
-      you: "—",
-      cell: (r) => {
-        if (r.kind !== "look" || !r.look) return "—";
-        const p = PALETTES.find((x) => x.id === r.look!.palette);
-        const n = NECKLACES.find((x) => x.id === r.look!.necklace);
-        return [p?.label, "brows + lashes", n?.label].filter(Boolean).join(", ");
-      },
-    },
-    {
       label: "Price",
       you: "—",
       cell: (r) => {
         const i = info(r);
-        const n = r.kind === "look" ? NECKLACES.find((x) => x.id === r.look?.necklace) : undefined;
-        if (!i.variant) return "—";
-        return `$${(i.variant.price + (n?.price ?? 0)).toFixed(0)}${n ? " incl. necklace" : ""}`;
+        return i.variant ? `$${i.variant.price.toFixed(0)}` : "—";
       },
     },
     {
@@ -138,16 +109,22 @@ export function CompareSheet({ open, ids, onClose }: { open: boolean; ids: strin
       },
     },
     {
-      label: "Family hearts",
+      label: "Family votes",
       you: "—",
-      cell: (r) =>
-        hearts[r.id] ? (
-          <span className="flex items-center gap-1 font-medium text-rose-deep">
-            <Heart size={14} weight="fill" /> {hearts[r.id]}
+      cell: (r) => {
+        const t = byResult[r.id];
+        if (!t || t.up + t.down === 0) return <span className="text-mulberry-soft">None yet</span>;
+        return (
+          <span className="flex items-center gap-2.5 font-medium tabular-nums">
+            <span className="flex items-center gap-1 text-rose-deep">
+              <Heart size={14} weight="fill" /> {t.up}
+            </span>
+            <span className="flex items-center gap-1">
+              <ThumbsDown size={14} /> {t.down}
+            </span>
           </span>
-        ) : (
-          <span className="text-mulberry-soft">None yet</span>
-        ),
+        );
+      },
     },
   ];
 

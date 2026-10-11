@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useCallback, useRef } from "react";
+import { useMemo, useState, useCallback, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
 import clsx from "clsx";
@@ -9,13 +9,11 @@ import { MirrorStage } from "./MirrorStage";
 import { StyleRail, type RailItem } from "./StyleRail";
 import { StylePanel } from "./StylePanel";
 import { BrowPicker } from "./BrowPicker";
-import { FinishPicker } from "./FinishPicker";
 import { FitCard } from "./FitCard";
 import { ButtonLink, Button } from "@/components/ui/Button";
 import { toast } from "@/components/ui/Toast";
 import { api, ApiError } from "@/lib/api";
 import { useCatalog, findVariant } from "@/lib/catalog/useCatalog";
-import { PALETTES } from "@/lib/catalog/looks";
 import { rankLooks, type MatchMode } from "@/lib/match";
 import { fitReport } from "@/lib/match/fit";
 import { useBloom } from "@/lib/store";
@@ -23,12 +21,11 @@ import { demoPassport } from "@/lib/passport/demo";
 import { useRenderedColour } from "@/lib/vision/useRenderedColour";
 import type { BrowPreset, HairLength, Passport, Style, TryOnResult, Variant } from "@/lib/types";
 
-type Tab = "wigs" | "wraps" | "brows" | "finish";
+type Tab = "wigs" | "wraps" | "brows";
 const TABS: { id: Tab; label: string }[] = [
   { id: "wigs", label: "Wigs" },
   { id: "wraps", label: "Wraps" },
-  { id: "brows", label: "Brows" },
-  { id: "finish", label: "Finish" },
+  { id: "brows", label: "Brows & lashes" },
 ];
 
 export function FittingRoom() {
@@ -56,9 +53,7 @@ function Room({ passport }: { passport: Passport }) {
   const [browId, setBrowId] = useState<string | null>(null);
   const [current, setCurrent] = useState<TryOnResult | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
-  const [finishBase, setFinishBase] = useState<TryOnResult | null>(null);
-  const [palette, setPalette] = useState(PALETTES[0].id);
-  const [necklace, setNecklace] = useState<string | null>(null);
+  const [lashId, setLashId] = useState<string | null>(null);
   const reqId = useRef(0);
 
   // Latest result per variant
@@ -68,23 +63,23 @@ function Room({ passport }: { passport: Passport }) {
     return m;
   }, [results]);
   const tried = useMemo(() => new Set(byVariant.keys()), [byVariant]);
-  const hairResults = useMemo(() => [...byVariant.values()].filter((r) => r.kind === "wig" || r.kind === "wrap").reverse(), [byVariant]);
 
   // Deep link: ?result=<id>, applied once the catalogue has loaded
   const [linked, setLinked] = useState(false);
+  const [pendingVariant, setPendingVariant] = useState<string | null>(null);
   if (!linked && styles) {
     setLinked(true);
+    const v = params.get("variant");
+    if (v) setPendingVariant(v);
     const r = results[params.get("result") ?? ""];
     if (r) {
       setCurrent(r);
       if (r.kind === "brow") {
         setTab("brows");
         setBrowId(r.variantId);
-      } else if (r.kind === "look" && r.look) {
-        setTab("finish");
-        setPalette(r.look.palette);
-        setNecklace(r.look.necklace);
-        setFinishBase(results[r.look.baseResultId] ?? null);
+      } else if (r.kind === "lash") {
+        setTab("brows");
+        setLashId(r.variantId);
       } else {
         const f = findVariant(styles, r.variantId);
         if (f) {
@@ -146,26 +141,35 @@ function Room({ passport }: { passport: Passport }) {
     );
   };
 
+  // ?variant=<id> (from the guide): try it on once the catalogue is ready.
+  useEffect(() => {
+    if (!pendingVariant || !styles) return;
+    const f = findVariant(styles, pendingVariant);
+    queueMicrotask(() => {
+      setPendingVariant(null);
+      if (!f) return;
+      setTab(f.style.kind === "wrap" ? "wraps" : "wigs");
+      tryVariant(f.style, f.variant);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingVariant, styles]);
+
   const tryBrow = (p: BrowPreset) => {
     setBrowId(p.id);
     run(`Drawing ${p.label.toLowerCase()} brows…`, () => api.brows({ passport, preset: p }), p.id);
   };
 
-  const compose = (base: TryOnResult, nextPalette: string, nextNecklace: string | null) => {
-    const id = `${base.variantId}--${nextPalette}${nextNecklace ? `--${nextNecklace}` : ""}`;
-    run(
-      "Finishing your look: brows, lashes, colour, then the necklace…",
-      () => api.composeLook({ passport, base, palette: nextPalette, necklace: nextNecklace }),
-      id,
-    );
+  const tryLash = (p: BrowPreset) => {
+    setLashId(p.id);
+    run(`Adding ${p.label.toLowerCase()} lashes…`, () => api.lashes({ passport, preset: p }), p.id);
   };
-
-  const activeFinishBase = finishBase ?? (current && (current.kind === "wig" || current.kind === "wrap") ? current : (hairResults[0] ?? null));
 
   // Fit report for the current hair result (wig or wrap)
   const currentHair = current && (current.kind === "wig" || current.kind === "wrap") ? findVariant(styles, current.variantId) : null;
   const rendered = useRenderedColour(current && current.kind === "wig" ? current.image : null, passport.hair.lab);
-  const report = currentHair && currentHair.style.kind === "wig" ? fitReport(passport, currentHair.style, currentHair.variant, rendered.deltaE) : null;
+  // Prefer the length YouCam measured on her own render (live) over the sample-face reading.
+  const fitVariant = currentHair && current?.renderLength ? { ...currentHair.variant, renderLength: current.renderLength } : currentHair?.variant;
+  const report = currentHair && fitVariant && currentHair.style.kind === "wig" ? fitReport(passport, currentHair.style, fitVariant, rendered.deltaE) : null;
 
   const isSaved = !!current && saved.some((s) => s.resultId === current.id);
 
@@ -200,7 +204,7 @@ function Room({ passport }: { passport: Passport }) {
 
       {/* Controls column */}
       <div className="min-w-0 space-y-4">
-        <div role="tablist" aria-label="What to try" className="relative grid grid-cols-4 rounded-full bg-ivory-deep p-1">
+        <div role="tablist" aria-label="What to try" className="relative grid grid-cols-3 rounded-full bg-ivory-deep p-1">
           {TABS.map((t) => (
             <button
               key={t.id}
@@ -297,38 +301,7 @@ function Room({ passport }: { passport: Passport }) {
           </>
         )}
 
-        {tab === "brows" && <BrowPicker passport={passport} selectedId={browId} onPick={tryBrow} busy={!!loading} />}
-
-        {tab === "finish" && (
-          <FinishPicker
-            bases={hairResults}
-            base={activeFinishBase}
-            palette={palette}
-            necklace={necklace}
-            busy={!!loading}
-            onBase={(b) => {
-              setFinishBase(b);
-              compose(b, palette, necklace);
-            }}
-            onPalette={(p) => {
-              setPalette(p);
-              if (activeFinishBase) compose(activeFinishBase, p, necklace);
-            }}
-            onNecklace={(n) => {
-              setNecklace(n);
-              if (activeFinishBase) compose(activeFinishBase, palette, n);
-            }}
-            onTryBase={async (variantId) => {
-              const f = findVariant(styles, variantId);
-              if (!f) return;
-              const r = await tryVariant(f.style, f.variant);
-              if (r) {
-                setFinishBase(r);
-                compose(r, palette, necklace);
-              }
-            }}
-          />
-        )}
+        {tab === "brows" && <BrowPicker passport={passport} selectedId={browId} onPick={tryBrow} lashId={lashId} onPickLash={tryLash} busy={!!loading} />}
 
         <SharePrompt />
       </div>

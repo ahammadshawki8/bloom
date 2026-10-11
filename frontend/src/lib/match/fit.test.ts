@@ -21,6 +21,12 @@ describe("faceFit", () => {
     expect(faceFit("Round", wig({ length: "long" })).score).toBeGreaterThan(faceFit("Round", wig({ length: "short" })).score);
   });
 
+  it("only explains with features the style really has", () => {
+    const straight = faceFit("Square", wig({ length: "medium", texture: "straight", bangs: true }));
+    expect(straight.why).not.toMatch(/wave/i);
+    expect(straight.why).toMatch(/bangs/i);
+  });
+
   it("stays neutral when the face shape is unknown", () => {
     expect(faceFit(undefined, wig({ length: "short" })).score).toBe(70);
   });

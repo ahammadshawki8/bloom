@@ -12,6 +12,7 @@ import { demoPassport } from "@/lib/passport/demo";
 import { toast } from "@/components/ui/Toast";
 import { ShieldCheck } from "@phosphor-icons/react";
 import { RecentLooks } from "./RecentLooks";
+import { GuideCard } from "./GuideCard";
 
 const lengthWord = { short: "Short", medium: "Medium", long: "Long" } as const;
 const densityWord = { 1: "fine", 2: "light", 3: "full", 4: "very full" } as const;
@@ -131,6 +132,7 @@ export function StudioHome() {
           </section>
         </div>
 
+        <GuideCard />
         <RecentLooks />
       </main>
     </>

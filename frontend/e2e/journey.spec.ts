@@ -49,12 +49,3 @@ test("every studio page has no horizontal scroll", async ({ page }) => {
   }
 });
 
-test("complete the look: hair -> makeup -> necklace", async ({ page }) => {
-  await page.goto("/studio");
-  await page.getByRole("button", { name: "Look around with a sample face" }).click();
-  await page.goto("/studio/try?tab=finish");
-  await page.getByRole("button", { name: "Try this first" }).first().click();
-  await expect(page.locator('main img[src*="fixtures%2Flooks"]').first()).toBeVisible({ timeout: 20_000 });
-  await page.getByRole("button", { name: /Pearl strand/ }).click();
-  await expect(page.locator('main img[src*="--pearl"]').first()).toBeVisible({ timeout: 20_000 });
-});
