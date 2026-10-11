@@ -1,4 +1,4 @@
-import type { BrowPreset, GuideEvent, HairReading, Passport, Share, Style, TryOnResult, Variant } from "@/lib/types";
+import type { BrowPreset, GuideEvent, HairReading, Passport, SavedLookInput, Share, Style, TryOnResult, Variant } from "@/lib/types";
 
 export type { HairReading } from "@/lib/types";
 export type { GuideEvent } from "@/lib/types";
@@ -30,7 +30,7 @@ export interface BloomApi {
   getShare(id: string): Promise<Share | null>;
   vote(id: string, input: VoteInput): Promise<Share>;
   /** The Bloom guide: streams the agent's steps and its shortlist. */
-  guide(input: { prompt: string; passport: Passport }, onEvent: (e: GuideEvent) => void, signal?: AbortSignal): Promise<void>;
+  guide(input: { prompt: string; passport: Passport; saved?: SavedLookInput[] }, onEvent: (e: GuideEvent) => void, signal?: AbortSignal): Promise<void>;
 }
 
 export class ApiError extends Error {

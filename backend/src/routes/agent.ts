@@ -1,5 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import type { GuideEvent, Passport } from "@bloom/shared";
+import { cleanSaved, type GuideEvent, type Passport } from "@bloom/shared";
 import type { Db } from "../db/pool";
 import { sessionOf } from "../services/session";
 import { loadCatalog } from "../services/catalog";
@@ -9,6 +9,8 @@ import { runGuide } from "../agent/run";
 interface Body {
   prompt?: string;
   passport?: Passport;
+  /** Her saved looks (ids, layers and family vote counts only). */
+  saved?: unknown;
 }
 
 export async function agentRoutes(app: FastifyInstance, db: Db) {
@@ -34,7 +36,7 @@ export async function agentRoutes(app: FastifyInstance, db: Db) {
     let planner = "rules";
     let picks: unknown = null;
     try {
-      for await (const e of runGuide(prompt, { ...passport, photo: "" }, styles)) {
+      for await (const e of runGuide(prompt, { ...passport, photo: "" }, styles, cleanSaved(req.body?.saved))) {
         if (e.type === "picks") picks = e.picks;
         if (e.type === "done") planner = e.planner;
         send(e);

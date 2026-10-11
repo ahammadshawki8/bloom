@@ -167,4 +167,21 @@ describe("guide", () => {
     expect(picks && picks.type === "picks" && picks.picks.length).toBeGreaterThan(0);
     expect(events.at(-1)).toMatchObject({ type: "done", planner: "rules" });
   });
+
+  it("compares her saved looks when she asks which suits her", async () => {
+    const saved = [
+      { result_id: "r_a", kind: "wig", variant_id: "jenna-long-wig--cappucino", votes_up: 2 },
+      { result_id: "r_b", kind: "combo", variant_id: "tracy-short-wig--copper-glaze", brow_id: "brow--straight", lash_id: "lash--wispy" },
+      { result_id: "r_c", kind: "wrap", variant_id: "bamboo-turban--black" },
+    ];
+    const r = await app.inject({ method: "POST", url: "/agent", payload: { prompt: "I have 3 looks saved. Which one suits me better?", passport: demoPassport(), saved } });
+    const events: GuideEvent[] = r.body
+      .split("\n\n")
+      .filter((l) => l.startsWith("data: "))
+      .map((l) => JSON.parse(l.slice(6)));
+    expect(events.some((e) => e.type === "tool" && e.name === "get_saved_looks")).toBe(true);
+    expect(events.some((e) => e.type === "tool" && e.name === "search_styles")).toBe(false);
+    const picks = events.find((e) => e.type === "picks");
+    expect(picks?.type === "picks" && picks.picks.map((p) => p.result_id).sort()).toEqual(["r_a", "r_b", "r_c"]);
+  });
 });

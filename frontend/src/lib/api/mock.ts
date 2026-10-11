@@ -136,9 +136,9 @@ export const mockApi: BloomApi = {
     return share;
   },
 
-  async guide({ prompt, passport }, onEvent, signal) {
+  async guide({ prompt, passport, saved }, onEvent, signal) {
     const styles = await loadCatalog();
-    for (const e of planWithRules(prompt, passport, styles)) {
+    for (const e of planWithRules(prompt, passport, styles, saved)) {
       if (signal?.aborted) return;
       await wait(e.type === "tool" ? jitter(450) : 250);
       onEvent(e);

@@ -79,12 +79,12 @@ export const httpApi: BloomApi = {
   getShare: (id) => request<Share>(`/shares/${encodeURIComponent(id)}`).catch(() => null),
   vote: (id, input) => request<Share>(`/shares/${encodeURIComponent(id)}/votes`, { method: "POST", body: JSON.stringify(input) }),
 
-  async guide({ prompt, passport }, onEvent, signal) {
+  async guide({ prompt, passport, saved }, onEvent, signal) {
     // The agent never needs the photo, only measured facts.
     const res = await fetch(`${API_URL}/agent`, {
       method: "POST",
       headers: headers(),
-      body: JSON.stringify({ prompt, passport: { ...passport, photo: "" } }),
+      body: JSON.stringify({ prompt, passport: { ...passport, photo: "" }, saved }),
       signal,
     }).catch(() => null);
     if (!res || !res.ok || !res.body) {

@@ -5,12 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { create } from "zustand";
-import { Sparkle, MagnifyingGlass, IdentificationBadge, Gauge, Eyeglasses, ArrowRight, CircleNotch } from "@phosphor-icons/react";
+import { Sparkle, MagnifyingGlass, IdentificationBadge, Gauge, Eyeglasses, ArrowRight, CircleNotch, Heart } from "@phosphor-icons/react";
 import { Sheet } from "@/components/ui/Sheet";
 import { Button } from "@/components/ui/Button";
 import { api } from "@/lib/api";
 import { useBloom } from "@/lib/store";
-import type { GuideEvent, GuidePick } from "@/lib/types";
+import { useShareTallies } from "@/lib/shares/useTallies";
+import type { GuideEvent, GuidePick, SavedLookInput, TryOnResult } from "@/lib/types";
+
+const ASK_SAVED = "Which of my saved looks suits me best?";
 
 const SUGGESTIONS = [
   "Close to my own colour, easy to look after",
@@ -24,6 +27,7 @@ const ICON: Record<string, typeof Sparkle> = {
   search_styles: MagnifyingGlass,
   fit_report: Gauge,
   suggest_brows_and_lashes: Eyeglasses,
+  get_saved_looks: Heart,
 };
 
 interface GuideState {
@@ -50,6 +54,9 @@ export const useGuide = create<GuideState>((set) => ({
 export function GuideSheet() {
   const { open, prompt, events, running, setOpen } = useGuide();
   const passport = useBloom((s) => s.passport);
+  const savedList = useBloom((s) => s.saved);
+  const results = useBloom((s) => s.results);
+  const { byResult } = useShareTallies();
   const [error, setError] = useState<string | null>(null);
   const abort = useRef<AbortController | null>(null);
 
@@ -64,7 +71,26 @@ export function GuideSheet() {
     setError(null);
     useGuide.setState({ prompt: text, events: [], running: true });
     try {
-      await api.guide({ prompt: text, passport }, (e) => useGuide.setState((s) => ({ events: [...s.events, e] })), ctrl.signal);
+      // Only ids, layers and vote counts go to the guide, never the images.
+      const saved: SavedLookInput[] = savedList.flatMap((s) => {
+        const r = results[s.resultId];
+        if (!r) return [];
+        const votes = byResult[r.id];
+        return [
+          {
+            result_id: r.id,
+            kind: r.kind,
+            variant_id: r.kind === "combo" ? r.layers?.hairVariantId : r.kind === "wig" || r.kind === "wrap" ? r.variantId : undefined,
+            brow_id: r.kind === "combo" ? r.layers?.browId : r.kind === "brow" ? r.variantId : undefined,
+            lash_id: r.kind === "combo" ? r.layers?.lashId : r.kind === "lash" ? r.variantId : undefined,
+            render_length: r.renderLength,
+            shelf: s.shelf,
+            votes_up: votes?.up ?? 0,
+            votes_down: votes?.down ?? 0,
+          },
+        ];
+      });
+      await api.guide({ prompt: text, passport, saved }, (e) => useGuide.setState((s) => ({ events: [...s.events, e] })), ctrl.signal);
     } catch (e) {
       if (!ctrl.signal.aborted) setError((e as { hint?: string }).hint ?? "The guide couldn't finish. Please try again.");
     } finally {
@@ -120,7 +146,7 @@ export function GuideSheet() {
               </Button>
             </div>
             <div className="-mx-5 mt-3 no-scrollbar flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0">
-              {SUGGESTIONS.map((s) => (
+              {(savedList.length >= 2 ? [ASK_SAVED, ...SUGGESTIONS] : SUGGESTIONS).map((s) => (
                 <button
                   key={s}
                   type="button"
@@ -180,7 +206,7 @@ export function GuideSheet() {
               <p className="type-studio text-[1.2rem]">{picks.note}</p>
               <ul className="mt-3 grid gap-3 sm:grid-cols-3">
                 {picks.picks.map((p) => (
-                  <PickCard key={p.variant_id} pick={p} demo={passport.isDemo} onGo={() => setOpen(false)} />
+                  <PickCard key={p.result_id ?? p.variant_id} pick={p} demo={passport.isDemo} saved={p.result_id ? results[p.result_id] : undefined} onGo={() => setOpen(false)} />
                 ))}
               </ul>
               {picks.brows && (
@@ -211,9 +237,11 @@ export function GuideSheet() {
   );
 }
 
-function PickCard({ pick, demo, onGo }: { pick: GuidePick; demo: boolean; onGo: () => void }) {
-  // On the sample face, show the real pre-rendered try-on; otherwise the product.
-  const [src, setSrc] = useState(demo ? `/fixtures/tryon/${pick.variant_id}.webp` : `/fixtures/catalog/${pick.variant_id}.webp`);
+function PickCard({ pick, demo, saved, onGo }: { pick: GuidePick; demo: boolean; saved?: TryOnResult; onGo: () => void }) {
+  // A saved look shows her own render. Otherwise, on the sample face, the real
+  // pre-rendered try-on, and for a real passport the product photo.
+  const [src, setSrc] = useState(saved ? saved.image : demo ? `/fixtures/tryon/${pick.variant_id}.webp` : `/fixtures/catalog/${pick.variant_id}.webp`);
+  const href = saved ? `/studio/try?result=${encodeURIComponent(saved.id)}` : `/studio/try?variant=${encodeURIComponent(pick.variant_id)}`;
   return (
     <li className="flex flex-col rounded-[22px] bg-paper p-3 ring-1 ring-line">
       <span className="relative block aspect-[4/5] arch overflow-hidden bg-ivory-deep">
@@ -225,11 +253,11 @@ function PickCard({ pick, demo, onGo }: { pick: GuidePick; demo: boolean; onGo: 
       <p className="mt-2.5 text-[13px] font-semibold">{pick.title}</p>
       <p className="mt-0.5 flex-1 text-[12px] leading-snug text-mulberry-soft">{pick.why}</p>
       <Link
-        href={`/studio/try?variant=${encodeURIComponent(pick.variant_id)}`}
+        href={href}
         onClick={onGo}
         className="mt-3 inline-flex h-9 items-center justify-center gap-1.5 rounded-full bg-mulberry text-[13px] font-medium text-ivory"
       >
-        Try it on <ArrowRight size={14} />
+        {saved ? "Open in the mirror" : "Try it on"} <ArrowRight size={14} />
       </Link>
     </li>
   );
