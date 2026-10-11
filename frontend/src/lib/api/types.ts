@@ -24,6 +24,8 @@ export interface BloomApi {
   tryOn(input: { passport: Passport; style: Style; variant: Variant }): Promise<TryOnResult>;
   brows(input: { passport: Passport; preset: BrowPreset }): Promise<TryOnResult>;
   lashes(input: { passport: Passport; preset: BrowPreset }): Promise<TryOnResult>;
+  /** Brows and/or lashes layered on top of a hair try-on (or her own face). */
+  stack(input: { passport: Passport; hair: TryOnResult | null; browId?: string; lashId?: string }): Promise<TryOnResult>;
   createShare(input: CreateShareInput): Promise<Share>;
   getShare(id: string): Promise<Share | null>;
   vote(id: string, input: VoteInput): Promise<Share>;

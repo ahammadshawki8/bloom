@@ -93,10 +93,11 @@ function Board() {
         filter === "all"
           ? true
           : filter === "face"
-            ? r.kind === "brow" || r.kind === "lash"
+            ? r.kind === "brow" || r.kind === "lash" || r.kind === "combo"
             : filter === "voted"
               ? m.votes.up + m.votes.down > 0
-              : r.kind === filter,
+              : // A layered look counts under its wig or wrap.
+                (r.kind === "combo" ? m.info.style?.kind : r.kind) === filter,
       );
     const last = (v: number | null, dir: 1 | -1) => (v === null ? Infinity : v * dir);
     rows.sort((a, b) => {

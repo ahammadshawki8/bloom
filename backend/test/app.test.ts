@@ -78,6 +78,33 @@ describe("try-on", () => {
   });
 });
 
+describe("stacked looks", () => {
+  it("serves a single layer on the sample face from fixtures (no units)", async () => {
+    const r = await app.inject({ method: "POST", url: "/stack", payload: { isDemo: true, lashId: "lash--wispy" } });
+    expect(r.statusCode).toBe(200);
+    expect(r.json()).toMatchObject({ kind: "lash", variantId: "lash--wispy", source: "demo" });
+  });
+
+  it("needs at least brows or lashes", async () => {
+    const r = await app.inject({ method: "POST", url: "/stack", payload: { isDemo: true, hairVariantId: "tracy-short-wig--copper-glaze" } });
+    expect(r.statusCode).toBe(400);
+    expect(r.json().code).toBe("nothing_to_stack");
+  });
+
+  it("rejects unknown presets and styles", async () => {
+    const brow = await app.inject({ method: "POST", url: "/stack", payload: { isDemo: true, browId: "brow--nope" } });
+    expect(brow.json().code).toBe("unknown_preset");
+    const style = await app.inject({ method: "POST", url: "/stack", payload: { isDemo: true, hairVariantId: "nope", browId: "brow--straight" } });
+    expect(style.json().code).toBe("unknown_style");
+  });
+
+  it("asks to redo the hair when the base try-on is gone", async () => {
+    const r = await app.inject({ method: "POST", url: "/stack", payload: { hairResultId: "r_missing", lashId: "lash--full" } });
+    expect(r.statusCode).toBe(400);
+    expect(r.json().code).toBe("base_missing");
+  });
+});
+
 describe("passport", () => {
   it("returns the stored YouCam analysis for the sample face", async () => {
     const r = await app.inject({ method: "POST", url: "/passport/read", payload: { isDemo: true } });

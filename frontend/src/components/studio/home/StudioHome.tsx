@@ -11,7 +11,6 @@ import { useBloom } from "@/lib/store";
 import { demoPassport } from "@/lib/passport/demo";
 import { toast } from "@/components/ui/Toast";
 import { ShieldCheck } from "@phosphor-icons/react";
-import { RecentLooks } from "./RecentLooks";
 import { GuideCard } from "./GuideCard";
 
 const lengthWord = { short: "Short", medium: "Medium", long: "Long" } as const;
@@ -133,7 +132,6 @@ export function StudioHome() {
         </div>
 
         <GuideCard />
-        <RecentLooks />
       </main>
     </>
   );

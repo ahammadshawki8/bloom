@@ -15,7 +15,7 @@ import { useShareTallies } from "@/lib/shares/useTallies";
 import type { TryOnResult } from "@/lib/types";
 
 const LENGTH = { short: "Short", medium: "Medium", long: "Long" } as const;
-const KIND = { wig: "Wig", wrap: "Head wrap", brow: "Brows", lash: "Lashes" } as const;
+const KIND = { wig: "Wig", wrap: "Head wrap", brow: "Brows", lash: "Lashes", combo: "Layered look" } as const;
 
 /** Side by side, in detail: her own hair as the reference column, then each chosen look. */
 export function CompareSheet({ open, ids, onClose }: { open: boolean; ids: string[]; onClose: () => void }) {

@@ -1,4 +1,4 @@
-import type { BloomApi, CreateShareInput, HairReading } from "./types";
+import { ApiError, type BloomApi, type CreateShareInput, type HairReading } from "./types";
 import { planWithRules, type Share, type Style, type TryOnResult } from "@/lib/types";
 
 // Preview implementation backed by real fixtures. Every try-on image it returns is
@@ -86,6 +86,20 @@ export const mockApi: BloomApi = {
   async lashes({ preset }) {
     await wait(jitter(1800));
     return result("lash", "lashes", preset.id);
+  },
+
+  async stack({ hair, browId, lashId }) {
+    // Only single layers on the bare sample face are pre-rendered; layering onto a
+    // wig renders live through the backend.
+    if (!hair && Boolean(browId) !== Boolean(lashId)) {
+      await wait(jitter(1200));
+      return browId ? result("brow", "brows", browId) : result("lash", "lashes", lashId!);
+    }
+    throw new ApiError(
+      "Layering needs the server",
+      "preview_only",
+      "In preview mode, brows and lashes show on their own. Layering them onto a wig or wrap renders live once Bloom's server is connected.",
+    );
   },
 
   async createShare(input: CreateShareInput) {

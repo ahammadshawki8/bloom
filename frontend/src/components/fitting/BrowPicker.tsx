@@ -14,15 +14,26 @@ interface Props {
   lashId: string | null;
   onPickLash: (p: BrowPreset) => void;
   busy: boolean;
+  /** Name of the wig or wrap the brows and lashes are layered onto, if any. */
+  onHair: string | null;
 }
 
 /** Brows and lashes, as close crops of real renders. The brow closest to her own is suggested. */
-export function BrowPicker({ passport, selectedId, onPick, lashId, onPickLash, busy }: Props) {
+export function BrowPicker({ passport, selectedId, onPick, lashId, onPickLash, busy, onHair }: Props) {
   const natural = passport.face?.browShape;
   const suggested = natural ? browPresetFor(natural) : null;
 
   return (
     <div>
+      <p className="mb-3 text-[13px] text-mulberry-soft">
+        {onHair ? (
+          <>
+            Layered onto <span className="font-semibold text-mulberry">{onHair}</span>, so you see the whole look. Tap a style again to take it off.
+          </>
+        ) : (
+          <>Try a wig or wrap first to see brows and lashes with it, or try them on their own. Tap a style again to take it off.</>
+        )}
+      </p>
       <div className="mb-3 flex items-center gap-3 rounded-[20px] bg-butter-wash p-3.5">
         <span className="size-7 shrink-0 rounded-full ring-2 ring-white" style={{ background: passport.browHex ?? "#4a3426" }} />
         <p className="text-[13px] leading-snug">

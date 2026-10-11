@@ -61,6 +61,20 @@ export const httpApi: BloomApi = {
       body: JSON.stringify({ photo: photoOf(passport), isDemo: passport.isDemo, presetId: preset.id }),
     }),
 
+  stack: ({ passport, hair, browId, lashId }) =>
+    request<TryOnResult>("/stack", {
+      method: "POST",
+      body: JSON.stringify({
+        isDemo: passport.isDemo,
+        photo: hair ? undefined : photoOf(passport),
+        hairResultId: !passport.isDemo && hair ? hair.id : undefined,
+        hairVariantId: passport.isDemo && hair ? hair.variantId : undefined,
+        browId,
+        lashId,
+        browHex: passport.browHex,
+      }),
+    }),
+
   createShare: (input) => request<Share>("/shares", { method: "POST", body: JSON.stringify(input) }),
   getShare: (id) => request<Share>(`/shares/${encodeURIComponent(id)}`).catch(() => null),
   vote: (id, input) => request<Share>(`/shares/${encodeURIComponent(id)}/votes`, { method: "POST", body: JSON.stringify(input) }),

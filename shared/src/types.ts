@@ -79,7 +79,15 @@ export interface Passport {
   analysisNotes?: string[];
 }
 
-export type ResultKind = "wig" | "wrap" | "brow" | "lash";
+export type ResultKind = "wig" | "wrap" | "brow" | "lash" | "combo";
+
+/** The layers of a stacked look: hair (wig or wrap) with brows and/or lashes on top. */
+export interface LookLayers {
+  hairResultId?: string;
+  hairVariantId?: string;
+  browId?: string;
+  lashId?: string;
+}
 
 export interface TryOnResult {
   id: string;
@@ -92,6 +100,8 @@ export interface TryOnResult {
   source: "live" | "demo";
   /** YouCam Hair Length Detection read off this render (live wig try-ons). */
   renderLength?: string;
+  /** For stacked looks (kind "combo"): what it is made of. */
+  layers?: LookLayers;
 }
 
 export type Shelf = "keep" | "maybe";

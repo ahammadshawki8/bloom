@@ -10,6 +10,8 @@ import { StyleRail, type RailItem } from "./StyleRail";
 import { StylePanel } from "./StylePanel";
 import { BrowPicker } from "./BrowPicker";
 import { FitCard } from "./FitCard";
+import { LayerChips } from "./LayerChips";
+import { BROW_PRESETS, LASH_PRESETS } from "@/lib/catalog/brows";
 import { ButtonLink, Button } from "@/components/ui/Button";
 import { toast } from "@/components/ui/Toast";
 import { api, ApiError } from "@/lib/api";
@@ -54,12 +56,14 @@ function Room({ passport }: { passport: Passport }) {
   const [current, setCurrent] = useState<TryOnResult | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const [lashId, setLashId] = useState<string | null>(null);
+  /** The hair layer (wig or wrap try-on) that brows and lashes stack on. */
+  const [hair, setHair] = useState<TryOnResult | null>(null);
   const reqId = useRef(0);
 
-  // Latest result per variant
+  // Latest single-layer result per variant (stacked looks are looked up by their layers)
   const byVariant = useMemo(() => {
     const m = new Map<string, TryOnResult>();
-    for (const r of Object.values(results).sort((a, b) => a.createdAt.localeCompare(b.createdAt))) m.set(r.variantId, r);
+    for (const r of Object.values(results).sort((a, b) => a.createdAt.localeCompare(b.createdAt))) if (r.kind !== "combo") m.set(r.variantId, r);
     return m;
   }, [results]);
   const tried = useMemo(() => new Set(byVariant.keys()), [byVariant]);
@@ -74,7 +78,15 @@ function Room({ passport }: { passport: Passport }) {
     const r = results[params.get("result") ?? ""];
     if (r) {
       setCurrent(r);
-      if (r.kind === "brow") {
+      if (r.kind === "combo" && r.layers) {
+        setTab("brows");
+        setBrowId(r.layers.browId ?? null);
+        setLashId(r.layers.lashId ?? null);
+        const base = r.layers.hairResultId ? results[r.layers.hairResultId] : r.layers.hairVariantId ? byVariant.get(r.layers.hairVariantId) : undefined;
+        setHair(base ?? null);
+        const f = base ? findVariant(styles, base.variantId) : null;
+        if (f) setSelected(f);
+      } else if (r.kind === "brow") {
         setTab("brows");
         setBrowId(r.variantId);
       } else if (r.kind === "lash") {
@@ -82,6 +94,7 @@ function Room({ passport }: { passport: Passport }) {
         setLashId(r.variantId);
       } else {
         const f = findVariant(styles, r.variantId);
+        setHair(r);
         if (f) {
           setSelected(f);
           setTab(f.style.kind === "wrap" ? "wraps" : "wigs");
@@ -130,15 +143,57 @@ function Room({ passport }: { passport: Passport }) {
 
   const realStyleOf = (style: Style) => (style.id.includes("::") ? ((styles ?? []).find((s) => s.id === style.id.split("::")[0]) ?? style) : style);
 
-  const tryVariant = (style: Style, variant: Variant) => {
+  /** A stacked look already made for this exact combination, if any. */
+  const findCombo = (h: TryOnResult | null, b: string | null, l: string | null) =>
+    Object.values(results).find(
+      (r) =>
+        r.kind === "combo" &&
+        r.layers &&
+        (r.layers.browId ?? null) === b &&
+        (r.layers.lashId ?? null) === l &&
+        (h
+          ? passport.isDemo
+            ? r.layers.hairVariantId === h.variantId
+            : r.layers.hairResultId === h.id
+          : !r.layers.hairVariantId && !r.layers.hairResultId),
+    );
+
+  /** Shows hair + brows + lashes together, rendering a new stack only when needed. */
+  const compose = (h: TryOnResult | null, b: string | null, l: string | null) => {
+    if (!b && !l) {
+      reqId.current++;
+      setLoading(null);
+      setCurrent(h);
+      return;
+    }
+    const single = !h && Boolean(b) !== Boolean(l) ? byVariant.get((b ?? l)!) : undefined;
+    const cached = single ?? findCombo(h, b, l);
+    if (cached) {
+      reqId.current++;
+      setLoading(null);
+      setCurrent(cached);
+      return;
+    }
+    const what = [b && "brows", l && "lashes"].filter(Boolean).join(" and ");
+    run(h ? `Adding ${what} to this look…` : `Drawing your ${what}…`, () =>
+      api.stack({ passport, hair: h, browId: b ?? undefined, lashId: l ?? undefined }),
+    );
+  };
+
+  const tryVariant = async (style: Style, variant: Variant) => {
     const realStyle = realStyleOf(style);
     setSelected({ style: realStyle, variant });
     useBloom.getState().setLastStyle(realStyle.id);
-    return run(
+    const r = await run(
       `Trying on ${realStyle.name}${realStyle.variants.length > 1 ? ` in ${variant.colorName}` : ""}…`,
       () => api.tryOn({ passport, style: realStyle, variant }),
       variant.id,
     );
+    if (r) {
+      setHair(r);
+      if (browId || lashId) compose(r, browId, lashId);
+    }
+    return r;
   };
 
   // ?variant=<id> (from the guide): try it on once the catalogue is ready.
@@ -154,21 +209,30 @@ function Room({ passport }: { passport: Passport }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingVariant, styles]);
 
+  // Tapping a selected brow or lash style again takes that layer off.
   const tryBrow = (p: BrowPreset) => {
-    setBrowId(p.id);
-    run(`Drawing ${p.label.toLowerCase()} brows…`, () => api.brows({ passport, preset: p }), p.id);
+    const next = browId === p.id ? null : p.id;
+    setBrowId(next);
+    compose(hair, next, lashId);
   };
 
   const tryLash = (p: BrowPreset) => {
-    setLashId(p.id);
-    run(`Adding ${p.label.toLowerCase()} lashes…`, () => api.lashes({ passport, preset: p }), p.id);
+    const next = lashId === p.id ? null : p.id;
+    setLashId(next);
+    compose(hair, browId, next);
   };
 
-  // Fit report for the current hair result (wig or wrap)
-  const currentHair = current && (current.kind === "wig" || current.kind === "wrap") ? findVariant(styles, current.variantId) : null;
-  const rendered = useRenderedColour(current && current.kind === "wig" ? current.image : null, passport.hair.lab);
+  const removeHair = () => {
+    setHair(null);
+    setSelected(null);
+    compose(null, browId, lashId);
+  };
+
+  // Fit report for the hair layer (wig or wrap), whatever is stacked on it
+  const currentHair = hair ? findVariant(styles, hair.variantId) : null;
+  const rendered = useRenderedColour(hair && hair.kind === "wig" ? hair.image : null, passport.hair.lab);
   // Prefer the length YouCam measured on her own render (live) over the sample-face reading.
-  const fitVariant = currentHair && current?.renderLength ? { ...currentHair.variant, renderLength: current.renderLength } : currentHair?.variant;
+  const fitVariant = currentHair && hair?.renderLength ? { ...currentHair.variant, renderLength: hair.renderLength } : currentHair?.variant;
   const report = currentHair && fitVariant && currentHair.style.kind === "wig" ? fitReport(passport, currentHair.style, fitVariant, rendered.deltaE) : null;
 
   const isSaved = !!current && saved.some((s) => s.resultId === current.id);
@@ -197,6 +261,21 @@ function Room({ passport }: { passport: Passport }) {
               save(current.id, "keep");
               toast("Saved to your looks.", { label: "View", onClick: () => router.push("/studio/saved") });
             }
+          }}
+        />
+        <LayerChips
+          hair={currentHair ? `${currentHair.style.name}${currentHair.style.kind === "wrap" ? "" : " wig"}` : null}
+          brow={browId ? (BROW_PRESETS.find((p) => p.id === browId)?.label ?? null) : null}
+          lash={lashId ? (LASH_PRESETS.find((p) => p.id === lashId)?.label ?? null) : null}
+          busy={!!loading}
+          onRemoveHair={removeHair}
+          onRemoveBrow={() => {
+            setBrowId(null);
+            compose(hair, null, lashId);
+          }}
+          onRemoveLash={() => {
+            setLashId(null);
+            compose(hair, browId, null);
           }}
         />
         {report && <FitCard report={report} measuring={rendered.measuring} />}
@@ -301,7 +380,17 @@ function Room({ passport }: { passport: Passport }) {
           </>
         )}
 
-        {tab === "brows" && <BrowPicker passport={passport} selectedId={browId} onPick={tryBrow} lashId={lashId} onPickLash={tryLash} busy={!!loading} />}
+        {tab === "brows" && (
+          <BrowPicker
+            passport={passport}
+            selectedId={browId}
+            onPick={tryBrow}
+            lashId={lashId}
+            onPickLash={tryLash}
+            busy={!!loading}
+            onHair={currentHair ? currentHair.style.name : null}
+          />
+        )}
 
         <SharePrompt />
       </div>

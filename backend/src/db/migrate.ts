@@ -69,6 +69,10 @@ const MIGRATIONS: { id: string; sql: string }[] = [
       );
     `,
   },
+  {
+    id: "002_result_layers",
+    sql: `alter table results add column if not exists layers jsonb;`,
+  },
 ];
 
 export async function migrate(db: Db) {
