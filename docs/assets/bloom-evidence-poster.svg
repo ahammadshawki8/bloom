@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1067" viewBox="0 0 1600 1067" role="img" aria-labelledby="title description">
+  <title id="title">A short window, more than hair</title>
+  <desc id="description">In a survey of 1,478 breast cancer patients treated at 47 sites in Japan, scalp hair loss began an average of 18 days after chemotherapy started. Eighty-four percent used a wig during or after treatment. Ninety percent lost eyebrow hair and eighty-eight percent lost eyelash hair. Source: Watanabe and colleagues, PLOS ONE, 2019, doi:10.1371/journal.pone.0208118.</desc>
+  <rect width="1600" height="1067" fill="#ffffff"/>
+  <text x="78" y="103" fill="#565656" font-family="Segoe UI, sans-serif" font-size="25" font-weight="600" letter-spacing="4">BLOOM  /  RESEARCH</text>
+  <line x1="78" y1="135" x2="1522" y2="135" stroke="#d4d4d4" stroke-width="2"/>
+  <text x="73" y="237" fill="#111111" font-family="Segoe UI, sans-serif" font-size="76" font-weight="600">A short window. More than hair.</text>
+  <text x="78" y="297" fill="#505050" font-family="Segoe UI, sans-serif" font-size="30">1,478 breast cancer patients surveyed at 47 sites in Japan</text>
+
+  <line x1="545" y1="363" x2="545" y2="909" stroke="#d4d4d4" stroke-width="2"/>
+
+  <text x="78" y="413" fill="#5a5a5a" font-family="Segoe UI, sans-serif" font-size="27" font-weight="600" letter-spacing="2">AVERAGE TIME TO HAIR LOSS</text>
+  <text x="66" y="705" fill="#111111" font-family="Bahnschrift, sans-serif" font-size="280" font-weight="600">18</text>
+  <text x="84" y="786" fill="#111111" font-family="Segoe UI, sans-serif" font-size="57" font-weight="600">days</text>
+  <text x="80" y="854" fill="#505050" font-family="Segoe UI, sans-serif" font-size="29">after chemotherapy began</text>
+
+  <text x="614" y="413" fill="#5a5a5a" font-family="Segoe UI, sans-serif" font-size="27" font-weight="600" letter-spacing="2">WHAT PATIENTS REPORTED</text>
+
+  <text x="614" y="502" fill="#242424" font-family="Segoe UI, sans-serif" font-size="32">Used a wig during or after treatment</text>
+  <text x="1354" y="511" fill="#111111" font-family="Bahnschrift, sans-serif" font-size="59" font-weight="600">84%</text>
+  <rect x="614" y="538" width="662" height="21" fill="#e1e1e1"/>
+  <rect x="614" y="538" width="556" height="21" fill="#242424"/>
+
+  <text x="614" y="657" fill="#242424" font-family="Segoe UI, sans-serif" font-size="32">Lost eyebrow hair</text>
+  <text x="1354" y="666" fill="#111111" font-family="Bahnschrift, sans-serif" font-size="59" font-weight="600">90%</text>
+  <rect x="614" y="693" width="662" height="21" fill="#e1e1e1"/>
+  <rect x="614" y="693" width="596" height="21" fill="#242424"/>
+
+  <text x="614" y="812" fill="#242424" font-family="Segoe UI, sans-serif" font-size="32">Lost eyelash hair</text>
+  <text x="1354" y="821" fill="#111111" font-family="Bahnschrift, sans-serif" font-size="59" font-weight="600">88%</text>
+  <rect x="614" y="848" width="662" height="21" fill="#e1e1e1"/>
+  <rect x="614" y="848" width="583" height="21" fill="#242424"/>
+
+  <line x1="78" y1="938" x2="1522" y2="938" stroke="#d4d4d4" stroke-width="2"/>
+  <text x="78" y="985" fill="#525252" font-family="Segoe UI, sans-serif" font-size="25">Watanabe et al., PLOS ONE (2019), doi:10.1371/journal.pone.0208118</text>
+  <text x="78" y="1026" fill="#525252" font-family="Segoe UI, sans-serif" font-size="25">Participants had completed anthracycline and/or taxane chemotherapy. Individual experiences vary.</text>
+</svg>

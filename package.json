@@ -12,5 +12,8 @@
     "dev:frontend": "npm run dev -w frontend",
     "test": "npm test -w frontend && npm test -w backend",
     "build": "npm run build -w backend && npm run build -w frontend"
+  },
+  "devDependencies": {
+    "gifsicle": "^7.0.1"
   }
 }
