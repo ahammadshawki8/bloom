@@ -20,13 +20,8 @@ const SOURCES = [
   },
   {
     n: 4,
-    text: "Clinical Journal of Oncology Nursing: chemotherapy-induced alopecia affects about 65% of patients (2022 review).",
-    href: "https://cjon.ons.org/pubs/article/245351/preview",
-  },
-  {
-    n: 5,
-    text: "Survey of 168 breast cancer patients: 55.3% reported high distress from chemotherapy-induced alopecia (summary, Institut national du cancer).",
-    href: "https://www.cancer.fr/professionnels-de-sante/veille/nota-bene-cancer/bulletin-n-223/impact-of-chemotherapy-induced-alopecia-distress-on-body-image-psychosocial-well-being-and-depression-in-breast-cancer-patients",
+    text: "Watanabe et al., PLOS ONE (2019): survey of 1,478 breast cancer patients at 47 sites in Japan after anthracycline and/or taxane chemotherapy.",
+    href: "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0208118",
   },
 ];
 

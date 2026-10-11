@@ -12,97 +12,121 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const ACCENT = "#a8505c"; // validated: emphasis hue vs. context gray (dataviz validator, light surface)
 const CONTEXT = "#b8a9b1";
 const THRESHOLD = 6;
+const ONSET_DAY = 18;
+const SCALE_DAYS = 28;
+const ONSET_POSITION = (ONSET_DAY / SCALE_DAYS) * 100;
+
+const STUDY_BARS = [
+  { label: "Used a wig", value: 84 },
+  { label: "Lost eyebrow hair", value: 90 },
+  { label: "Lost eyelash hair", value: 88 },
+] as const;
 
 export function TheNumbers() {
   return (
     <section className="relative overflow-hidden bg-paper">
       <div className="mx-auto max-w-[1240px] px-5 py-20 md:px-10 lg:py-28">
         <RiseText text="The numbers behind Bloom." className="max-w-[18ch] type-atelier text-h1 md:text-display" />
+        <Reveal delay={0.1}>
+          <p className="mt-5 max-w-[66ch] text-lead text-mulberry-soft">
+            A survey of 1,478 breast cancer patients at 47 sites in Japan shows how quickly appearance can change, and why Bloom includes wigs, brows, and
+            lashes.
+            <sup className="ml-1 text-micro">
+              <a href="#source-4" aria-label="Source 4">
+                [4]
+              </a>
+            </sup>
+          </p>
+        </Reveal>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-3">
-          <Stat value={65} suffix="%" label="of people having chemotherapy lose some or all of their hair." source={4} delay={0} />
-          <Stat value={55} suffix="%" label="of breast cancer patients in one survey reported high distress from it." source={5} delay={0.1} />
-          <Stat value={11651} suffix="" label="hair pixels measured, on the phone, to write one passport colour." delay={0.2} />
+        <div className="mt-10 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+          <OnsetChart />
+          <AppearanceChart />
         </div>
-
-        <Timeline />
         <ColourMatchChart />
       </div>
     </section>
   );
 }
 
-function Stat({ value, suffix, label, source, delay }: { value: number; suffix: string; label: string; source?: number; delay: number }) {
+/** A four-week scale gives the study's mean onset a clear, honest reference point. */
+function OnsetChart() {
+  const reduce = useReducedMotion();
   return (
-    <Reveal delay={delay} className="rounded-[var(--radius-card)] bg-ivory p-6">
-      <p className="font-sans text-[3.25rem] leading-none font-semibold tracking-tight text-mulberry tabular-nums">
-        <CountUp to={value} suffix={suffix} format={value > 999} />
+    <Reveal className="flex h-full flex-col rounded-[var(--radius-card)] bg-ivory p-6 md:p-8">
+      <p className="text-micro font-semibold tracking-[0.12em] text-mulberry-soft uppercase">The preparation window</p>
+      <h3 className="mt-3 type-studio text-h3">Hair loss started after</h3>
+      <p className="mt-5 flex items-baseline gap-2 font-sans leading-none text-mulberry">
+        <CountUp to={ONSET_DAY} className="text-[4.5rem] font-semibold tracking-tight tabular-nums md:text-[5rem]" />
+        <span className="text-h3">days</span>
       </p>
-      <p className="mt-4 max-w-[30ch] text-body text-mulberry-soft">
-        {label}
-        {source && (
-          <sup className="ml-0.5 text-micro">
-            <a href={`#source-${source}`} aria-label={`Source ${source}`}>
-              [{source}]
-            </a>
-          </sup>
-        )}
-      </p>
+      <p className="mt-2 text-small text-mulberry-soft">on average after chemotherapy began in this study.</p>
+
+      <div className="mt-auto pt-12">
+        <div
+          className="relative h-3 rounded-full bg-paper"
+          role="img"
+          aria-label="From the first treatment to four weeks later, the average start of hair loss in this study was day 18."
+        >
+          <motion.div
+            className="h-full origin-left rounded-full"
+            style={{ width: `${ONSET_POSITION}%`, background: ACCENT }}
+            initial={reduce ? false : { scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, ease: EASE }}
+          />
+          <span
+            className="absolute top-1/2 size-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-ivory bg-mulberry shadow-lift"
+            style={{ left: `${ONSET_POSITION}%` }}
+            aria-hidden
+          />
+        </div>
+        <div className="mt-4 flex justify-between gap-3 text-micro text-mulberry-soft">
+          <span>First treatment</span>
+          <span>Four weeks</span>
+        </div>
+        <p className="mt-6 border-t border-line pt-4 text-small text-mulberry-soft">An average, not a deadline. Individual experiences vary.</p>
+      </div>
     </Reveal>
   );
 }
 
-/** The window: an illustrative timeline with Bloom's moment emphasised. */
-function Timeline() {
+/** Three comparable percentages from the same study, all shown on a 100% scale. */
+function AppearanceChart() {
   const reduce = useReducedMotion();
-  const phases = [
-    // claims-ok: names the event on the treatment timeline, not a diagnosis by Bloom
-    { label: "Diagnosis to first infusion", note: "Hair is still yours. Bloom's window.", w: 26, emphasis: true },
-    { label: "Weeks 2–4", note: "Hair loss usually begins", w: 18 },
-    { label: "During treatment", note: "Wigs, wraps, or neither", w: 34 },
-    // claims-ok: sourced description of the natural timeline (Consumer Reports), not a product claim
-    { label: "About 3 months after", note: "Regrowth often starts, sometimes different", w: 22 },
-  ];
   return (
-    <Reveal className="mt-14 rounded-[var(--radius-card)] bg-ivory p-6 md:p-8">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h3 className="type-studio text-h3">The window</h3>
-        <p className="text-micro text-mulberry-soft">Illustrative. Every treatment plan is different.</p>
-      </div>
-      <div
-        className="mt-6 flex h-3 gap-[2px] overflow-hidden rounded-full"
-        role="img"
-        // claims-ok: accessible text for the same sourced timeline
-        aria-label="Timeline: diagnosis to first infusion is Bloom's window; hair loss begins weeks 2 to 4; regrowth often starts about 3 months after treatment."
-      >
-        {phases.map((p, i) => (
-          <motion.span
-            key={p.label}
-            className="block h-full origin-left"
-            style={{ width: `${p.w}%`, background: p.emphasis ? ACCENT : CONTEXT }}
-            initial={reduce ? false : { scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 + i * 0.25, ease: EASE }}
-          />
+    <Reveal delay={0.1} className="h-full rounded-[var(--radius-card)] bg-ivory p-6 md:p-8">
+      <p className="text-micro font-semibold tracking-[0.12em] text-mulberry-soft uppercase">What patients reported</p>
+      <h3 className="mt-3 type-studio text-h3">Hair, brows, and lashes</h3>
+      <ul className="mt-8 space-y-7">
+        {STUDY_BARS.map((bar, i) => (
+          <li key={bar.label}>
+            <div className="mb-2 flex items-baseline justify-between gap-3">
+              <span className="text-small font-medium text-mulberry">{bar.label}</span>
+              <span className="text-h3 leading-none font-semibold text-mulberry tabular-nums">{bar.value}%</span>
+            </div>
+            <div className="h-3 overflow-hidden rounded-full bg-paper" role="img" aria-label={`${bar.value}% of surveyed patients ${bar.label.toLowerCase()}.`}>
+              <motion.div
+                className="h-full origin-left rounded-full"
+                style={{ width: `${bar.value}%`, background: i === 0 ? ACCENT : CONTEXT }}
+                initial={reduce ? false : { scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: i * 0.12, ease: EASE }}
+              />
+            </div>
+          </li>
         ))}
+      </ul>
+      <div className="mt-3 flex justify-between text-[11px] text-mulberry-soft" aria-hidden>
+        <span>0</span>
+        <span>50</span>
+        <span>100%</span>
       </div>
-      <ol className="mt-5 grid gap-4 sm:grid-cols-4">
-        {phases.map((p, i) => (
-          <motion.li
-            key={p.label}
-            initial={reduce ? false : { opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.35 + i * 0.25 }}
-            className="border-l-2 pl-3"
-            style={{ borderColor: p.emphasis ? ACCENT : CONTEXT }}
-          >
-            <p className="text-small font-semibold text-mulberry">{p.label}</p>
-            <p className="text-micro text-mulberry-soft">{p.note}</p>
-          </motion.li>
-        ))}
-      </ol>
+      <p className="mt-6 border-t border-line pt-4 text-small text-mulberry-soft">
+        One survey, one scale. These figures describe this study&apos;s participants.
+      </p>
     </Reveal>
   );
 }
@@ -114,7 +138,7 @@ interface Row {
   dE: number;
 }
 
-/** Every wig, measured against one passport: ΔE2000 on the rendered try-on. */
+/** The nearest five wigs, measured against one passport: ΔE2000 on the rendered try-on. */
 function ColourMatchChart() {
   const [styles, setStyles] = useState<Style[] | null>(null);
   const [hover, setHover] = useState<number | null>(null);
@@ -138,23 +162,24 @@ function ColourMatchChart() {
       .sort((a, b) => a.dE - b.dE);
   }, [styles]);
 
-  const max = Math.max(12, ...rows.map((r) => r.dE)) * 1.1;
+  const shownRows = rows.slice(0, 5);
+  const max = Math.max(12, ...shownRows.map((r) => r.dE)) * 1.1;
   const close = rows.filter((r) => r.dE < THRESHOLD).length;
 
   return (
     <Reveal className="mt-6 rounded-[var(--radius-card)] bg-ivory p-6 md:p-8">
       <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">
         <div>
-          <h3 className="type-studio text-h3">Measured, not guessed</h3>
+          <h3 className="type-studio text-h3">Measured on the try-on</h3>
           <p className="mt-3 max-w-[40ch] text-body text-mulberry-soft">
-            One sample passport, every wig in the collection. Each bar is the colour distance (ΔE2000) between her measured hair and the wig&apos;s closest
-            shade, read off the real try-on render. Lower is closer.
+            For one sample Hair Passport, Bloom compares her measured hair colour with each wig&apos;s rendered shade. These are the five closest styles; a
+            shorter bar means a closer colour match.
           </p>
           <p className="mt-6 font-sans text-[3.25rem] leading-none font-semibold tracking-tight tabular-nums">
             <CountUp to={close} />
             <span className="text-h3 font-medium text-mulberry-soft"> of {rows.length || 11}</span>
           </p>
-          <p className="mt-2 text-small text-mulberry-soft">styles read as her own colour (ΔE under {THRESHOLD}).</p>
+          <p className="mt-2 text-small text-mulberry-soft">wig styles meet Bloom&apos;s close-shade threshold (ΔE below {THRESHOLD}).</p>
         </div>
 
         <div className="relative" onMouseLeave={() => setHover(null)}>
@@ -163,10 +188,10 @@ function ColourMatchChart() {
             className="pointer-events-none absolute inset-y-0 z-10 border-l border-dashed border-mulberry/40"
             style={{ left: `calc(7.5rem + (100% - 7.5rem - 3rem) * ${THRESHOLD / max})` }}
           >
-            <span className="absolute -top-5 -translate-x-1/2 text-[11px] whitespace-nowrap text-mulberry-soft">reads as hers</span>
+            <span className="absolute -top-5 -translate-x-1/2 text-[11px] whitespace-nowrap text-mulberry-soft">close shade</span>
           </div>
           <ul className="space-y-[6px] pt-4">
-            {rows.map((r, i) => {
+            {shownRows.map((r, i) => {
               const on = r.dE < THRESHOLD;
               return (
                 <li key={r.name} className="flex items-center gap-2" onMouseEnter={() => setHover(i)} onFocus={() => setHover(i)} tabIndex={0}>
@@ -195,7 +220,7 @@ function ColourMatchChart() {
             })}
           </ul>
           <table className="sr-only">
-            <caption>Colour distance from the sample passport, per wig style</caption>
+            <caption>Five closest wig styles by colour distance from the sample Hair Passport</caption>
             <thead>
               <tr>
                 <th>Style</th>
@@ -204,7 +229,7 @@ function ColourMatchChart() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => (
+              {shownRows.map((r) => (
                 <tr key={r.name}>
                   <td>{r.name}</td>
                   <td>{r.colour}</td>
