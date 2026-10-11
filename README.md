@@ -61,10 +61,17 @@ LIVE_YOUCAM=1 npx tsx --env-file=../.env scripts/e2e-live.ts e2e/live-youcam.spe
 
 ## Deploy
 
-**Backend + database (Render).** New → Blueprint → this repository (`render.yaml`). It creates `bloom-db` (Postgres) and `bloom-api` (web service, health check `/health`). Fill the secrets: `YOUCAM_API_KEY`, `YOUCAM_SECRET_KEY`, `GROQ_API_KEY` (and/or `OPENROUTER_KEY`), and `CORS_ORIGINS` = your Vercel URL. Tables are created and the catalogue seeded on boot. Note: Render's free Postgres expires after 30 days; upgrade it before judging ends.
+**Backend + database (Render free tier).** Create the services separately in the Render dashboard:
 
-**Frontend (Vercel).** Import the repository, set **Root Directory = `frontend`**, framework Next.js. Environment variables:
-`NEXT_PUBLIC_API_MODE=live`, `NEXT_PUBLIC_API_URL=https://<your-render-service>.onrender.com`, `NEXT_PUBLIC_SITE_URL=https://<your-vercel-domain>`.
+1. Create a **Postgres** database on the Free plan, named `bloom-db`. Keep its **Internal Database URL** available in the dashboard.
+2. Create a **Web Service** from `ahammadshawki8/bloom`, branch `main`, on the Free plan and in the **same region** as the database. Name it `bloom-api`. Leave **Root Directory blank**: the backend uses the workspace packages and reads the catalogue in `frontend/public/fixtures/`.
+3. Set **Build Command** to `npm ci && npm run build -w backend`, **Start Command** to `npm run start -w backend`, and **Health Check Path** to `/health`.
+4. Add environment variables: `NODE_VERSION=22`, `DATABASE_URL=<Internal Database URL>`, `CORS_ORIGINS=<your Vercel production origin>`, `YOUCAM_API_KEY`, and `YOUCAM_SECRET_KEY`. Optionally add `GROQ_API_KEY` or `OPENROUTER_KEY` for the guide's language model. Set `BUDGET_TOTAL=600` and `BUDGET_SESSION=60` if you want the same YouCam budget as `render.yaml`. Render supplies `PORT`; do not set it yourself.
+5. Deploy the service and check `https://<your-service>.onrender.com/health`. Tables are created and the catalogue is seeded at startup.
+
+**Frontend (Vercel).** This repository's Vercel project uses **Root Directory = `frontend`** and framework **Next.js**. Set production environment variables to `NEXT_PUBLIC_API_MODE=live`, `NEXT_PUBLIC_API_URL=https://<your-render-service>.onrender.com`, and `NEXT_PUBLIC_SITE_URL=https://<your-vercel-domain>`, then redeploy. These are build-time public variables, so changing them requires a new deployment.
+
+Render's free Postgres database expires after 30 days and has no backups. Upgrade or move the database before that date if Bloom must stay available.
 
 Render's free tier sleeps after ~15 idle minutes. The landing page pings `/health` as soon as it opens, and if someone taps into the studio before the server is awake, a gentle "getting your studio ready" toast waits and continues automatically.
 
