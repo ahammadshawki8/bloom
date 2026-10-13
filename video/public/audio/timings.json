@@ -1,0 +1,243 @@
+{
+ "s1-loss": [
+  {
+   "start": 0.1,
+   "end": 3.783,
+   "text": "After chemotherapy, Renita lost her hair."
+  },
+  {
+   "start": 3.733,
+   "end": 5.116,
+   "text": "Her eyebrows."
+  },
+  {
+   "start": 5.116,
+   "end": 6.432,
+   "text": "Her lashes."
+  }
+ ],
+ "s2-stranger": [
+  {
+   "start": 0.1,
+   "end": 3.57,
+   "text": "When she looked in the mirror, she saw a stranger."
+  }
+ ],
+ "s3-christmas": [
+  {
+   "start": 0.1,
+   "end": 7.201,
+   "text": "Then, on Christmas Day, she put on a wig, drew on her brows, and sat down with her family."
+  }
+ ],
+ "s4-herself": [
+  {
+   "start": 0.1,
+   "end": 3.929,
+   "text": "For a few hours, she felt like herself again."
+  }
+ ],
+ "s5-fast": [
+  {
+   "start": 0.1,
+   "end": 2.201,
+   "text": "But hair loss comes fast."
+  },
+  {
+   "start": 2.151,
+   "end": 6.685,
+   "text": "In one study, it began just eighteen days after treatment started."
+  }
+ ],
+ "s6-question": [
+  {
+   "start": 0.1,
+   "end": 4.076,
+   "text": "What if every woman could find that feeling, before her hair is gone?"
+  }
+ ],
+ "s7-bloom": [
+  {
+   "start": 0.1,
+   "end": 7.028,
+   "text": "Bloom lets you try real wigs, wraps, brows and lashes on your own face, before treatment begins."
+  }
+ ],
+ "w1-passport": [
+  {
+   "start": 0.1,
+   "end": 1.506,
+   "text": "This is Bloom."
+  },
+  {
+   "start": 1.456,
+   "end": 5.089,
+   "text": "She takes one photo, and Bloom makes her Hair Passport."
+  }
+ ],
+ "w2-reading": [
+  {
+   "start": 0.1,
+   "end": 3.094,
+   "text": "Her hair colour is measured right on her phone."
+  },
+  {
+   "start": 3.044,
+   "end": 7.211,
+   "text": "YouCam's AI reads her face, her brows and her hair length."
+  },
+  {
+   "start": 7.211,
+   "end": 10.362,
+   "text": "Her hair is saved, even after it's gone."
+  }
+ ],
+ "w3-tryon": [
+  {
+   "start": 0.1,
+   "end": 4.501,
+   "text": "In the fitting room, Bloom finds real wigs that match her hair."
+  },
+  {
+   "start": 4.451,
+   "end": 8.357,
+   "text": "One tap, and YouCam's AI puts that wig on her own face."
+  }
+ ],
+ "w4-check": [
+  {
+   "start": 0.1,
+   "end": 2.365,
+   "text": "She can compare it with her own hair."
+  },
+  {
+   "start": 2.315,
+   "end": 5.622,
+   "text": "Bloom even measures the colour on the finished image."
+  }
+ ],
+ "w5-new": [
+  {
+   "start": 0.1,
+   "end": 2.886,
+   "text": "Many wigs can't be returned once opened."
+  },
+  {
+   "start": 2.836,
+   "end": 5.74,
+   "text": "Here, she can try as many as she likes."
+  }
+ ],
+ "w6-layers": [
+  {
+   "start": 0.1,
+   "end": 2.43,
+   "text": "Soft wraps for resting days."
+  },
+  {
+   "start": 2.38,
+   "end": 8.474,
+   "text": "And because chemo can take brows and lashes, she can layer them right on top of her wig."
+  }
+ ],
+ "w7-guide": [
+  {
+   "start": 0.1,
+   "end": 1.675,
+   "text": "Not sure where to start?"
+  },
+  {
+   "start": 1.625,
+   "end": 4.203,
+   "text": "The Bloom guide is an AI agent."
+  },
+  {
+   "start": 4.203,
+   "end": 8.956,
+   "text": "It searches real products, checks the fit, and explains every pick."
+  }
+ ],
+ "w8-together": [
+  {
+   "start": 0.1,
+   "end": 3.98,
+   "text": "She sends her favourites to the people she loves, and they vote."
+  }
+ ],
+ "w9-decision": [
+  {
+   "start": 0.1,
+   "end": 8.003,
+   "text": "When she's ready, Bloom opens that exact product at the store, with notes to help her ask her insurer to cover it."
+  }
+ ],
+ "c4-still": [
+  {
+   "start": 0.1,
+   "end": 3.388,
+   "text": "Hair loss can make the mirror feel like a stranger."
+  },
+  {
+   "start": 3.338,
+   "end": 7.02,
+   "text": "Bloom helps her look in, and say: this is still me."
+  }
+ ],
+ "c1-why": [
+  {
+   "start": 0.1,
+   "end": 2.054,
+   "text": "So, why Bloom?"
+  }
+ ],
+ "c2-apis": [
+  {
+   "start": 0.1,
+   "end": 4.687,
+   "text": "Six YouCam APIs, working live, in one complete journey."
+  },
+  {
+   "start": 4.637,
+   "end": 8.347,
+   "text": "A real problem, solved before hair loss begins."
+  }
+ ],
+ "c3-team": [
+  {
+   "start": 0.1,
+   "end": 2.161,
+   "text": "Bloom is led by a woman."
+  },
+  {
+   "start": 2.111,
+   "end": 5.781,
+   "text": "Nourin Richi found the problem, and designed the answer."
+  },
+  {
+   "start": 5.781,
+   "end": 11.153,
+   "text": "With Ahammad Shawki, two university students turned it into a working product."
+  }
+ ],
+ "c4a-look": [
+  {
+   "start": 0.1,
+   "end": 3.002,
+   "text": "Bloom helps her look in the mirror, and say:"
+  }
+ ],
+ "c4b-still": [
+  {
+   "start": 0.1,
+   "end": 1.91,
+   "text": "this is still me."
+  }
+ ],
+ "c4-stranger": [
+  {
+   "start": 0.1,
+   "end": 3.461,
+   "text": "Hair loss can make the mirror feel like a stranger."
+  }
+ ]
+}

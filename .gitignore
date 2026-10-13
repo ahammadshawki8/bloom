@@ -24,3 +24,8 @@ frontend/playwright-report/
 # backend local data
 backend/.data/
 backend/dist/
+
+# Demo video: large stock media and renders stay local
+video-assets/
+video/out/
+video/public/stock/
